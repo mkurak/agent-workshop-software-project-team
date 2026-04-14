@@ -52,7 +52,28 @@ FluentValidation `AbstractValidator<TCommand>` is mandatory. The pipeline behavi
 
 ## Knowledge Base
 
-Detailed information, patterns, strategies, and workflows are found in the .md files within this agent's `children/` directory. **On every invocation, read all .md files under `children/`** — they constitute my expert knowledge.
+Detailed information, patterns, strategies, and workflows are in the `children/` directory next to this file. **On every invocation, read all .md files under `children/`** — they constitute my expert knowledge.
 
-Additionally, if there are project-specific rules, also read the `.claude/docs/coding-standards/api.md` file. This file varies per project and grows over time.
+### Children Files
+
+| File | Topic |
+|------|-------|
+| [architecture-layers.md](children/architecture-layers.md) | Domain, Application, Infrastructure, Api layer details |
+| [audit-trail.md](children/audit-trail.md) | Two-layer change tracking (IAuditableEntity + AuditLog table) |
+| [caching-strategy.md](children/caching-strategy.md) | Pipeline behavior + Redis, ICacheable, cache invalidation |
+| [concurrency-handling.md](children/concurrency-handling.md) | Optimistic locking with RowVersion |
+| [dynamic-settings.md](children/dynamic-settings.md) | DB + Redis centralized config, no redeploy for changes |
+| [error-handling.md](children/error-handling.md) | Exception hierarchy, global handler, no try-catch in handlers |
+| [file-storage.md](children/file-storage.md) | MinIO/S3 compatible, entity-based paths, signed URLs |
+| [idempotency.md](children/idempotency.md) | X-Idempotency-Key + Redis SETNX, pipeline behavior |
+| [logging-strategy.md](children/logging-strategy.md) | Virtual debug — log every step, no performance concern |
+| [multi-tenancy.md](children/multi-tenancy.md) | User + Profile + Tenant, 3 auth flows, data isolation |
+| [naming-conventions.md](children/naming-conventions.md) | File, namespace, endpoint naming patterns |
+| [notification-pattern.md](children/notification-pattern.md) | HTTP instant + RMQ async, decision table |
+| [pagination.md](children/pagination.md) | Cursor-based infinite scroll, optional count |
+| [rmq-topology.md](children/rmq-topology.md) | Consumer declares own topology, idempotent |
+| [soft-delete.md](children/soft-delete.md) | ISoftDeletable + global query filter |
+| [workflows.md](children/workflows.md) | New feature, query, migration, endpoint workflows |
+
+Additionally, if there are project-specific rules, also read the `.claude/docs/coding-standards/api.md` file. This varies per project and grows over time.
 
