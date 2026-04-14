@@ -1,6 +1,6 @@
 # 🏗️ Software Project Team
 
-A team of specialized AI agents for building production-grade software projects. Built on Vertical Slice Architecture + Clean Architecture + Mediator pattern with .NET, PostgreSQL, RabbitMQ, Redis, Elasticsearch, and more.
+A team of 11 specialized AI agents for building production-grade software projects. Built on Vertical Slice Architecture + Clean Architecture + Mediator pattern with .NET, PostgreSQL, RabbitMQ, Redis, Elasticsearch, and more.
 
 ## Installation
 
@@ -9,48 +9,95 @@ A team of specialized AI agents for building production-grade software projects.
 ```
 
 > Requires [Agent Team Manager](https://github.com/mkurak/agent-workshop-agent-team-manager-skill) to be installed first.
+> Dependency: [Core](https://github.com/mkurak/agent-workshop-core) (auto-installed via team.json).
 
-## Agents
+## Agents (11)
 
-### 🧠 API Agent (`api-agent`)
+### 🧠 API Agent (`api-agent`) — 17 children
 
-The brain of every project. Owns all business logic across Domain, Application, Infrastructure, and API layers. Other services (Socket, Worker, Consumers) are bridges — they call the API, never contain logic.
+The brain of every project. All business logic lives in Domain + Application layers. Other services are bridges.
 
-**Core Principles:**
-1. API is the brain — all logic lives here
-2. Endpoints are bridges — parse HTTP, call Mediator, return response
-3. Handlers are the single logic point — no try-catch, throw exceptions
-4. Vertical Slice organization — feature = Command + Handler + Validator
-5. Interface in Application, Implementation in Infrastructure
-6. Fire-and-forget producer — email/log to RMQ, don't wait
-7. Entity never returned as response — always map to DTO
-8. Every Command gets a Validator — no exceptions
+**Topics:** Architecture layers, audit trail, caching (pipeline behavior + Redis), concurrency (optimistic locking), dynamic settings (DB + Redis), error handling, file storage (MinIO/S3), idempotency, logging (virtual debug), multi-tenancy (User + Profile + Tenant), naming conventions, notification (HTTP + RMQ), pagination (cursor-based), RMQ topology, seed data, soft delete, workflows.
 
-**Knowledge Base:**
-- Logging Strategy (virtual debugging — log every step, no performance concern)
-- Error Handling (exception hierarchy → HTTP status mapping)
-- Naming Conventions (files, namespaces, endpoints)
-- Architecture Layers (Domain, Application, Infrastructure, API)
-- Workflows (new feature, query, migration, endpoint)
-- RMQ Topology (consumer declares own topology, idempotent)
-- Pagination (cursor-based infinite scroll, optional count)
-- Soft Delete (ISoftDeletable + global query filter)
-- Audit Trail (two-layer: IAuditableEntity + AuditLog table)
-- Dynamic Settings (DB + Redis, no redeploy for config changes)
-- Caching Strategy (pipeline behavior + Redis, TTL from settings)
-- File Storage (MinIO/S3 compatible, entity-based paths)
-- Notification Pattern (HTTP instant + RMQ async, decision table)
-- Idempotency (X-Idempotency-Key + Redis SETNX)
-- Concurrency Handling (optimistic locking + RowVersion)
+---
 
-*More agents coming soon: Socket Agent, Worker Agent, Flutter Agent, React Agent, Infrastructure Agent*
+### ⚡ Socket Agent (`socket-agent`) — 17 children
 
-## Recommended Companion Skills
+SignalR WebSocket bridge. Real-time communication between clients and API. No business logic.
 
-These skills work great with this team:
+**Topics:** Hub design, auth (JWT query string), internal endpoints, API client pattern, group management, connection tracking, reconnection handling, CORS, rate limiting, event conventions, data boundary, multi-device, presence/typing, heartbeat, error handling, event versioning, hub method blueprint.
 
-- [Brainstorm Skill](https://github.com/mkurak/agent-workshop-brainstorm-skill) — structured brainstorming with persistent state
-- [Rule Skill](https://github.com/mkurak/agent-workshop-rule-skill) — coding rule management with guided wizard
+---
+
+### ⏰ Worker Agent (`worker-agent`) — 6 children
+
+Scheduled background jobs with Cronos. Calls API via HTTP. No business logic.
+
+**Topics:** Job blueprint, cron scheduling, API client pattern, distributed locking, graceful shutdown, health monitoring.
+
+---
+
+### 📱 Flutter Agent (`flutter-agent`) — 21 children
+
+Mobile/tablet specialist. iOS + Android from a single Dart codebase. UI bridge — no business logic.
+
+**Topics:** Screen blueprint, state management (Riverpod), routing (go_router), API integration (Dio), responsive design, i18n, theme system, component design, form handling, offline-first, push notifications, auth flow, image handling, list patterns, navigation patterns, testing, deep linking, permissions, app lifecycle, error/loading states, WebView.
+
+---
+
+### 🌐 React Agent (`react-agent`) — 23 children
+
+Web UI specialist. TypeScript + Vite (or Next.js for SSR). Admin panels, dashboards, web apps. No business logic.
+
+**Topics:** Component blueprint, component design, state management (React Query + Zustand), routing (React Router), API integration (Axios), form handling (React Hook Form + Zod), styling (Tailwind CSS), auth flow, table patterns (TanStack Table), list patterns, modal/dialog, error/loading states, layout patterns, i18n, file upload, testing (Vitest + RTL + MSW), WebSocket (SignalR), permission guard, chart/dashboard, keyboard shortcuts, print/export, SEO/meta, white-label.
+
+---
+
+### 🐳 Infra Agent (`infra-agent`) — 16 children
+
+Docker, Compose, CI/CD, environment management. Everything runs in containers.
+
+**Topics:** Compose blueprint, compose architecture, Dockerfile patterns, volume strategy, env management, health checks, port management, hot reload, logging infra, MinIO setup, CI/CD (GitHub Actions), production Dockerfile, backup/restore, multi-project coexistence, resource limits, SSL/TLS local.
+
+---
+
+### 🗄️ Database Agent (`database-agent`) — 9 children
+
+PostgreSQL + EF Core specialist. Schema design, migrations, indexing, query optimization.
+
+**Topics:** Schema design blueprint, migration management, index strategy, query optimization, naming conventions, relationships, data types, constraint patterns, monitoring.
+
+---
+
+### 🔴 Redis Agent (`redis-agent`) — 8 children
+
+Cache, session, distributed lock, rate limiting specialist. Ephemeral data only.
+
+**Topics:** Cache blueprint, key naming, data structures, TTL strategy, pub/sub, memory management, connection management, distributed patterns.
+
+---
+
+### 🐇 RMQ Agent (`rmq-agent`) — 8 children
+
+RabbitMQ messaging specialist. Exchange/queue topology, producer/consumer patterns, reliability.
+
+**Topics:** Consumer blueprint, topology design, exchange patterns, retry/DLX, idempotency, message serialization, connection management, monitoring.
+
+---
+
+### 🔍 Code Reviewer (`code-reviewer`) — 8 children
+
+Reviews code changes for quality, security, performance, and convention compliance.
+
+**Topics:** Review blueprint, SOLID check, naming review, security scan, performance check, error handling review, logging review, API review.
+
+---
+
+### 📋 Project Reviewer (`project-reviewer`) — 7 children
+
+Reviews overall project health, architecture, dependencies, and technical debt.
+
+**Topics:** Review blueprint, architecture review, dependency audit, tech debt, documentation check, configuration review, scalability assessment.
 
 ## Architecture Overview
 
@@ -86,15 +133,24 @@ These skills work great with this team:
 | Email | MailSender consumer → Mailpit (dev) |
 | Auth | JWT HS256, BCrypt, X-Internal-Token |
 | Storage | MinIO (dev) / S3 (prod) |
+| Mobile | Flutter (Riverpod, go_router) |
+| Web UI | React + TypeScript + Vite (or Next.js) |
 | Infrastructure | Docker Compose, dotnet watch |
+
+## Recommended Companion Skills
+
+- [Brainstorm Skill](https://github.com/mkurak/agent-workshop-brainstorm-skill) — structured brainstorming with persistent state
+- [Rule Skill](https://github.com/mkurak/agent-workshop-rule-skill) — coding rule management with guided wizard
+- [Core](https://github.com/mkurak/agent-workshop-core) — memory system, journal, save-learnings (auto-installed as dependency)
 
 ## Key Rules
 
-- **Everything runs in Docker** — no local SDK installations
+- **Everything runs in Docker** — no local SDK installations (except Flutter)
 - **Minimal API only** — no Controllers
 - **martinothamar/Mediator** — source generator, not MediatR
 - **LogIngest logs to console only** — prevents infinite RMQ loop
 - **X-Internal-Token** for system-to-system auth
+- **API is the brain** — all logic lives there, everything else is a bridge
 
 ## License
 
