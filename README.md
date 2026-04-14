@@ -1,6 +1,6 @@
 # 🏗️ Software Project Team
 
-A team of 11 specialized AI agents for building production-grade software projects. Built on Vertical Slice Architecture + Clean Architecture + Mediator pattern with .NET, PostgreSQL, RabbitMQ, Redis, Elasticsearch, and more.
+A team of 13 specialized AI agents for building production-grade software projects. Built on Vertical Slice Architecture + Clean Architecture + Mediator pattern with .NET, PostgreSQL, RabbitMQ, Redis, Elasticsearch, and more.
 
 ## Installation
 
@@ -11,7 +11,7 @@ A team of 11 specialized AI agents for building production-grade software projec
 > Requires [Agent Team Manager](https://github.com/mkurak/agent-workshop-agent-team-manager-skill) to be installed first.
 > Dependency: [Core](https://github.com/mkurak/agent-workshop-core) (auto-installed via team.json).
 
-## Agents (11)
+## Agents (13)
 
 ### 🧠 API Agent (`api-agent`) — 17 children
 
@@ -98,6 +98,20 @@ Reviews code changes for quality, security, performance, and convention complian
 Reviews overall project health, architecture, dependencies, and technical debt.
 
 **Topics:** Review blueprint, architecture review, dependency audit, tech debt, documentation check, configuration review, scalability assessment.
+
+### 🎨 Design System Agent (`design-system-agent`) — 10 children
+
+Visual foundation of every project. Colors, typography, spacing, icons, component tokens, accessibility. One design system, all platforms.
+
+**Topics:** Design blueprint, color system, typography, spacing system, icon strategy, elevation/shadow, component tokens, accessibility (WCAG 2.1 AA), dark mode, animation/motion.
+
+---
+
+### 🧑‍🎨 UX Agent (`ux-agent`) — 10 children
+
+User experience specialist. Screen flows, navigation patterns, form design, data presentation, feedback systems.
+
+**Topics:** Screen flow blueprint, navigation UX, form UX, data presentation, feedback patterns, onboarding UX, mobile vs tablet vs web, notification UX, error UX, accessibility UX.
 
 ## Architecture Overview
 
