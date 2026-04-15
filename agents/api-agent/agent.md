@@ -151,6 +151,12 @@ SQL-file-based development seeding. Single `Seeds/seed.sql` file, append-only, i
 
 ---
 
+### Known Issues & Lessons Learned
+Issues discovered during real project scaffolding. EF Core Relational package must be explicit (transitive dependency unreliable in .NET 9). MinIO init container exits after bucket creation (expected, not a bug). Read before every new project.
+→ [Details](children/known-issues.md)
+
+---
+
 ### Workflows
 Step-by-step guides for common operations: new feature (Domain→Application→Infrastructure→Api→Migration→Test), new query, migration (Docker only!), RMQ messaging, auth-required endpoint, internal endpoint (Worker/Socket), and the full handler logging checklist.
 → [Details](children/workflows.md)
