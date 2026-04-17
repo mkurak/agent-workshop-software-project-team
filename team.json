@@ -3,6 +3,6 @@
   "version": "1.0.0",
   "description": "Specialized AI agent team for building production-grade software projects",
   "dependencies": [
-    "https://github.com/mkurak/agent-workshop-core.git"
+    "https://github.com/agentteamland/core.git"
   ]
 }

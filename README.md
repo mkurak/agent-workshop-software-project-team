@@ -5,11 +5,11 @@ A team of 13 specialized AI agents for building production-grade software projec
 ## Installation
 
 ```bash
-/team install https://github.com/mkurak/agent-workshop-software-project-team.git
+/team install https://github.com/agentteamland/software-project-team.git
 ```
 
-> Requires [Agent Team Manager](https://github.com/mkurak/agent-workshop-agent-team-manager-skill) to be installed first.
-> Dependency: [Core](https://github.com/mkurak/agent-workshop-core) (auto-installed via team.json).
+> Requires [Agent Team Manager](https://github.com/agentteamland/team-manager) to be installed first.
+> Dependency: [Core](https://github.com/agentteamland/core) (auto-installed via team.json).
 
 ## Agents (13)
 
@@ -153,9 +153,9 @@ User experience specialist. Screen flows, navigation patterns, form design, data
 
 ## Recommended Companion Skills
 
-- [Brainstorm Skill](https://github.com/mkurak/agent-workshop-brainstorm-skill) — structured brainstorming with persistent state
-- [Rule Skill](https://github.com/mkurak/agent-workshop-rule-skill) — coding rule management with guided wizard
-- [Core](https://github.com/mkurak/agent-workshop-core) — memory system, journal, save-learnings (auto-installed as dependency)
+- [Brainstorm Skill](https://github.com/agentteamland/brainstorm) — structured brainstorming with persistent state
+- [Rule Skill](https://github.com/agentteamland/rule) — coding rule management with guided wizard
+- [Core](https://github.com/agentteamland/core) — memory system, journal, save-learnings (auto-installed as dependency)
 
 ## Key Rules
 
