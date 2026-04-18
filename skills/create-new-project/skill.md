@@ -228,10 +228,15 @@ flutter/
 │   ├── core/ (responsive, providers, extensions, constants)
 │   ├── data/ (models, repositories, sources/mock + remote)
 │   ├── features/ (feature-first screens)
-│   └── l10n/ (ARB files)
+│   └── l10n/ (ARB files — only if i18n is wired, see cleanup below)
 ├── pubspec.yaml (riverpod, go_router, dio, i18n packages)
 └── analysis_options.yaml
 ```
+
+**Post-scaffold cleanup (mandatory if `flutter create` was run):**
+
+- **Delete `test/widget_test.dart`.** It's the default Flutter stub testing the counter app that our `main.dart` replaces. Leaving it breaks `flutter test` (the counter widget it imports no longer exists). Real widget tests go under `test/features/{feature}/presentation/screens/` per the screen blueprint.
+- **Do not create `l10n.yaml` unless i18n is fully wired.** An orphan `l10n.yaml` (no ARB files, `MaterialApp` without `AppLocalizations.localizationsDelegates`) emits warnings and confuses later sessions. Either (a) fully seed i18n during scaffolding — add `flutter_localizations` to pubspec, create minimal `lib/l10n/app_en.arb` + `app_tr.arb` with `app_name`, wire `MaterialApp`, and write `l10n.yaml` without `synthetic-package` (that option was deprecated in Flutter 3.24) — or (b) skip `l10n.yaml` entirely and let `flutter-agent` add it when the first localized string appears.
 
 #### 2.5 React App (if selected)
 
