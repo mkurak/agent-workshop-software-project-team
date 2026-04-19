@@ -13,11 +13,11 @@ A team of 13 specialized AI agents for building production-grade software projec
 
 ## Agents (13)
 
-### 🧠 API Agent (`api-agent`) — 17 children
+### 🧠 API Agent (`api-agent`) — 18 children
 
 The brain of every project. All business logic lives in Domain + Application layers. Other services are bridges.
 
-**Topics:** Architecture layers, audit trail, caching (pipeline behavior + Redis), concurrency (optimistic locking), dynamic settings (DB + Redis), error handling, file storage (MinIO/S3), idempotency, logging (virtual debug), multi-tenancy (User + Profile + Tenant), naming conventions, notification (HTTP + RMQ), pagination (cursor-based), RMQ topology, seed data, soft delete, workflows.
+**Topics:** Architecture layers, audit trail, caching (pipeline behavior + Redis), concurrency (optimistic locking), dynamic settings (DB + Redis), error handling, file storage (MinIO/S3), idempotency, logging (virtual debug), multi-tenancy (User + Profile + Tenant), naming conventions, notification (HTTP + RMQ), pagination (cursor-based), RMQ topology, seed data, soft delete, user-facing strings (API↔UI i18n contract), workflows.
 
 ---
 
@@ -37,19 +37,19 @@ Scheduled background jobs with Cronos. Calls API via HTTP. No business logic.
 
 ---
 
-### 📱 Flutter Agent (`flutter-agent`) — 21 children
+### 📱 Flutter Agent (`flutter-agent`) — 22 children
 
 Mobile/tablet specialist. iOS + Android from a single Dart codebase. UI bridge — no business logic.
 
-**Topics:** Screen blueprint, state management (Riverpod), routing (go_router), API integration (Dio), responsive design, i18n, theme system, component design, form handling, offline-first, push notifications, auth flow, image handling, list patterns, navigation patterns, testing, deep linking, permissions, app lifecycle, error/loading states, WebView.
+**Topics:** Screen blueprint, state management (Riverpod), routing (go_router), API integration (Dio), responsive design, i18n, theme system, component design, form handling, offline-first, push notifications, auth flow, image handling, list patterns, navigation patterns, testing, deep linking, permissions, app lifecycle, error/loading states, WebView, Claude Design handoff (React→Flutter translation rules).
 
 ---
 
-### 🌐 React Agent (`react-agent`) — 23 children
+### 🌐 React Agent (`react-agent`) — 24 children
 
 Web UI specialist. TypeScript + Vite (or Next.js for SSR). Admin panels, dashboards, web apps. No business logic.
 
-**Topics:** Component blueprint, component design, state management (React Query + Zustand), routing (React Router), API integration (Axios), form handling (React Hook Form + Zod), styling (Tailwind CSS), auth flow, table patterns (TanStack Table), list patterns, modal/dialog, error/loading states, layout patterns, i18n, file upload, testing (Vitest + RTL + MSW), WebSocket (SignalR), permission guard, chart/dashboard, keyboard shortcuts, print/export, SEO/meta, white-label.
+**Topics:** Component blueprint, component design, state management (React Query + Zustand), routing (React Router), API integration (Axios), form handling (React Hook Form + Zod), styling (Tailwind CSS), auth flow, table patterns (TanStack Table), list patterns, modal/dialog, error/loading states, layout patterns, i18n, file upload, testing (Vitest + RTL + MSW), WebSocket (SignalR), permission guard, chart/dashboard, keyboard shortcuts, print/export, SEO/meta, white-label, Claude Design handoff (bundle adaptation rules).
 
 ---
 
@@ -99,19 +99,40 @@ Reviews overall project health, architecture, dependencies, and technical debt.
 
 **Topics:** Review blueprint, architecture review, dependency audit, tech debt, documentation check, configuration review, scalability assessment.
 
-### 🎨 Design System Agent (`design-system-agent`) — 10 children
+### 🎨 Design System Agent (`design-system-agent`) — 11 children
 
 Visual foundation of every project. Colors, typography, spacing, icons, component tokens, accessibility. One design system, all platforms.
 
-**Topics:** Design blueprint, color system, typography, spacing system, icon strategy, elevation/shadow, component tokens, accessibility (WCAG 2.1 AA), dark mode, animation/motion.
+**Topics:** Design blueprint, color system, typography, spacing system, icon strategy, elevation/shadow, component tokens, accessibility (WCAG 2.1 AA), dark mode, animation/motion, tokens for Claude Design (codebase-readable token authoring).
 
 ---
 
-### 🧑‍🎨 UX Agent (`ux-agent`) — 10 children
+### 🧑‍🎨 UX Agent (`ux-agent`) — 11 children
 
 User experience specialist. Screen flows, navigation patterns, form design, data presentation, feedback systems.
 
-**Topics:** Screen flow blueprint, navigation UX, form UX, data presentation, feedback patterns, onboarding UX, mobile vs tablet vs web, notification UX, error UX, accessibility UX.
+**Topics:** Screen flow blueprint, navigation UX, form UX, data presentation, feedback patterns, onboarding UX, mobile vs tablet vs web, notification UX, error UX, accessibility UX, Claude Design prompts (high-yield prompt authoring).
+
+## Skills (3)
+
+### `/create-new-project [Name]`
+5-phase scaffolder for a complete production-ready project from scratch. Asks key questions (project name, SaaS, modules, port offset, Claude Design opt-in), then creates the full stack: .NET API + Docker Compose + Postgres + RabbitMQ + Redis + Elasticsearch + logging pipeline + email pipeline + auth + optional Flutter/React apps. Includes `/verify-system` invocation as a mandatory final step.
+
+### `/verify-system`
+4-level end-to-end health check for this team's stack: containers running, ports accessible, applications healthy, pipelines working (logging / email / auth / socket / worker / redis / storage / audit). Returns a boxed pass/fail report.
+
+### `/design-screen start "<description>" | done <handoff-url>`
+Orchestrates the [Claude Design](https://claude.ai/design) loop. `start` derives a slug, gathers requirements via AskUserQuestion, builds a token-aware prompt, writes `intent.md` (status: pending-design), hands the prompt to the user. `done` finds the matching pending design (asks if multiple), fetches the bundle, briefs flutter-agent or react-agent for integration. State persists in `.claude/design/{slug}/intent.md` across sessions (brainstorm pattern). Requires Claude Pro/Max/Team/Enterprise; opt-in during project scaffolding.
+
+## Settled Architectural Patterns
+
+These are systemic capabilities the team enforces across all generated code. Each is documented in detail by the relevant agent's children files.
+
+### UI-only i18n (1.0.3+)
+Backend (API / Socket / Worker / LogIngest) is English-only. UI apps (Flutter, React admin, React public) localize via a `messageKey + placeholders + fallback` envelope inside `ProblemDetails.extensions` (errors), notification payloads (socket events), and EmailJob / PushNotificationJob (with `locale` field). MailSender + push dispatcher hold per-locale templates and render server-side. Enum values render via `{entity}_{field}_{value}` convention. Canonical reference: [`api-agent/children/user-facing-strings.md`](agents/api-agent/children/user-facing-strings.md).
+
+### Claude Design integration (1.1.0+)
+Optional visual-prototype phase between text-only flow specs (ux-agent) and code (flutter-agent / react-agent). The `/design-screen` skill orchestrates the round-trip; flutter-agent + react-agent gain handoff playbooks ([flutter](agents/flutter-agent/children/claude-design-handoff.md) / [react](agents/react-agent/children/claude-design-handoff.md)) for the React+HTML bundle; design-system-agent gains [token-authoring guidance](agents/design-system-agent/children/tokens-for-claude-design.md) for codebase readability; ux-agent gains [prompt-authoring guidance](agents/ux-agent/children/claude-design-prompts.md). Pilot evidence (walkingforme login, 2026-04-19): 1 iteration, 4/5 fidelity, 28 min total, 0 hex literals in resulting Dart.
 
 ## Architecture Overview
 
