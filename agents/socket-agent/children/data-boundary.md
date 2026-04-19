@@ -9,6 +9,8 @@ If the payload is the actual data (a full object, a list, a file) -- use REST.
 
 Socket says **what** happened. REST provides the **details**.
 
+> **i18n note:** socket events that include user-facing text (a toast string, a notification title) MUST use the `messageKey + placeholders + fallback` envelope defined in `api-agent/children/user-facing-strings.md`. Never embed raw English/Turkish sentences in event payloads — UI localizes.
+
 ## What Goes Through WebSocket
 
 WebSocket is for real-time, fire-and-forget signals that are:

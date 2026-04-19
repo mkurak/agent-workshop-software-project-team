@@ -127,6 +127,12 @@ Two methods — choose based on decision table. HTTP (instant): most cases, sing
 
 ---
 
+### User-Facing Strings (API ↔ UI i18n contract)
+Backend is English-only; UI apps (Flutter, React) localize. User-visible text crosses the boundary as `messageKey + placeholders + fallback` envelopes — inside `ProblemDetails.extensions` for errors, inside notification payloads for socket events, and as `templateKey + locale` for emails/push (which MailSender and the push dispatcher render from per-locale templates). Enum values render via `{entity}_{field}_{value}` convention on the UI side. This is the canonical reference — every other agent's i18n guidance defers here.
+→ [Details](children/user-facing-strings.md)
+
+---
+
 ### Pagination
 Cursor-based infinite scroll. No page numbers. Encoded cursor: Base64(`{sortValue}|{id}`) — supports sorting by any field. `IncludeCount` optional (default off — `COUNT(*)` is expensive). Fetch `PageSize + 1` to determine `HasMore`. Filtering is NOT generic — each feature writes its own Where clauses in the handler.
 → [Details](children/pagination.md)

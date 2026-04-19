@@ -4,6 +4,8 @@
 
 This is the blueprint for every scheduled job in the Worker. Every new job follows this exact template. No shortcuts, no variations. A job is a thin scheduler shell: wait for cron tick, acquire lock, call API, log result. That's it.
 
+> **i18n note:** jobs that trigger user-facing emails or push notifications don't localize themselves — they call the API, and the API publishes EmailJob / PushNotificationJob RMQ messages with the per-locale envelope defined in `api-agent/children/user-facing-strings.md`. A job must NEVER assemble user-facing text in English and hand it to MailSender directly; always go through the keyed envelope so the user's locale is respected.
+
 ## Naming Conventions
 
 | What | Convention | Example |
