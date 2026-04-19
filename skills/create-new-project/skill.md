@@ -78,6 +78,7 @@ Options (multiSelect: true):
 - Audit Trail (change history tracking)
 - Soft Delete (default: included, ask only to confirm)
 - Spatial/GIS support (maps, location, polygons — switches DB to PostGIS and seeds the extension)
+- Claude Design integration (visual prototyping via `/design-screen` skill — requires Claude Pro/Max/Team/Enterprise subscription)
 
 Note: Logging pipeline, email pipeline, Redis, RabbitMQ, JWT auth, health checks are ALWAYS included — they're core infrastructure, not optional.
 
@@ -290,8 +291,11 @@ app/
 ├── wiki/                                ← Project knowledge base (living)
 │   └── index.md                         ← Auto-maintained table of contents
 ├── agent-memory/                        ← Per-agent learning history
-└── journal/                             ← Inter-agent communication
+├── journal/                             ← Inter-agent communication
+└── design/                              ← (only if Q4 Claude Design = Yes) — empty, ready for /design-screen
 ```
+
+**If Claude Design = Yes** (Q4): create `.claude/design/` directory; ensure CLAUDE.md mentions the `/design-screen` workflow; pre-write a stub `.claude/wiki/design-workflow.md` pointing at the canonical doc.
 
 #### 2.7 Code Intelligence (.mcp.json)
 

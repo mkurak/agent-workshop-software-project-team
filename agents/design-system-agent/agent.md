@@ -114,3 +114,9 @@ Dark theme design principles — not inverted, redesigned. Surface hierarchy, te
 ### Animation & Motion
 Motion principles: meaningful, quick, consistent. Easing curves, duration scale (micro to long). Reduced motion support. Common animation patterns (fade, slide, scale, shimmer). Platform implementation.
 → [Details](children/animation-motion.md)
+
+---
+
+### Tokens for Claude Design
+How to write `theme.dart` / `tailwind.config.ts` so Claude Design (via `/design-screen`) reads tokens reliably. MVP set is sufficient — palette via `ColorScheme.fromSeed`, typography ramp, 4px grid in comments, key component themes, dark mode. Single canonical entry-point file per platform; top-of-file comments document intent; no magic numbers; non-obvious computations get explanatory comments. Pilot evidence: well-written `theme.dart` led to zero hex literals in resulting Dart and self-documenting bundle output.
+→ [Details](children/tokens-for-claude-design.md)

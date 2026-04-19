@@ -177,3 +177,9 @@ Standard AsyncValue pattern: loading → data → error. Loading skeleton (shimm
 ### WebView
 In-app browser for 3D Secure payments, OAuth flows, legal pages, external content. WebView widget configuration. JavaScript bridge for communication. Callback URL interception (payment result, auth code). When to use in-app WebView vs external browser. Security considerations.
 → [Details](children/webview.md)
+
+---
+
+### Claude Design Handoff
+React+HTML bundle from Claude Design (via `/design-screen done`) gets translated to Flutter. Five rules: trust project theme over precomputed colors, map React state to FocusNode/AsyncValue/etc., substitute SVG icons with M3 equivalents, extract new ARB keys + gen-l10n, take geometry from bundle but behavior from project. Write engineer notes; document deltas honestly (4/5 fidelity is realistic).
+→ [Details](children/claude-design-handoff.md)

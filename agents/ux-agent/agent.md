@@ -115,3 +115,9 @@ Error as opportunity, not dead end. Error message anatomy (what happened + why +
 ### Accessibility UX
 UX for everyone. Keyboard navigation (Tab/Enter/Space), logical focus order, skip links, meaningful alt text, color-not-only indicators, scalable font sizes, minimum touch targets (44x44), and visible labels for every input.
 -> [Details](children/accessibility-ux.md)
+
+---
+
+### Claude Design Prompts
+How to author the prompt that seeds Claude Design (via `/design-screen`). Six elements in 5–8 sentences: identity, platform, states, actions, references (token file path), constraints (what NOT to invent). Pilot evidence: well-formed prompt yielded 1 iteration + 4/5 fidelity. Skip implementation primitives (TextFormField, hex colors), skip emotional storytelling — Claude Design reads tokens for register, not adjectives. Quick template at the end of the file.
+-> [Details](children/claude-design-prompts.md)

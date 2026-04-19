@@ -190,3 +190,9 @@ Two paths: CSR (Vite+React) for admin panels — minimal SEO, document.title onl
 ### White Label / Theme Customization
 Tenant-based theming for SaaS. CSS custom properties (variables) for runtime color changes. Logo/brand swap per tenant. Tailwind + CSS variables integration. Theme loaded from API at startup.
 → [Details](children/white-label.md)
+
+---
+
+### Claude Design Handoff
+Bundle from Claude Design (via `/design-screen done`) is React-native — adaptation, not paradigm translation. Five rules: swap raw web primitives for `@/components/ui/*`, swap useState for project state library (Zustand / React Query), honor project router (Link/href), wire i18next + en/tr namespaces, translate inline styles to Tailwind tokens. Lighter friction than Flutter; same self-contained brief discipline.
+→ [Details](children/claude-design-handoff.md)

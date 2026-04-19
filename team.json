@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "name": "software-project-team",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "13 specialized agents for production-grade full-stack software projects: .NET 9 API + Flutter + React + Postgres + RabbitMQ + Redis + Elasticsearch + MinIO.",
   "author": {
     "name": "AgentTeamLand",
@@ -28,7 +28,8 @@
   ],
   "skills": [
     { "name": "create-new-project", "description": "/create-new-project [Name] \u2014 5-phase scaffold: gather info, create structure, build, /verify-system (mandatory), git init. Tailored to this team's .NET + Flutter + React + Docker stack." },
-    { "name": "verify-system", "description": "/verify-system \u2014 4-level end-to-end health check for this team's stack (containers, ports, app health, pipelines: logging/email/auth/socket/worker/redis/storage + audit bonus)" }
+    { "name": "verify-system", "description": "/verify-system \u2014 4-level end-to-end health check for this team's stack (containers, ports, app health, pipelines: logging/email/auth/socket/worker/redis/storage + audit bonus)" },
+    { "name": "design-screen", "description": "/design-screen start \"<description>\" or /design-screen done <handoff-url> \u2014 orchestrates the Claude Design loop. start: derives slug, gathers requirements, writes intent.md (status: pending-design), gives prompt. done: auto-detects pending design (asks if multiple), fetches handoff bundle, briefs flutter-agent or react-agent for integration. State persists in .claude/design/{slug}/intent.md across sessions." }
   ],
   "rules": [],
   "extends": null,
