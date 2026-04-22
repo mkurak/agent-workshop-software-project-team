@@ -16,10 +16,10 @@ This is the **canonical reference** for how user-facing text crosses the backend
 
 | Pattern | Example |
 |---------|---------|
-| `{feature}_title` | `walks_title` |
-| `{feature}_empty_title` / `_subtitle` | `walks_empty_title` |
-| `{feature}_error_{type}` | `walks_error_load_failed` |
-| `{entity}_{field}_{value}` (enum render) | `walk_status_completed` |
+| `{feature}_title` | `tasks_title` |
+| `{feature}_empty_title` / `_subtitle` | `tasks_empty_title` |
+| `{feature}_error_{type}` | `tasks_error_load_failed` |
+| `{entity}_{field}_{value}` (enum render) | `task_status_completed` |
 | `validation_{rule}` | `validation_password_too_short` |
 | `common_{action}` | `common_retry` |
 
@@ -30,9 +30,9 @@ Not ambiguous English sentences as keys (gettext-style). Not dotted hierarchies 
 **ICU MessageFormat.** Flutter's ARB tooling speaks ICU natively; i18next supports it via the plugin. One syntax across both UIs means shared mental model.
 
 ```
-"walks_count": "{count, plural, =0{No walks} =1{1 walk} other{{count} walks}}"
-"walk_greeting": "Hello, {name}!"
-"walk_distance": "{distance, number, ::precision-integer} km"
+"tasks_count": "{count, plural, =0{No tasks} =1{1 task} other{{count} tasks}}"
+"task_greeting": "Hello, {name}!"
+"task_distance": "{distance, number, ::precision-integer} km"
 ```
 
 Placeholders are passed as a flat object: `{ count: 5, name: "Mesut", distance: 3.5 }`.
@@ -199,7 +199,7 @@ A PushDispatcher consumer resolves the keys against its own per-locale dictionar
 Backend returns enum values as strings: `{ "status": "completed" }`. The UI derives the translation key from the entity + field + value:
 
 ```
-key = `{entity}_{field}_{value}` → walk_status_completed
+key = `{entity}_{field}_{value}` → task_status_completed
 ```
 
 Flutter:
@@ -210,7 +210,7 @@ extension EnumLocalization on BuildContext {
 }
 
 // usage
-Text(context.enumLabel('walk', 'status', walk.status));
+Text(context.enumLabel('task', 'status', task.status));
 ```
 
 React (i18next):
@@ -222,7 +222,7 @@ function useEnumLabel() {
 }
 ```
 
-**Naming the enum keys:** snake_case, match the JSON value exactly. Backend sends `"in_progress"`, key is `walk_status_in_progress`. Do not PascalCase in the key; wire format drives the key.
+**Naming the enum keys:** snake_case, match the JSON value exactly. Backend sends `"in_progress"`, key is `task_status_in_progress`. Do not PascalCase in the key; wire format drives the key.
 
 ## Fallback Order (UI side)
 

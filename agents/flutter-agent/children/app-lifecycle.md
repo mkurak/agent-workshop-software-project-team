@@ -122,7 +122,7 @@ mixin AppLifecycleManager<T extends ConsumerStatefulWidget>
 
     // If app was in background for more than 5 minutes, refresh data
     if (elapsed.inMinutes >= 5) {
-      ref.invalidate(walksProvider);
+      ref.invalidate(tasksProvider);
       ref.invalidate(notificationsProvider);
       ref.invalidate(profileProvider);
     }
@@ -208,17 +208,17 @@ class _AppState extends ConsumerState<App>
 Some screens need their own lifecycle handling. For example, a map screen should stop GPS tracking when the screen is not visible:
 
 ```dart
-// lib/features/walk/screens/walk_tracking_screen.dart
+// lib/features/task/screens/task_tracking_screen.dart
 
-class WalkTrackingScreen extends ConsumerStatefulWidget {
-  const WalkTrackingScreen({super.key});
+class TaskTrackingScreen extends ConsumerStatefulWidget {
+  const TaskTrackingScreen({super.key});
 
   @override
-  ConsumerState<WalkTrackingScreen> createState() =>
-      _WalkTrackingScreenState();
+  ConsumerState<TaskTrackingScreen> createState() =>
+      _TaskTrackingScreenState();
 }
 
-class _WalkTrackingScreenState extends ConsumerState<WalkTrackingScreen>
+class _TaskTrackingScreenState extends ConsumerState<TaskTrackingScreen>
     with WidgetsBindingObserver {
   @override
   void initState() {
@@ -251,7 +251,7 @@ class _WalkTrackingScreenState extends ConsumerState<WalkTrackingScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: const WalkTrackingView(),
+      body: const TaskTrackingView(),
     );
   }
 }
@@ -282,7 +282,7 @@ void _adjustForBattery() {
 |---------------------|--------|
 | < 1 minute | No action, data is fresh |
 | 1-5 minutes | Refresh notifications only |
-| 5-30 minutes | Refresh main data (walks, profile, notifications) |
+| 5-30 minutes | Refresh main data (tasks, profile, notifications) |
 | > 30 minutes | Full refresh of all visible data |
 
 ```dart
@@ -293,13 +293,13 @@ void _checkDataStaleness() {
 
   if (elapsed.inMinutes >= 30) {
     // Full refresh
-    ref.invalidate(walksProvider);
+    ref.invalidate(tasksProvider);
     ref.invalidate(profileProvider);
     ref.invalidate(notificationsProvider);
     ref.invalidate(statsProvider);
   } else if (elapsed.inMinutes >= 5) {
     // Partial refresh
-    ref.invalidate(walksProvider);
+    ref.invalidate(tasksProvider);
     ref.invalidate(notificationsProvider);
   } else if (elapsed.inMinutes >= 1) {
     // Light refresh

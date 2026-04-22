@@ -13,14 +13,14 @@ lib/
   features/
     home/
       screens/home_screen.dart
-      widgets/walk_card.dart
+      widgets/task_card.dart
     auth/
       screens/login_screen.dart
 test/
   features/
     home/
       screens/home_screen_test.dart
-      widgets/walk_card_test.dart
+      widgets/task_card_test.dart
     auth/
       screens/login_screen_test.dart
   helpers/
@@ -36,15 +36,15 @@ Format: `should [expected behavior] when [condition]`
 
 ```dart
 // Good
-'should show loading indicator when walks are being fetched'
+'should show loading indicator when tasks are being fetched'
 'should display error message when API returns failure'
-'should navigate to detail screen when walk card is tapped'
+'should navigate to detail screen when task card is tapped'
 'should disable submit button when form is invalid'
 
 // Bad
 'test1'
 'loading test'
-'walk card works'
+'task card works'
 ```
 
 ## What to Test
@@ -77,7 +77,7 @@ Every widget test needs providers, theme, localization, and a router. Create a s
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:walking_for_me/l10n/app_localizations.dart';
+import 'package:example_app/l10n/app_localizations.dart';
 
 extension PumpApp on WidgetTester {
   Future<void> pumpApp(
@@ -106,29 +106,29 @@ extension PumpApp on WidgetTester {
 ### Basic Widget Test
 
 ```dart
-// test/features/home/widgets/walk_card_test.dart
+// test/features/home/widgets/task_card_test.dart
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:walking_for_me/features/home/widgets/walk_card.dart';
+import 'package:example_app/features/home/widgets/task_card.dart';
 import '../../../helpers/pump_app.dart';
 
 void main() {
-  group('WalkCard', () {
-    final walk = Walk(
+  group('TaskCard', () {
+    final task = Task(
       id: '1',
-      title: 'Morning Walk',
+      title: 'Morning Task',
       distance: 2.5,
       duration: Duration(minutes: 30),
       date: DateTime(2026, 4, 14),
     );
 
     testWidgets(
-      'should display walk title and distance',
+      'should display task title and distance',
       (tester) async {
-        await tester.pumpApp(WalkCard(walk: walk));
+        await tester.pumpApp(TaskCard(task: task));
 
-        expect(find.text('Morning Walk'), findsOneWidget);
+        expect(find.text('Morning Task'), findsOneWidget);
         expect(find.text('2.5 km'), findsOneWidget);
       },
     );
@@ -139,10 +139,10 @@ void main() {
         var tapped = false;
 
         await tester.pumpApp(
-          WalkCard(walk: walk, onTap: () => tapped = true),
+          TaskCard(task: task, onTap: () => tapped = true),
         );
 
-        await tester.tap(find.byType(WalkCard));
+        await tester.tap(find.byType(TaskCard));
         await tester.pump();
 
         expect(tapped, isTrue);
@@ -152,7 +152,7 @@ void main() {
     testWidgets(
       'should show duration in minutes',
       (tester) async {
-        await tester.pumpApp(WalkCard(walk: walk));
+        await tester.pumpApp(TaskCard(task: task));
 
         expect(find.text('30 min'), findsOneWidget);
       },
@@ -165,17 +165,17 @@ void main() {
 
 ```dart
 // By type
-find.byType(WalkCard)
+find.byType(TaskCard)
 find.byType(CircularProgressIndicator)
 find.byType(ElevatedButton)
 
 // By text
-find.text('Morning Walk')
+find.text('Morning Task')
 find.textContaining('km')
 
 // By key (for widgets without unique text)
 find.byKey(const Key('submit_button'))
-find.byKey(const ValueKey('walk_card_1'))
+find.byKey(const ValueKey('task_card_1'))
 
 // By icon
 find.byIcon(Icons.delete)
@@ -187,8 +187,8 @@ find.byWidgetPredicate(
 
 // Descendant: find a Text inside a specific card
 find.descendant(
-  of: find.byType(WalkCard),
-  matching: find.text('Morning Walk'),
+  of: find.byType(TaskCard),
+  matching: find.text('Morning Task'),
 )
 ```
 
@@ -208,7 +208,7 @@ await tester.drag(find.byType(ListView), const Offset(0, -300));
 await tester.pumpAndSettle(); // Wait for scroll animation
 
 // Long press
-await tester.longPress(find.byType(WalkCard));
+await tester.longPress(find.byType(TaskCard));
 await tester.pump();
 
 // Swipe to dismiss
@@ -229,27 +229,27 @@ Override providers in tests to control data flow. This is the primary way to moc
 ```dart
 // test/helpers/mock_repositories.dart
 
-class MockWalkRepository implements WalkRepository {
-  List<Walk> walksToReturn = [];
+class MockTaskRepository implements TaskRepository {
+  List<Task> tasksToReturn = [];
   Exception? errorToThrow;
-  Walk? walkToReturn;
+  Task? taskToReturn;
 
   @override
-  Future<List<Walk>> getWalks() async {
+  Future<List<Task>> getTasks() async {
     if (errorToThrow != null) throw errorToThrow!;
-    return walksToReturn;
+    return tasksToReturn;
   }
 
   @override
-  Future<Walk> getWalkById(String id) async {
+  Future<Task> getTaskById(String id) async {
     if (errorToThrow != null) throw errorToThrow!;
-    return walkToReturn ?? walksToReturn.first;
+    return taskToReturn ?? tasksToReturn.first;
   }
 
   @override
-  Future<void> deleteWalk(String id) async {
+  Future<void> deleteTask(String id) async {
     if (errorToThrow != null) throw errorToThrow!;
-    walksToReturn.removeWhere((w) => w.id == id);
+    tasksToReturn.removeWhere((w) => w.id == id);
   }
 }
 ```
@@ -260,21 +260,21 @@ class MockWalkRepository implements WalkRepository {
 // test/features/home/screens/home_screen_test.dart
 
 void main() {
-  late MockWalkRepository mockWalkRepo;
+  late MockTaskRepository mockTaskRepo;
 
   setUp(() {
-    mockWalkRepo = MockWalkRepository();
+    mockTaskRepo = MockTaskRepository();
   });
 
   group('HomeScreen', () {
     testWidgets(
-      'should show loading indicator when walks are being fetched',
+      'should show loading indicator when tasks are being fetched',
       (tester) async {
         // FutureProvider will be in loading state initially
         await tester.pumpApp(
           const HomeScreen(),
           overrides: [
-            walkRepositoryProvider.overrideWithValue(mockWalkRepo),
+            taskRepositoryProvider.overrideWithValue(mockTaskRepo),
           ],
         );
 
@@ -284,38 +284,38 @@ void main() {
     );
 
     testWidgets(
-      'should display walk list when data is loaded',
+      'should display task list when data is loaded',
       (tester) async {
-        mockWalkRepo.walksToReturn = [
-          Walk(id: '1', title: 'Morning Walk', distance: 2.5,
+        mockTaskRepo.tasksToReturn = [
+          Task(id: '1', title: 'Morning Task', distance: 2.5,
                duration: Duration(minutes: 30), date: DateTime(2026, 4, 14)),
-          Walk(id: '2', title: 'Evening Walk', distance: 3.0,
+          Task(id: '2', title: 'Evening Task', distance: 3.0,
                duration: Duration(minutes: 45), date: DateTime(2026, 4, 14)),
         ];
 
         await tester.pumpApp(
           const HomeScreen(),
           overrides: [
-            walkRepositoryProvider.overrideWithValue(mockWalkRepo),
+            taskRepositoryProvider.overrideWithValue(mockTaskRepo),
           ],
         );
 
         await tester.pumpAndSettle(); // Wait for future to complete
 
-        expect(find.text('Morning Walk'), findsOneWidget);
-        expect(find.text('Evening Walk'), findsOneWidget);
+        expect(find.text('Morning Task'), findsOneWidget);
+        expect(find.text('Evening Task'), findsOneWidget);
       },
     );
 
     testWidgets(
       'should show error message when API fails',
       (tester) async {
-        mockWalkRepo.errorToThrow = Exception('Network error');
+        mockTaskRepo.errorToThrow = Exception('Network error');
 
         await tester.pumpApp(
           const HomeScreen(),
           overrides: [
-            walkRepositoryProvider.overrideWithValue(mockWalkRepo),
+            taskRepositoryProvider.overrideWithValue(mockTaskRepo),
           ],
         );
 
@@ -327,14 +327,14 @@ void main() {
     );
 
     testWidgets(
-      'should show empty state when no walks exist',
+      'should show empty state when no tasks exist',
       (tester) async {
-        mockWalkRepo.walksToReturn = [];
+        mockTaskRepo.tasksToReturn = [];
 
         await tester.pumpApp(
           const HomeScreen(),
           overrides: [
-            walkRepositoryProvider.overrideWithValue(mockWalkRepo),
+            taskRepositoryProvider.overrideWithValue(mockTaskRepo),
           ],
         );
 
@@ -345,25 +345,25 @@ void main() {
     );
 
     testWidgets(
-      'should refresh walks when pulled down',
+      'should refresh tasks when pulled down',
       (tester) async {
-        mockWalkRepo.walksToReturn = [
-          Walk(id: '1', title: 'Morning Walk', distance: 2.5,
+        mockTaskRepo.tasksToReturn = [
+          Task(id: '1', title: 'Morning Task', distance: 2.5,
                duration: Duration(minutes: 30), date: DateTime(2026, 4, 14)),
         ];
 
         await tester.pumpApp(
           const HomeScreen(),
           overrides: [
-            walkRepositoryProvider.overrideWithValue(mockWalkRepo),
+            taskRepositoryProvider.overrideWithValue(mockTaskRepo),
           ],
         );
 
         await tester.pumpAndSettle();
 
-        // Add a new walk to the mock
-        mockWalkRepo.walksToReturn.add(
-          Walk(id: '3', title: 'New Walk', distance: 1.0,
+        // Add a new task to the mock
+        mockTaskRepo.tasksToReturn.add(
+          Task(id: '3', title: 'New Task', distance: 1.0,
                duration: Duration(minutes: 15), date: DateTime(2026, 4, 14)),
         );
 
@@ -375,7 +375,7 @@ void main() {
         );
         await tester.pumpAndSettle();
 
-        expect(find.text('New Walk'), findsOneWidget);
+        expect(find.text('New Task'), findsOneWidget);
       },
     );
   });
@@ -388,12 +388,12 @@ For providers that use `AsyncNotifier`:
 
 ```dart
 testWidgets(
-  'should show walks from overridden notifier',
+  'should show tasks from overridden notifier',
   (tester) async {
     await tester.pumpApp(
       const HomeScreen(),
       overrides: [
-        walksProvider.overrideWith(() => MockWalksNotifier()),
+        tasksProvider.overrideWith(() => MockTasksNotifier()),
       ],
     );
 
@@ -402,11 +402,11 @@ testWidgets(
   },
 );
 
-class MockWalksNotifier extends WalksNotifier {
+class MockTasksNotifier extends TasksNotifier {
   @override
-  Future<List<Walk>> build() async {
+  Future<List<Task>> build() async {
     return [
-      Walk(id: '1', title: 'Test Walk', ...),
+      Task(id: '1', title: 'Test Task', ...),
     ];
   }
 }
@@ -421,7 +421,7 @@ Integration tests run on a real device or emulator. They test the full app flow.
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:walking_for_me/main.dart' as app;
+import 'package:example_app/main.dart' as app;
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -469,20 +469,20 @@ flutter test integration_test/app_test.dart
 Golden tests capture a screenshot of a widget and compare it against a reference image. Useful for visual regression testing.
 
 ```dart
-// test/features/home/widgets/walk_card_golden_test.dart
+// test/features/home/widgets/task_card_golden_test.dart
 
 void main() {
   testWidgets(
-    'WalkCard matches golden file',
+    'TaskCard matches golden file',
     (tester) async {
       await tester.pumpApp(
         Center(
           child: SizedBox(
             width: 350,
-            child: WalkCard(
-              walk: Walk(
+            child: TaskCard(
+              task: Task(
                 id: '1',
-                title: 'Morning Walk',
+                title: 'Morning Task',
                 distance: 2.5,
                 duration: Duration(minutes: 30),
                 date: DateTime(2026, 4, 14),
@@ -493,8 +493,8 @@ void main() {
       );
 
       await expectLater(
-        find.byType(WalkCard),
-        matchesGoldenFile('goldens/walk_card.png'),
+        find.byType(TaskCard),
+        matchesGoldenFile('goldens/task_card.png'),
       );
     },
   );
@@ -504,13 +504,13 @@ void main() {
 Generate golden files:
 
 ```bash
-flutter test --update-goldens test/features/home/widgets/walk_card_golden_test.dart
+flutter test --update-goldens test/features/home/widgets/task_card_golden_test.dart
 ```
 
 Run golden comparison:
 
 ```bash
-flutter test test/features/home/widgets/walk_card_golden_test.dart
+flutter test test/features/home/widgets/task_card_golden_test.dart
 ```
 
 **Warning:** Golden tests are sensitive to platform (macOS vs Linux renders fonts differently). Run golden generation and comparison on the same platform (CI should match local).
@@ -519,23 +519,23 @@ flutter test test/features/home/widgets/walk_card_golden_test.dart
 
 ```dart
 testWidgets(
-  'should show success snackbar after deleting walk',
+  'should show success snackbar after deleting task',
   (tester) async {
-    mockWalkRepo.walksToReturn = [
-      Walk(id: '1', title: 'Morning Walk', ...),
+    mockTaskRepo.tasksToReturn = [
+      Task(id: '1', title: 'Morning Task', ...),
     ];
 
     await tester.pumpApp(
       const HomeScreen(),
       overrides: [
-        walkRepositoryProvider.overrideWithValue(mockWalkRepo),
+        taskRepositoryProvider.overrideWithValue(mockTaskRepo),
       ],
     );
 
     await tester.pumpAndSettle();
 
     // Long press to show delete option
-    await tester.longPress(find.text('Morning Walk'));
+    await tester.longPress(find.text('Morning Task'));
     await tester.pumpAndSettle();
 
     // Tap delete
@@ -547,7 +547,7 @@ testWidgets(
     await tester.pumpAndSettle();
 
     // Verify snackbar
-    expect(find.text('Walk deleted'), findsOneWidget);
+    expect(find.text('Task deleted'), findsOneWidget);
   },
 );
 ```

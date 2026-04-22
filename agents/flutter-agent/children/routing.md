@@ -12,8 +12,8 @@ The router lives in `lib/core/routing/app_router.dart` and is exposed as a River
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:walking_for_me/core/routing/routes.dart';
-import 'package:walking_for_me/features/auth/presentation/providers/auth_provider.dart';
+import 'package:example_app/core/routing/routes.dart';
+import 'package:example_app/features/auth/presentation/providers/auth_provider.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authStateProvider);
@@ -94,29 +94,29 @@ GoRoute(
 
 ```dart
 GoRoute(
-  path: '/walks',
-  name: 'walks',
-  builder: (context, state) => const WalksScreen(),
+  path: '/tasks',
+  name: 'tasks',
+  builder: (context, state) => const TasksScreen(),
   routes: [
     GoRoute(
       path: 'new',
-      name: 'walks-new',
-      builder: (context, state) => const NewWalkScreen(),
+      name: 'tasks-new',
+      builder: (context, state) => const NewTaskScreen(),
     ),
     GoRoute(
-      path: ':walkId',
-      name: 'walks-detail',
+      path: ':taskId',
+      name: 'tasks-detail',
       builder: (context, state) {
-        final walkId = state.pathParameters['walkId']!;
-        return WalkDetailScreen(walkId: walkId);
+        final taskId = state.pathParameters['taskId']!;
+        return TaskDetailScreen(taskId: taskId);
       },
       routes: [
         GoRoute(
           path: 'edit',
-          name: 'walks-edit',
+          name: 'tasks-edit',
           builder: (context, state) {
-            final walkId = state.pathParameters['walkId']!;
-            return EditWalkScreen(walkId: walkId);
+            final taskId = state.pathParameters['taskId']!;
+            return EditTaskScreen(taskId: taskId);
           },
         ),
       ],
@@ -186,20 +186,20 @@ StatefulShellRoute.indexedStack(
         ),
       ],
     ),
-    // Walks tab
+    // Tasks tab
     StatefulShellBranch(
       routes: [
         GoRoute(
-          path: '/walks',
-          name: 'walks',
-          builder: (context, state) => const WalksScreen(),
+          path: '/tasks',
+          name: 'tasks',
+          builder: (context, state) => const TasksScreen(),
           routes: [
             GoRoute(
-              path: ':walkId',
-              name: 'walks-detail',
+              path: ':taskId',
+              name: 'tasks-detail',
               builder: (context, state) {
-                final walkId = state.pathParameters['walkId']!;
-                return WalkDetailScreen(walkId: walkId);
+                final taskId = state.pathParameters['taskId']!;
+                return TaskDetailScreen(taskId: taskId);
               },
             ),
           ],
@@ -256,9 +256,9 @@ class MainShell extends StatelessWidget {
             label: context.l10n.nav_home,
           ),
           NavigationDestination(
-            icon: const Icon(Icons.directions_walk_outlined),
-            selectedIcon: const Icon(Icons.directions_walk),
-            label: context.l10n.nav_walks,
+            icon: const Icon(Icons.directions_task_outlined),
+            selectedIcon: const Icon(Icons.check_circle_outline),
+            label: context.l10n.nav_tasks,
           ),
           NavigationDestination(
             icon: const Icon(Icons.bar_chart_outlined),
@@ -299,10 +299,10 @@ Adds a route on top. Use for detail screens, modals, and drill-down navigation.
 
 ```dart
 // Push detail screen (back button returns to list)
-context.push('/walks/${walk.id}');
+context.push('/tasks/${task.id}');
 
 // Push with query parameters
-context.push('/walks?status=active');
+context.push('/tasks?status=active');
 ```
 
 ### context.pop -- Go Back
@@ -314,15 +314,15 @@ Pops the current route. Same as back button.
 context.pop();
 
 // Pop with result
-context.pop(selectedWalk);
+context.pop(selectedTask);
 ```
 
 ### context.pushNamed -- Named Route Navigation
 
 ```dart
 context.pushNamed(
-  'walks-detail',
-  pathParameters: {'walkId': walk.id},
+  'tasks-detail',
+  pathParameters: {'taskId': task.id},
 );
 
 context.goNamed(
@@ -342,15 +342,15 @@ For required identifiers (IDs, slugs):
 ```dart
 // Definition
 GoRoute(
-  path: ':walkId',
+  path: ':taskId',
   builder: (context, state) {
-    final walkId = state.pathParameters['walkId']!;
-    return WalkDetailScreen(walkId: walkId);
+    final taskId = state.pathParameters['taskId']!;
+    return TaskDetailScreen(taskId: taskId);
   },
 ),
 
 // Navigation
-context.push('/walks/abc-123');
+context.push('/tasks/abc-123');
 ```
 
 ### Query Parameters
@@ -360,16 +360,16 @@ For optional filters, search terms, tokens:
 ```dart
 // Definition
 GoRoute(
-  path: '/walks',
+  path: '/tasks',
   builder: (context, state) {
     final status = state.uri.queryParameters['status'];
     final page = int.tryParse(state.uri.queryParameters['page'] ?? '');
-    return WalksScreen(initialStatus: status, initialPage: page);
+    return TasksScreen(initialStatus: status, initialPage: page);
   },
 ),
 
 // Navigation
-context.push('/walks?status=active&page=2');
+context.push('/tasks?status=active&page=2');
 ```
 
 ---
@@ -422,7 +422,7 @@ if (from != null) {
 go_router handles deep links automatically when routes are defined. The URL structure maps directly to routes:
 
 ```
-example-app://app/walks/abc-123       -> WalkDetailScreen(walkId: 'abc-123')
+example-app://app/tasks/abc-123       -> TaskDetailScreen(taskId: 'abc-123')
 example-app://app/auth/verify-email?token=xyz -> VerifyEmailScreen(token: 'xyz')
 ```
 
@@ -434,15 +434,15 @@ Platform configuration (iOS `apple-app-site-association`, Android `assetlinks.js
 
 | Pattern | Example | When |
 |---------|---------|------|
-| `/{feature}` | `/walks` | List screen |
-| `/{feature}/new` | `/walks/new` | Create screen |
-| `/{feature}/:id` | `/walks/:walkId` | Detail screen |
-| `/{feature}/:id/edit` | `/walks/:walkId/edit` | Edit screen |
+| `/{feature}` | `/tasks` | List screen |
+| `/{feature}/new` | `/tasks/new` | Create screen |
+| `/{feature}/:id` | `/tasks/:taskId` | Detail screen |
+| `/{feature}/:id/edit` | `/tasks/:taskId/edit` | Edit screen |
 | `/auth/{action}` | `/auth/login` | Auth flow |
 | `/settings` | `/settings` | Settings root |
 | `/settings/{section}` | `/settings/notifications` | Settings section |
 
-Route names use kebab-case: `walks-detail`, `auth-login`, `walks-new`.
+Route names use kebab-case: `tasks-detail`, `auth-login`, `tasks-new`.
 
 ---
 
@@ -452,13 +452,13 @@ Custom transitions per route:
 
 ```dart
 GoRoute(
-  path: '/walks/:walkId',
-  name: 'walks-detail',
+  path: '/tasks/:taskId',
+  name: 'tasks-detail',
   pageBuilder: (context, state) {
-    final walkId = state.pathParameters['walkId']!;
+    final taskId = state.pathParameters['taskId']!;
     return CustomTransitionPage(
       key: state.pageKey,
-      child: WalkDetailScreen(walkId: walkId),
+      child: TaskDetailScreen(taskId: taskId),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return SlideTransition(
           position: animation.drive(
@@ -482,7 +482,7 @@ GoRoute(
 // BAD
 Navigator.push(context, MaterialPageRoute(builder: (_) => DetailScreen()));
 // GOOD
-context.push('/walks/${walk.id}');
+context.push('/tasks/${task.id}');
 ```
 
 ### 2. Routes scattered across files
@@ -494,14 +494,14 @@ context.push('/walks/${walk.id}');
 ### 3. Hardcoded route strings everywhere
 ```dart
 // BAD: same string in multiple places
-context.push('/walks/${walk.id}');
-context.push('/walks/$id');
+context.push('/tasks/${task.id}');
+context.push('/tasks/$id');
 
 // GOOD: use named routes or route constants
 abstract class AppRoutes {
   static const home = '/home';
-  static const walks = '/walks';
-  static String walkDetail(String id) => '/walks/$id';
+  static const tasks = '/tasks';
+  static String taskDetail(String id) => '/tasks/$id';
 }
-context.push(AppRoutes.walkDetail(walk.id));
+context.push(AppRoutes.taskDetail(task.id));
 ```

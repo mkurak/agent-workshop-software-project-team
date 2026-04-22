@@ -10,19 +10,19 @@ The core pattern for displaying async data:
 
 ```dart
 // Standard usage in any screen or widget
-final walks = ref.watch(walksProvider);
+final tasks = ref.watch(tasksProvider);
 
-walks.when(
-  data: (walkList) => WalkListView(walks: walkList),
+tasks.when(
+  data: (taskList) => TaskListView(tasks: taskList),
   loading: () => const LoadingView(),
   error: (error, stack) => ErrorView(
     message: _errorMessage(error),
-    onRetry: () => ref.invalidate(walksProvider),
+    onRetry: () => ref.invalidate(tasksProvider),
   ),
 );
 ```
 
-**Rule:** Never use `walks.value` directly. Always use `.when()` to handle all states explicitly. Using `.value` silently ignores loading and error states.
+**Rule:** Never use `tasks.value` directly. Always use `.when()` to handle all states explicitly. Using `.value` silently ignores loading and error states.
 
 ## Loading View (Shimmer Skeleton)
 
@@ -197,10 +197,10 @@ class _LoadingCard extends StatelessWidget {
 Each feature can have its own skeleton that matches the content layout exactly:
 
 ```dart
-// lib/features/home/widgets/walk_card_skeleton.dart
+// lib/features/home/widgets/task_card_skeleton.dart
 
-class WalkCardSkeleton extends StatelessWidget {
-  const WalkCardSkeleton({super.key});
+class TaskCardSkeleton extends StatelessWidget {
+  const TaskCardSkeleton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -233,9 +233,9 @@ class WalkCardSkeleton extends StatelessWidget {
   }
 }
 
-// Usage in walks loading
-class WalksLoadingView extends StatelessWidget {
-  const WalksLoadingView({super.key});
+// Usage in tasks loading
+class TasksLoadingView extends StatelessWidget {
+  const TasksLoadingView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -246,7 +246,7 @@ class WalksLoadingView extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         itemBuilder: (context, index) => const Padding(
           padding: EdgeInsets.only(bottom: 12),
-          child: WalkCardSkeleton(),
+          child: TaskCardSkeleton(),
         ),
       ),
     );
@@ -449,8 +449,8 @@ class EmptyView extends StatelessWidget {
 |-----------|--------|---------|
 | Initial page load | Full-screen `LoadingView` | First time opening Home screen |
 | List pagination error | Inline error at bottom of list | "Failed to load more. Tap to retry." |
-| Form submission error | Snackbar | "Could not save walk. Try again." |
-| Section within a page | Inline loading/error within section | Stats card loading while walks are visible |
+| Form submission error | Snackbar | "Could not save task. Try again." |
+| Section within a page | Inline loading/error within section | Stats card loading while tasks are visible |
 | Pull-to-refresh error | Snackbar (list stays visible) | Network error during refresh |
 
 ### Inline Error for Pagination
@@ -548,53 +548,53 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final walks = ref.watch(walksProvider);
+    final tasks = ref.watch(tasksProvider);
 
     return Scaffold(
       appBar: AppBar(title: Text(context.l10n.home)),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => context.push('/home/walk/new'),
+        onPressed: () => context.push('/home/task/new'),
         child: const Icon(Icons.add),
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          ref.invalidate(walksProvider);
+          ref.invalidate(tasksProvider);
           // Wait for the new data to load
-          await ref.read(walksProvider.future);
+          await ref.read(tasksProvider.future);
         },
-        child: walks.when(
+        child: tasks.when(
           // Success: show list or empty state
-          data: (walkList) {
-            if (walkList.isEmpty) {
+          data: (taskList) {
+            if (taskList.isEmpty) {
               return EmptyView(
-                message: context.l10n.noWalksYet,
-                icon: Icons.directions_walk,
-                actionLabel: context.l10n.startFirstWalk,
-                onAction: () => context.push('/home/walk/new'),
+                message: context.l10n.noTasksYet,
+                icon: Icons.check_circle_outline,
+                actionLabel: context.l10n.startFirstTask,
+                onAction: () => context.push('/home/task/new'),
               );
             }
 
             return ListView.builder(
               padding: const EdgeInsets.all(16),
-              itemCount: walkList.length,
+              itemCount: taskList.length,
               itemBuilder: (context, index) => Padding(
                 padding: const EdgeInsets.only(bottom: 12),
-                child: WalkCard(
-                  walk: walkList[index],
-                  onTap: () => context.push('/home/walk/${walkList[index].id}'),
+                child: TaskCard(
+                  task: taskList[index],
+                  onTap: () => context.push('/home/task/${taskList[index].id}'),
                 ),
               ),
             );
           },
 
           // Loading: shimmer skeleton
-          loading: () => const WalksLoadingView(),
+          loading: () => const TasksLoadingView(),
 
           // Error: error view with retry
           error: (error, stack) => ErrorView(
             message: ErrorMapper.message(context, error),
             icon: ErrorMapper.icon(error),
-            onRetry: () => ref.invalidate(walksProvider),
+            onRetry: () => ref.invalidate(tasksProvider),
           ),
         ),
       ),
@@ -609,10 +609,10 @@ Retry always works by invalidating the provider. The provider re-fetches automat
 
 ```dart
 // Invalidate causes the provider to re-execute its build/future
-onRetry: () => ref.invalidate(walksProvider),
+onRetry: () => ref.invalidate(tasksProvider),
 
 // For parameterized providers (family)
-onRetry: () => ref.invalidate(walkDetailProvider(walkId)),
+onRetry: () => ref.invalidate(taskDetailProvider(taskId)),
 ```
 
 Do NOT manually call API methods on retry. Let the provider handle it -- that is the single source of truth.

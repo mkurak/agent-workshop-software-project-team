@@ -12,7 +12,7 @@ Central theme definition. Two factories: `light()` and `dark()`.
 // lib/core/theme/app_theme.dart
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:walking_for_me/core/theme/app_colors.dart';
+import 'package:example_app/core/theme/app_colors.dart';
 
 class AppTheme {
   AppTheme._();
@@ -233,7 +233,7 @@ import 'package:flutter/material.dart';
 
 abstract class AppColors {
   // --- Brand ---
-  static const brandPrimary = Color(0xFF4CAF50);   // Green (walking/nature)
+  static const brandPrimary = Color(0xFF4CAF50);   // Green (friendly-nature)
   static const brandSecondary = Color(0xFF2196F3);  // Blue (sky/activity)
 
   // --- Semantic (outside Material system) ---
@@ -253,7 +253,7 @@ abstract class AppColors {
   static const neutral800 = Color(0xFF424242);
   static const neutral900 = Color(0xFF212121);
 
-  // --- Walk Status ---
+  // --- Task Status ---
   static const statusPlanned = Color(0xFF90CAF9);
   static const statusActive = Color(0xFF66BB6A);
   static const statusCompleted = Color(0xFF4CAF50);
@@ -404,9 +404,9 @@ class ThemePicker extends ConsumerWidget {
 ### Styled Card
 
 ```dart
-class WalkCard extends StatelessWidget {
-  const WalkCard({super.key, required this.walk});
-  final Walk walk;
+class TaskCard extends StatelessWidget {
+  const TaskCard({super.key, required this.task});
+  final Task task;
 
   @override
   Widget build(BuildContext context) {
@@ -418,18 +418,18 @@ class WalkCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              walk.title,
+              task.title,
               style: context.text.titleMedium,
             ),
             const SizedBox(height: 4),
             Text(
-              context.l10n.walk_distance_km(walk.distanceKm.toStringAsFixed(1)),
+              context.l10n.task_distance_km(task.distanceKm.toStringAsFixed(1)),
               style: context.text.bodyMedium?.copyWith(
                 color: context.colors.onSurfaceVariant,
               ),
             ),
             const SizedBox(height: 12),
-            _StatusChip(status: walk.status),
+            _StatusChip(status: task.status),
           ],
         ),
       ),
@@ -443,15 +443,15 @@ class WalkCard extends StatelessWidget {
 ```dart
 class _StatusChip extends StatelessWidget {
   const _StatusChip({required this.status});
-  final WalkStatus status;
+  final TaskStatus status;
 
   @override
   Widget build(BuildContext context) {
     final (color, label) = switch (status) {
-      WalkStatus.planned => (AppColors.statusPlanned, context.l10n.walk_status_planned),
-      WalkStatus.active => (AppColors.statusActive, context.l10n.walk_status_active),
-      WalkStatus.completed => (AppColors.statusCompleted, context.l10n.walk_status_completed),
-      WalkStatus.cancelled => (AppColors.statusCancelled, context.l10n.walk_status_cancelled),
+      TaskStatus.planned => (AppColors.statusPlanned, context.l10n.task_status_planned),
+      TaskStatus.active => (AppColors.statusActive, context.l10n.task_status_active),
+      TaskStatus.completed => (AppColors.statusCompleted, context.l10n.task_status_completed),
+      TaskStatus.cancelled => (AppColors.statusCancelled, context.l10n.task_status_cancelled),
     };
 
     return Chip(

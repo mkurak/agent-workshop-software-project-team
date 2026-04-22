@@ -22,14 +22,14 @@ WebSocket is for real-time, fire-and-forget signals that are:
 
 | Category               | Examples                                                    |
 |------------------------|-------------------------------------------------------------|
-| **Notifications**      | "You have a new friend request", "Walk goal achieved"       |
-| **Status changes**     | "Order confirmed", "Payment processed", "Walk started"      |
+| **Notifications**      | "You have a new friend request", "Task goal achieved"       |
+| **Status changes**     | "Order confirmed", "Payment processed", "Task started"      |
 | **Typing indicators**  | "Mesut is typing..."                                        |
 | **Presence signals**   | "User came online", "User went idle"                        |
 | **Real-time counters** | "Step count: 4521", "3 users viewing this page"             |
 | **Sync triggers**      | "Your profile was updated on another device"                |
 | **Read receipts**      | "Message was read by Ali"                                   |
-| **Progress updates**   | "File upload 45% complete", "Walk 3.2km / 5km"             |
+| **Progress updates**   | "File upload 45% complete", "Task 3.2km / 5km"             |
 
 ### WebSocket Event Example
 
@@ -41,7 +41,7 @@ await Clients.User(userId).SendAsync("notification-received", new
     NotificationId = notificationId,      // ID only, not the full object
     Type = "friend-request",
     Title = "New Friend Request",
-    Body = "Ali wants to walk with you",
+    Body = "Ali wants to task with you",
     Timestamp = DateTimeOffset.UtcNow
 });
 ```
@@ -63,19 +63,19 @@ REST is for operations that are:
 
 | Category               | Examples                                                    |
 |------------------------|-------------------------------------------------------------|
-| **CRUD operations**    | Create walk, update profile, delete notification            |
-| **File uploads**       | Profile photo, walk route GPX file                          |
-| **Paginated lists**    | Walk history (page 2 of 10), notification inbox             |
-| **Search**             | Find nearby walkers, search walk routes                     |
-| **Reports**            | Weekly walk summary, monthly stats                          |
+| **CRUD operations**    | Create task, update profile, delete notification            |
+| **File uploads**       | Profile photo, task route GPX file                          |
+| **Paginated lists**    | Task history (page 2 of 10), notification inbox             |
+| **Search**             | Find nearby taskers, search task routes                     |
+| **Reports**            | Weekly task summary, monthly stats                          |
 | **Authentication**     | Login, register, refresh token                              |
-| **Full object fetch**  | GET /api/walks/{id} with all details                        |
+| **Full object fetch**  | GET /api/tasks/{id} with all details                        |
 | **Bulk operations**    | Mark all notifications as read, batch update                |
 
 ### REST Endpoint Example
 
 ```
-GET /api/walks/history?page=1&pageSize=20
+GET /api/tasks/history?page=1&pageSize=20
 Authorization: Bearer {jwt}
 
 Response (2.5KB):
@@ -111,7 +111,7 @@ WebSocket messages should be small signals. If you are sending a full object gra
 
 WebSocket is fire-and-forget. The server sends an event; the client may or may not receive it. There is no built-in acknowledgment mechanism for server-to-client events.
 
-If the client needs confirmation ("was my walk saved?"), use REST. The HTTP response gives a definitive answer.
+If the client needs confirmation ("was my task saved?"), use REST. The HTTP response gives a definitive answer.
 
 ### Rule 3: If the data needs pagination, filtering, or sorting, use REST
 
@@ -129,29 +129,29 @@ Create, Read, Update, Delete are request-response by nature. The client needs to
 
 The most common pattern: REST does the work, Socket announces the result.
 
-### Example: User Completes a Walk
+### Example: User Completes a Task
 
 ```
 1. Client (Flutter) -----> API (REST)
-   POST /api/walks/{id}/complete
-   Response: 200 OK { walkId, stats, badges }
+   POST /api/tasks/{id}/complete
+   Response: 200 OK { taskId, stats, badges }
 
 2. API -----> Socket (Internal Broadcast)
    POST /api/internal/broadcast
    {
        targetType: "user",
        targetId: "{userId}",
-       eventName: "walk-completed",
-       payload: { walkId, distanceMeters: 5420, stepCount: 7800 }
+       eventName: "task-completed",
+       payload: { taskId, distanceMeters: 5420, stepCount: 7800 }
    }
 
 3. Socket -----> All User Devices (WebSocket)
-   Event: "walk-completed"
-   Payload: { walkId, distanceMeters: 5420, stepCount: 7800 }
+   Event: "task-completed"
+   Payload: { taskId, distanceMeters: 5420, stepCount: 7800 }
 
 4. Other Devices (Flutter) -----> API (REST)
-   GET /api/walks/{walkId}
-   Response: 200 OK { full walk details including route, badges, etc. }
+   GET /api/tasks/{taskId}
+   Response: 200 OK { full task details including route, badges, etc. }
 ```
 
 - Step 1: The initiating device gets the full response via REST.
@@ -162,14 +162,14 @@ The most common pattern: REST does the work, Socket announces the result.
 
 ```
 1. Client -----> API (REST)
-   POST /api/walks/{id}/photo
+   POST /api/tasks/{id}/photo
    Content-Type: multipart/form-data
    [binary image data]
    Response: 200 OK { photoUrl }
 
 2. API -----> Socket (Internal Broadcast)
-   Event: "walk-photo-uploaded"
-   Payload: { walkId, photoUrl, thumbnailUrl }   // URL only, NOT the file
+   Event: "task-photo-uploaded"
+   Payload: { taskId, photoUrl, thumbnailUrl }   // URL only, NOT the file
 
 3. Other Devices -----> CDN / API (REST)
    GET {photoUrl}   // Download the actual image
@@ -197,26 +197,26 @@ The Socket event says "a photo was uploaded" and includes the URL. The actual fi
 ### Anti-Pattern 1: Sending full objects through WebSocket
 
 ```csharp
-// WRONG -- sending the entire walk object (2KB+) via Socket
-await Clients.User(userId).SendAsync("walk-completed", new
+// WRONG -- sending the entire task object (2KB+) via Socket
+await Clients.User(userId).SendAsync("task-completed", new
 {
-    WalkId = walk.Id,
-    Distance = walk.Distance,
-    Duration = walk.Duration,
-    Steps = walk.Steps,
-    Route = walk.Route,           // Large GeoJSON
-    Badges = walk.EarnedBadges,   // Array of badge objects
-    Stats = walk.DailyStats,      // Aggregate stats
+    TaskId = task.Id,
+    Distance = task.Distance,
+    Duration = task.Duration,
+    Steps = task.Steps,
+    Route = task.Route,           // Large GeoJSON
+    Badges = task.EarnedBadges,   // Array of badge objects
+    Stats = task.DailyStats,      // Aggregate stats
     // ... 20 more fields
 });
 
 // CORRECT -- send a lightweight signal, client fetches full object via REST
-await Clients.User(userId).SendAsync("walk-completed", new
+await Clients.User(userId).SendAsync("task-completed", new
 {
     EventId = Guid.NewGuid().ToString("N"),
-    WalkId = walk.Id,
-    DistanceMeters = walk.Distance,   // Enough for a toast notification
-    StepCount = walk.Steps,
+    TaskId = task.Id,
+    DistanceMeters = task.Distance,   // Enough for a toast notification
+    StepCount = task.Steps,
     Timestamp = DateTimeOffset.UtcNow
 });
 ```
@@ -236,9 +236,9 @@ public async Task UploadPhoto(byte[] imageData)
 
 ```csharp
 // NEVER DO THIS
-public async Task<WalkDto> CreateWalk(CreateWalkRequest request)
+public async Task<TaskDto> CreateTask(CreateTaskRequest request)
 {
-    var result = await _apiClient.PostAsync("/api/walks", request);
+    var result = await _apiClient.PostAsync("/api/tasks", request);
     return result; // Hub methods should not return complex data
 }
 ```
@@ -249,10 +249,10 @@ Hub methods that call API and return results are tempting but wrong. The client 
 
 ```csharp
 // NEVER DO THIS
-public async Task GetWalkHistory(int page, int pageSize)
+public async Task GetTaskHistory(int page, int pageSize)
 {
-    var result = await _apiClient.GetAsync($"/api/walks?page={page}&pageSize={pageSize}");
-    await Clients.Caller.SendAsync("walk-history", result);
+    var result = await _apiClient.GetAsync($"/api/tasks?page={page}&pageSize={pageSize}");
+    await Clients.Caller.SendAsync("task-history", result);
 }
 ```
 

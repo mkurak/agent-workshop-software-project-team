@@ -390,12 +390,12 @@ describe('Delete user flow', () => {
 
 ```typescript
 // src/test/setup.ts (add to existing setup)
-import { useWalkFilterStore } from '@/stores/walk-filter-store';
+import { useTaskFilterStore } from '@/stores/task-filter-store';
 import { useLayoutStore } from '@/stores/layout-store';
 
 afterEach(() => {
   // Reset all Zustand stores to initial state
-  useWalkFilterStore.getState().reset();
+  useTaskFilterStore.getState().reset();
   useLayoutStore.setState({
     sidebarCollapsed: false,
     mobileMenuOpen: false,

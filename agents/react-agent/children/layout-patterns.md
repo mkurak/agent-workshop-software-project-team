@@ -432,7 +432,7 @@ export function DashboardPage() {
       {/* KPI Cards Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <KpiCard title="Total Users" value="12,450" change="+12%" trend="up" />
-        <KpiCard title="Active Walks" value="3,280" change="+5%" trend="up" />
+        <KpiCard title="Active Tasks" value="3,280" change="+5%" trend="up" />
         <KpiCard title="Avg Duration" value="32 min" change="-2%" trend="down" />
         <KpiCard title="Revenue" value="$48,200" change="+18%" trend="up" />
       </div>

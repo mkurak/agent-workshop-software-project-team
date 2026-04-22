@@ -9,7 +9,7 @@ A single user can be connected from multiple places simultaneously:
 - Browser tab 1 (React web app)
 - Browser tab 2 (same React web app, different tab)
 
-Each connection has a unique `connectionId`. But the user is one person. When their walk completes, ALL four connections must receive the `walk-completed` event. Not just the one that triggered it.
+Each connection has a unique `connectionId`. But the user is one person. When their task completes, ALL four connections must receive the `task-completed` event. Not just the one that triggered it.
 
 SignalR assigns a new `connectionId` per connection. One user = N connectionIds. If you broadcast to a specific connectionId, only one device gets the event. The others miss it.
 
@@ -18,7 +18,7 @@ SignalR assigns a new `connectionId` per connection. One user = N connectionIds.
 SignalR has built-in user-level broadcasting. When you call:
 
 ```csharp
-await Clients.User(userId).SendAsync("walk-completed", payload);
+await Clients.User(userId).SendAsync("task-completed", payload);
 ```
 
 SignalR internally resolves `userId` to ALL active connectionIds for that user and sends the event to every one of them. You do not need to track connections yourself for this to work.
@@ -78,10 +78,10 @@ Sends to ALL connections of a specific user across all devices and tabs.
 
 ```csharp
 // Send to ALL of Ali's devices (phone + tablet + browser tabs)
-await Clients.User(userId).SendAsync("walk-completed", new WalkCompletedEvent
+await Clients.User(userId).SendAsync("task-completed", new TaskCompletedEvent
 {
     EventId = Guid.NewGuid().ToString("N"),
-    WalkId = walkId,
+    TaskId = taskId,
     DistanceMeters = 5420,
     Timestamp = DateTimeOffset.UtcNow
 });
@@ -106,7 +106,7 @@ await Clients.Group($"room:{roomId}").SendAsync("chat-message-received", new Cha
     EventId = Guid.NewGuid().ToString("N"),
     MessageId = messageId,
     SenderId = senderId,
-    Content = "Let's walk at 5pm!",
+    Content = "Let's task at 5pm!",
     RoomId = roomId,
     Timestamp = DateTimeOffset.UtcNow
 });
@@ -142,12 +142,12 @@ await Clients.Client(Context.ConnectionId).SendAsync("error", new
 
 | Scenario                                   | Level      | Method                                  |
 |-------------------------------------------|------------|-----------------------------------------|
-| Walk completed                             | User       | `Clients.User(userId)`                  |
+| Task completed                             | User       | `Clients.User(userId)`                  |
 | New notification                           | User       | `Clients.User(userId)`                  |
 | Profile updated on another device          | User       | `Clients.User(userId)`                  |
 | Chat message in a room                     | Group      | `Clients.Group(roomId)`                 |
 | Typing indicator in a room                 | Group      | `Clients.GroupExcept(roomId, connId)`    |
-| 5 users viewing this walk route            | Group      | `Clients.Group($"view:{routeId}")`      |
+| 5 users viewing this task route            | Group      | `Clients.Group($"view:{routeId}")`      |
 | Error response to a hub method call        | Connection | `Clients.Client(connectionId)`          |
 | Rate limit exceeded warning                | Connection | `Clients.Client(connectionId)`          |
 | System announcement to all users           | All        | `Clients.All`                           |

@@ -24,7 +24,7 @@ Correct screen opens with parameters
 |-------------|--------|---------|
 | `/verify-email?token=xxx` | EmailVerificationScreen | Confirm email after registration |
 | `/reset-password?token=xxx` | ResetPasswordScreen | Set new password from email link |
-| `/walk/:id` | WalkDetailScreen | Shared walk link |
+| `/task/:id` | TaskDetailScreen | Shared task link |
 | `/invite/:code` | InviteScreen | Accept group invite |
 
 ## iOS Setup: Universal Links
@@ -43,7 +43,7 @@ Host this JSON file at `https://example-app.com/.well-known/apple-app-site-assoc
         "paths": [
           "/verify-email",
           "/reset-password",
-          "/walk/*",
+          "/task/*",
           "/invite/*"
         ]
       }
@@ -153,7 +153,7 @@ keytool -list -v -keystore your-release-key.keystore -alias your-alias
         <data
             android:scheme="https"
             android:host="example-app.com"
-            android:pathPrefix="/walk" />
+            android:pathPrefix="/task" />
         <data
             android:scheme="https"
             android:host="example-app.com"
@@ -217,8 +217,8 @@ final appRouter = GoRouter(
               builder: (context, state) => const HomeScreen(),
               routes: [
                 GoRoute(
-                  path: 'walk/:id',
-                  builder: (context, state) => WalkDetailScreen(
+                  path: 'task/:id',
+                  builder: (context, state) => TaskDetailScreen(
                     id: state.pathParameters['id']!,
                   ),
                 ),
@@ -382,7 +382,7 @@ adb shell am start -a android.intent.action.VIEW \
 
 # Test custom scheme
 adb shell am start -a android.intent.action.VIEW \
-  -d "example-app://walk/abc-123" \
+  -d "example-app://task/abc-123" \
   com.example_app.app
 
 # Verify app links
@@ -396,7 +396,7 @@ adb shell pm get-app-links com.example_app.app
 xcrun simctl openurl booted "https://example-app.com/verify-email?token=test123"
 
 # Test custom scheme
-xcrun simctl openurl booted "example-app://walk/abc-123"
+xcrun simctl openurl booted "example-app://task/abc-123"
 ```
 
 ### Debug Logging

@@ -221,8 +221,8 @@ class NotificationService {
     // Use the global navigator key or go_router to navigate.
     // This is called from outside the widget tree, so we need a global ref.
     switch (type) {
-      case 'walk_completed':
-        _navigateTo('/walks/$id');
+      case 'task_completed':
+        _navigateTo('/tasks/$id');
       case 'achievement':
         _navigateTo('/achievements/$id');
       case 'friend_request':
@@ -302,8 +302,8 @@ For reminders or alerts that don't come from the server.
 
 ```dart
 extension LocalNotifications on NotificationService {
-  /// Schedule a walk reminder.
-  Future<void> scheduleWalkReminder({
+  /// Schedule a task reminder.
+  Future<void> scheduleTaskReminder({
     required int id,
     required String title,
     required String body,
@@ -344,7 +344,7 @@ extension LocalNotifications on NotificationService {
 iOS only shows the permission dialog ONCE. If the user denies, the only way to re-enable is through Settings. Strategy:
 
 1. **Do NOT request on first launch.** Show a pre-permission screen explaining the value.
-2. **Request after a meaningful action** (e.g., after completing first walk).
+2. **Request after a meaningful action** (e.g., after completing first task).
 3. **If denied, show a "Enable in Settings" button** in the notification settings screen.
 
 ```dart
@@ -368,7 +368,7 @@ class NotificationPermissionScreen extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               Text(
-                'Get reminders for your daily walks and celebrate achievements.',
+                'Get reminders for your daily tasks and celebrate achievements.',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
@@ -403,11 +403,11 @@ The API sends notifications with a `data` payload for deep linking:
 ```json
 {
   "notification": {
-    "title": "Walk completed!",
-    "body": "You walked 5.2 km today. Great job!"
+    "title": "Task completed!",
+    "body": "you completed 5.2 km today. Great job!"
   },
   "data": {
-    "type": "walk_completed",
+    "type": "task_completed",
     "id": "abc-123"
   }
 }

@@ -131,17 +131,17 @@ class PaginatedResponse<T> {
 
 ```dart
 // Repository method
-class WalkRepository {
+class TaskRepository {
   final ApiClient _api;
 
-  WalkRepository(this._api);
+  TaskRepository(this._api);
 
-  Future<PaginatedResponse<Walk>> getWalks({
+  Future<PaginatedResponse<Task>> getTasks({
     String? cursor,
     int pageSize = 20,
     String? searchQuery,
   }) async {
-    final response = await _api.get('/walks', queryParameters: {
+    final response = await _api.get('/tasks', queryParameters: {
       'pageSize': pageSize,
       if (cursor != null) 'cursor': cursor,
       if (searchQuery != null && searchQuery.isNotEmpty) 'q': searchQuery,
@@ -149,7 +149,7 @@ class WalkRepository {
 
     final data = response.data as Map<String, dynamic>;
     final items = (data['items'] as List)
-        .map((e) => Walk.fromJson(e as Map<String, dynamic>))
+        .map((e) => Task.fromJson(e as Map<String, dynamic>))
         .toList();
 
     return PaginatedResponse(
@@ -160,12 +160,12 @@ class WalkRepository {
 }
 
 // Provider
-final walksNotifierProvider =
-    StateNotifierProvider.autoDispose<PaginatedNotifier<Walk>, PaginatedState<Walk>>(
+final tasksNotifierProvider =
+    StateNotifierProvider.autoDispose<PaginatedNotifier<Task>, PaginatedState<Task>>(
   (ref) {
-    final repository = ref.watch(walkRepositoryProvider);
+    final repository = ref.watch(taskRepositoryProvider);
     return PaginatedNotifier(
-      fetcher: (cursor, pageSize) => repository.getWalks(
+      fetcher: (cursor, pageSize) => repository.getTasks(
         cursor: cursor,
         pageSize: pageSize,
       ),
@@ -177,14 +177,14 @@ final walksNotifierProvider =
 ## Complete Paginated List Screen
 
 ```dart
-class WalksScreen extends ConsumerStatefulWidget {
-  const WalksScreen({super.key});
+class TasksScreen extends ConsumerStatefulWidget {
+  const TasksScreen({super.key});
 
   @override
-  ConsumerState<WalksScreen> createState() => _WalksScreenState();
+  ConsumerState<TasksScreen> createState() => _TasksScreenState();
 }
 
-class _WalksScreenState extends ConsumerState<WalksScreen> {
+class _TasksScreenState extends ConsumerState<TasksScreen> {
   final _scrollController = ScrollController();
 
   @override
@@ -204,48 +204,48 @@ class _WalksScreenState extends ConsumerState<WalksScreen> {
     // Trigger load when 200px from the bottom
     if (_scrollController.position.pixels >=
         _scrollController.position.maxScrollExtent - 200) {
-      ref.read(walksNotifierProvider.notifier).loadNextPage();
+      ref.read(tasksNotifierProvider.notifier).loadNextPage();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(walksNotifierProvider);
+    final state = ref.watch(tasksNotifierProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text(context.l10n.myWalks)),
+      appBar: AppBar(title: Text(context.l10n.myTasks)),
       body: _buildBody(state),
     );
   }
 
-  Widget _buildBody(PaginatedState<Walk> state) {
+  Widget _buildBody(PaginatedState<Task> state) {
     // Initial loading
     if (state.items.isEmpty && state.isRefreshing) {
-      return const WalkListSkeleton();
+      return const TaskListSkeleton();
     }
 
     // Error on first load
     if (state.items.isEmpty && state.hasError) {
       return AppErrorView(
         message: state.error.toString(),
-        onRetry: () => ref.read(walksNotifierProvider.notifier).refresh(),
+        onRetry: () => ref.read(tasksNotifierProvider.notifier).refresh(),
       );
     }
 
     // Empty state
     if (state.isEmpty) {
       return AppEmptyState(
-        icon: Icons.directions_walk,
-        title: context.l10n.noWalksYet,
-        subtitle: context.l10n.startYourFirstWalk,
-        actionLabel: context.l10n.startWalking,
-        onAction: () => context.push('/walks/new'),
+        icon: Icons.check_circle_outline,
+        title: context.l10n.noTasksYet,
+        subtitle: context.l10n.startYourFirstTask,
+        actionLabel: context.l10n.startTasking,
+        onAction: () => context.push('/tasks/new'),
       );
     }
 
     // Data loaded
     return RefreshIndicator(
-      onRefresh: () => ref.read(walksNotifierProvider.notifier).refresh(),
+      onRefresh: () => ref.read(tasksNotifierProvider.notifier).refresh(),
       child: CustomScrollView(
         controller: _scrollController,
         slivers: [
@@ -256,7 +256,7 @@ class _WalksScreenState extends ConsumerState<WalksScreen> {
             snap: true,
             flexibleSpace: FlexibleSpaceBar(
               title: Text(
-                '${state.items.length} walks',
+                '${state.items.length} tasks',
                 style: const TextStyle(fontSize: 14),
               ),
             ),
@@ -276,12 +276,12 @@ class _WalksScreenState extends ConsumerState<WalksScreen> {
                   );
                 }
 
-                final walk = state.items[index];
+                final task = state.items[index];
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 8),
-                  child: WalkCard(
-                    walk: walk,
-                    onTap: () => context.push('/walks/${walk.id}'),
+                  child: TaskCard(
+                    task: task,
+                    onTap: () => context.push('/tasks/${task.id}'),
                   ),
                 );
               },
@@ -296,7 +296,7 @@ class _WalksScreenState extends ConsumerState<WalksScreen> {
                 child: AppButton(
                   label: context.l10n.retry,
                   onPressed: () {
-                    ref.read(walksNotifierProvider.notifier).loadNextPage();
+                    ref.read(tasksNotifierProvider.notifier).loadNextPage();
                   },
                   variant: AppButtonVariant.outline,
                 ),
@@ -438,8 +438,8 @@ class AppErrorView extends StatelessWidget {
 Show placeholder shapes while data is loading. Better UX than a spinner.
 
 ```dart
-class WalkListSkeleton extends StatelessWidget {
-  const WalkListSkeleton({super.key, this.itemCount = 5});
+class TaskListSkeleton extends StatelessWidget {
+  const TaskListSkeleton({super.key, this.itemCount = 5});
 
   final int itemCount;
 
@@ -452,14 +452,14 @@ class WalkListSkeleton extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         physics: const NeverScrollableScrollPhysics(),
         itemCount: itemCount,
-        itemBuilder: (context, index) => const _WalkCardSkeleton(),
+        itemBuilder: (context, index) => const _TaskCardSkeleton(),
       ),
     );
   }
 }
 
-class _WalkCardSkeleton extends StatelessWidget {
-  const _WalkCardSkeleton();
+class _TaskCardSkeleton extends StatelessWidget {
+  const _TaskCardSkeleton();
 
   @override
   Widget build(BuildContext context) {
@@ -526,16 +526,16 @@ class _WalkCardSkeleton extends StatelessWidget {
 Search input that debounces API calls to avoid spamming the server.
 
 ```dart
-class SearchableWalksScreen extends ConsumerStatefulWidget {
-  const SearchableWalksScreen({super.key});
+class SearchableTasksScreen extends ConsumerStatefulWidget {
+  const SearchableTasksScreen({super.key});
 
   @override
-  ConsumerState<SearchableWalksScreen> createState() =>
-      _SearchableWalksScreenState();
+  ConsumerState<SearchableTasksScreen> createState() =>
+      _SearchableTasksScreenState();
 }
 
-class _SearchableWalksScreenState
-    extends ConsumerState<SearchableWalksScreen> {
+class _SearchableTasksScreenState
+    extends ConsumerState<SearchableTasksScreen> {
   final _searchController = TextEditingController();
   Timer? _debounce;
 
@@ -549,7 +549,7 @@ class _SearchableWalksScreenState
   void _onSearchChanged(String query) {
     _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 400), () {
-      ref.read(walkSearchQueryProvider.notifier).state = query;
+      ref.read(taskSearchQueryProvider.notifier).state = query;
     });
   }
 
@@ -561,7 +561,7 @@ class _SearchableWalksScreenState
           controller: _searchController,
           onChanged: _onSearchChanged,
           decoration: InputDecoration(
-            hintText: context.l10n.searchWalks,
+            hintText: context.l10n.searchTasks,
             border: InputBorder.none,
             prefixIcon: const Icon(Icons.search),
             suffixIcon: _searchController.text.isNotEmpty
@@ -576,22 +576,22 @@ class _SearchableWalksScreenState
           ),
         ),
       ),
-      body: const WalkSearchResults(),
+      body: const TaskSearchResults(),
     );
   }
 }
 
 // Search query provider
-final walkSearchQueryProvider = StateProvider<String>((ref) => '');
+final taskSearchQueryProvider = StateProvider<String>((ref) => '');
 
-// Filtered walks provider (re-fetches when query changes)
-final searchedWalksProvider = StateNotifierProvider.autoDispose<
-    PaginatedNotifier<Walk>, PaginatedState<Walk>>((ref) {
-  final repository = ref.watch(walkRepositoryProvider);
-  final query = ref.watch(walkSearchQueryProvider);
+// Filtered tasks provider (re-fetches when query changes)
+final searchedTasksProvider = StateNotifierProvider.autoDispose<
+    PaginatedNotifier<Task>, PaginatedState<Task>>((ref) {
+  final repository = ref.watch(taskRepositoryProvider);
+  final query = ref.watch(taskSearchQueryProvider);
 
   return PaginatedNotifier(
-    fetcher: (cursor, pageSize) => repository.getWalks(
+    fetcher: (cursor, pageSize) => repository.getTasks(
       cursor: cursor,
       pageSize: pageSize,
       searchQuery: query,
@@ -612,9 +612,9 @@ CustomScrollView(
       expandedHeight: 200,
       pinned: true,
       flexibleSpace: FlexibleSpaceBar(
-        title: Text(context.l10n.myWalks),
+        title: Text(context.l10n.myTasks),
         background: Image.asset(
-          AppAssets.walksHeader,
+          AppAssets.tasksHeader,
           fit: BoxFit.cover,
         ),
       ),
@@ -624,7 +624,7 @@ CustomScrollView(
       sliver: SliverList.builder(
         itemCount: state.items.length,
         itemBuilder: (context, index) {
-          return WalkCard(walk: state.items[index]);
+          return TaskCard(task: state.items[index]);
         },
       ),
     ),
@@ -638,12 +638,12 @@ Wrap the scroll view with `RefreshIndicator`. Calls the notifier's refresh metho
 
 ```dart
 RefreshIndicator(
-  onRefresh: () => ref.read(walksNotifierProvider.notifier).refresh(),
+  onRefresh: () => ref.read(tasksNotifierProvider.notifier).refresh(),
   child: ListView.builder(
     controller: _scrollController,
     itemCount: state.items.length,
     itemBuilder: (context, index) {
-      return WalkCard(walk: state.items[index]);
+      return TaskCard(task: state.items[index]);
     },
   ),
 )
@@ -654,15 +654,15 @@ RefreshIndicator(
 ```dart
 if (state.isEmpty) {
   return RefreshIndicator(
-    onRefresh: () => ref.read(walksNotifierProvider.notifier).refresh(),
+    onRefresh: () => ref.read(tasksNotifierProvider.notifier).refresh(),
     child: SingleChildScrollView(
       physics: const AlwaysScrollableScrollPhysics(),
       child: SizedBox(
         height: MediaQuery.of(context).size.height * 0.7,
         child: AppEmptyState(
-          icon: Icons.directions_walk,
-          title: context.l10n.noWalksYet,
-          subtitle: context.l10n.startYourFirstWalk,
+          icon: Icons.check_circle_outline,
+          title: context.l10n.noTasksYet,
+          subtitle: context.l10n.startYourFirstTask,
         ),
       ),
     ),

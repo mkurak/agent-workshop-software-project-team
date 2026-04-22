@@ -55,7 +55,7 @@ docker compose exec db pg_dump \
   -U ${POSTGRES_USER} \
   -d ${POSTGRES_DB} \
   -t users \
-  -t walks \
+  -t tasks \
   -t achievements \
   > partial_backup.sql
 ```

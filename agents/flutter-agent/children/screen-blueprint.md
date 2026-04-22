@@ -26,52 +26,52 @@ Every screen is a `ConsumerWidget` (or `ConsumerStatefulWidget` if local animati
 ```dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:walking_for_me/core/extensions/context_extensions.dart';
-import 'package:walking_for_me/core/widgets/loading_view.dart';
-import 'package:walking_for_me/core/widgets/error_view.dart';
-import 'package:walking_for_me/core/widgets/empty_view.dart';
-import 'package:walking_for_me/core/widgets/responsive_layout.dart';
-import 'package:walking_for_me/features/walks/presentation/providers/walks_provider.dart';
-import 'package:walking_for_me/features/walks/presentation/widgets/walk_list_tile.dart';
-import 'package:walking_for_me/features/walks/presentation/widgets/walk_grid_card.dart';
+import 'package:example_app/core/extensions/context_extensions.dart';
+import 'package:example_app/core/widgets/loading_view.dart';
+import 'package:example_app/core/widgets/error_view.dart';
+import 'package:example_app/core/widgets/empty_view.dart';
+import 'package:example_app/core/widgets/responsive_layout.dart';
+import 'package:example_app/features/tasks/presentation/providers/tasks_provider.dart';
+import 'package:example_app/features/tasks/presentation/widgets/task_list_tile.dart';
+import 'package:example_app/features/tasks/presentation/widgets/task_grid_card.dart';
 
-class WalksScreen extends ConsumerWidget {
-  const WalksScreen({super.key});
+class TasksScreen extends ConsumerWidget {
+  const TasksScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final walksAsync = ref.watch(walksProvider);
+    final tasksAsync = ref.watch(tasksProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.l10n.walks_title),
+        title: Text(context.l10n.tasks_title),
       ),
-      body: walksAsync.when(
-        data: (walks) {
-          if (walks.isEmpty) {
+      body: tasksAsync.when(
+        data: (tasks) {
+          if (tasks.isEmpty) {
             return EmptyView(
-              icon: Icons.directions_walk,
-              title: context.l10n.walks_empty_title,
-              subtitle: context.l10n.walks_empty_subtitle,
+              icon: Icons.check_circle_outline,
+              title: context.l10n.tasks_empty_title,
+              subtitle: context.l10n.tasks_empty_subtitle,
             );
           }
 
           return RefreshIndicator(
-            onRefresh: () => ref.refresh(walksProvider.future),
+            onRefresh: () => ref.refresh(tasksProvider.future),
             child: ResponsiveLayout(
-              mobile: _MobileLayout(walks: walks),
-              tablet: _TabletLayout(walks: walks),
+              mobile: _MobileLayout(tasks: tasks),
+              tablet: _TabletLayout(tasks: tasks),
             ),
           );
         },
         loading: () => const LoadingView(),
         error: (error, stack) => ErrorView(
           message: error.toString(),
-          onRetry: () => ref.invalidate(walksProvider),
+          onRetry: () => ref.invalidate(tasksProvider),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => context.push('/walks/new'),
+        onPressed: () => context.push('/tasks/new'),
         child: const Icon(Icons.add),
       ),
     );
@@ -79,23 +79,23 @@ class WalksScreen extends ConsumerWidget {
 }
 
 class _MobileLayout extends StatelessWidget {
-  const _MobileLayout({required this.walks});
-  final List<Walk> walks;
+  const _MobileLayout({required this.tasks});
+  final List<Task> tasks;
 
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
       padding: const EdgeInsets.all(16),
-      itemCount: walks.length,
+      itemCount: tasks.length,
       separatorBuilder: (_, __) => const SizedBox(height: 8),
-      itemBuilder: (context, index) => WalkListTile(walk: walks[index]),
+      itemBuilder: (context, index) => TaskListTile(task: tasks[index]),
     );
   }
 }
 
 class _TabletLayout extends StatelessWidget {
-  const _TabletLayout({required this.walks});
-  final List<Walk> walks;
+  const _TabletLayout({required this.tasks});
+  final List<Task> tasks;
 
   @override
   Widget build(BuildContext context) {
@@ -107,8 +107,8 @@ class _TabletLayout extends StatelessWidget {
         mainAxisSpacing: 16,
         childAspectRatio: 1.5,
       ),
-      itemCount: walks.length,
-      itemBuilder: (context, index) => WalkGridCard(walk: walks[index]),
+      itemCount: tasks.length,
+      itemBuilder: (context, index) => TaskGridCard(task: tasks[index]),
     );
   }
 }
@@ -124,15 +124,15 @@ Use `ConsumerStatefulWidget` ONLY when you need:
 - `initState`/`dispose` lifecycle
 
 ```dart
-class WalkDetailScreen extends ConsumerStatefulWidget {
-  const WalkDetailScreen({super.key, required this.walkId});
-  final String walkId;
+class TaskDetailScreen extends ConsumerStatefulWidget {
+  const TaskDetailScreen({super.key, required this.taskId});
+  final String taskId;
 
   @override
-  ConsumerState<WalkDetailScreen> createState() => _WalkDetailScreenState();
+  ConsumerState<TaskDetailScreen> createState() => _TaskDetailScreenState();
 }
 
-class _WalkDetailScreenState extends ConsumerState<WalkDetailScreen> {
+class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
   late final ScrollController _scrollController;
 
   @override
@@ -149,23 +149,23 @@ class _WalkDetailScreenState extends ConsumerState<WalkDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final walkAsync = ref.watch(walkDetailProvider(widget.walkId));
+    final taskAsync = ref.watch(taskDetailProvider(widget.taskId));
 
     return Scaffold(
-      body: walkAsync.when(
-        data: (walk) => CustomScrollView(
+      body: taskAsync.when(
+        data: (task) => CustomScrollView(
           controller: _scrollController,
           slivers: [
             SliverAppBar(
               expandedHeight: 200,
               flexibleSpace: FlexibleSpaceBar(
-                title: Text(walk.title),
+                title: Text(task.title),
               ),
             ),
             SliverPadding(
               padding: const EdgeInsets.all(16),
               sliver: SliverToBoxAdapter(
-                child: _WalkContent(walk: walk),
+                child: _TaskContent(task: task),
               ),
             ),
           ],
@@ -173,7 +173,7 @@ class _WalkDetailScreenState extends ConsumerState<WalkDetailScreen> {
         loading: () => const LoadingView(),
         error: (error, stack) => ErrorView(
           message: error.toString(),
-          onRetry: () => ref.invalidate(walkDetailProvider(widget.walkId)),
+          onRetry: () => ref.invalidate(taskDetailProvider(widget.taskId)),
         ),
       ),
     );
@@ -189,21 +189,21 @@ Every screen must be registered in the router. Add the route to the appropriate 
 
 ```dart
 GoRoute(
-  path: '/walks',
-  name: 'walks',
-  builder: (context, state) => const WalksScreen(),
+  path: '/tasks',
+  name: 'tasks',
+  builder: (context, state) => const TasksScreen(),
   routes: [
     GoRoute(
       path: 'new',
-      name: 'walks-new',
-      builder: (context, state) => const NewWalkScreen(),
+      name: 'tasks-new',
+      builder: (context, state) => const NewTaskScreen(),
     ),
     GoRoute(
-      path: ':walkId',
-      name: 'walks-detail',
+      path: ':taskId',
+      name: 'tasks-detail',
       builder: (context, state) {
-        final walkId = state.pathParameters['walkId']!;
-        return WalkDetailScreen(walkId: walkId);
+        final taskId = state.pathParameters['taskId']!;
+        return TaskDetailScreen(taskId: taskId);
       },
     ),
   ],
@@ -219,20 +219,20 @@ Every user-facing string must be added to both ARB files before the screen is co
 **`lib/l10n/app_en.arb`:**
 ```json
 {
-  "walks_title": "My Walks",
-  "walks_empty_title": "No walks yet",
-  "walks_empty_subtitle": "Start your first walk by tapping the + button",
-  "walks_error_load": "Could not load walks"
+  "tasks_title": "My Tasks",
+  "tasks_empty_title": "No tasks yet",
+  "tasks_empty_subtitle": "Start your first task by tapping the + button",
+  "tasks_error_load": "Could not load tasks"
 }
 ```
 
 **`lib/l10n/app_tr.arb`:**
 ```json
 {
-  "walks_title": "Yuruyuslerim",
-  "walks_empty_title": "Henuz yuruyus yok",
-  "walks_empty_subtitle": "Ilk yuruyusunuzu baslatmak icin + tusuna dokunun",
-  "walks_error_load": "Yuruyusler yuklenemedi"
+  "tasks_title": "Gorevlerim",
+  "tasks_empty_title": "Henuz gorev yok",
+  "tasks_empty_subtitle": "Ilk gorevunuzu baslatmak icin + tusuna dokunun",
+  "tasks_error_load": "Gorevler yuklenemedi"
 }
 ```
 
@@ -243,19 +243,19 @@ Every user-facing string must be added to both ARB files before the screen is co
 Every screen has a corresponding provider that fetches data from the repository:
 
 ```dart
-// lib/features/walks/presentation/providers/walks_provider.dart
+// lib/features/tasks/presentation/providers/tasks_provider.dart
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:walking_for_me/features/walks/data/repositories/walk_repository.dart';
-import 'package:walking_for_me/features/walks/data/models/walk_model.dart';
+import 'package:example_app/features/tasks/data/repositories/task_repository.dart';
+import 'package:example_app/features/tasks/data/models/task_model.dart';
 
-final walksProvider = FutureProvider<List<Walk>>((ref) async {
-  final repository = ref.watch(walkRepositoryProvider);
-  return repository.getWalks();
+final tasksProvider = FutureProvider<List<Task>>((ref) async {
+  final repository = ref.watch(taskRepositoryProvider);
+  return repository.getTasks();
 });
 
-final walkDetailProvider = FutureProvider.family<Walk, String>((ref, walkId) async {
-  final repository = ref.watch(walkRepositoryProvider);
-  return repository.getWalkById(walkId);
+final taskDetailProvider = FutureProvider.family<Task, String>((ref, taskId) async {
+  final repository = ref.watch(taskRepositoryProvider);
+  return repository.getTaskById(taskId);
 });
 ```
 
@@ -408,7 +408,7 @@ Before a screen is considered complete, every item must be checked:
 // BAD: calculating in the widget
 final bmi = weight / (height * height);
 // GOOD: API returns the calculated value, widget only displays it
-Text(walk.bmiFormatted)
+Text(task.bmiFormatted)
 ```
 
 ### 2. Raw setState for API data
@@ -417,20 +417,20 @@ Text(walk.bmiFormatted)
 void initState() {
   super.initState();
   setState(() => _isLoading = true);
-  api.getWalks().then((data) {
-    setState(() { _walks = data; _isLoading = false; });
+  api.getTasks().then((data) {
+    setState(() { _tasks = data; _isLoading = false; });
   });
 }
 // GOOD: use a Riverpod provider
-final walksAsync = ref.watch(walksProvider);
+final tasksAsync = ref.watch(tasksProvider);
 ```
 
 ### 3. Hardcoded strings
 ```dart
 // BAD
-Text('My Walks')
+Text('My Tasks')
 // GOOD
-Text(context.l10n.walks_title)
+Text(context.l10n.tasks_title)
 ```
 
 ### 4. Hardcoded colors
@@ -444,23 +444,23 @@ Container(color: context.colors.primary)
 ### 5. Navigator.push instead of go_router
 ```dart
 // BAD
-Navigator.push(context, MaterialPageRoute(builder: (_) => WalkDetailScreen()));
+Navigator.push(context, MaterialPageRoute(builder: (_) => TaskDetailScreen()));
 // GOOD
-context.push('/walks/${walk.id}');
+context.push('/tasks/${task.id}');
 ```
 
 ### 6. Ignoring error/empty states
 ```dart
 // BAD: only handles data
-body: ListView.builder(itemCount: walks.length, ...)
+body: ListView.builder(itemCount: tasks.length, ...)
 // GOOD: handles all three states
-body: walksAsync.when(data: ..., loading: ..., error: ...)
+body: tasksAsync.when(data: ..., loading: ..., error: ...)
 ```
 
 ### 7. One giant widget
 ```dart
 // BAD: 500-line build method
 // GOOD: extract private widgets or separate widget files
-class _WalkHeader extends StatelessWidget { ... }
-class _WalkStats extends StatelessWidget { ... }
+class _TaskHeader extends StatelessWidget { ... }
+class _TaskStats extends StatelessWidget { ... }
 ```

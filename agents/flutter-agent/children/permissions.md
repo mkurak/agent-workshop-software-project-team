@@ -19,22 +19,22 @@ Every permission requires a usage description string in `ios/Runner/Info.plist`.
 ```xml
 <!-- ios/Runner/Info.plist -->
 <key>NSCameraUsageDescription</key>
-<string>We need camera access to take photos of your walking routes.</string>
+<string>We need camera access to take photos of your work activities.</string>
 
 <key>NSPhotoLibraryUsageDescription</key>
 <string>We need photo access to let you choose a profile picture.</string>
 
 <key>NSLocationWhenInUseUsageDescription</key>
-<string>We need your location to track your walking routes.</string>
+<string>We need your location to track your work activities.</string>
 
 <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-<string>We need background location to track your walk even when the app is minimized.</string>
+<string>We need background location to track your task even when the app is minimized.</string>
 
 <key>NSMicrophoneUsageDescription</key>
-<string>We need microphone access for voice notes during walks.</string>
+<string>We need microphone access for voice notes during tasks.</string>
 
 <key>NSContactsUsageDescription</key>
-<string>We need contacts access to invite friends to walk with you.</string>
+<string>We need contacts access to invite friends to task with you.</string>
 ```
 
 ### Android Configuration (AndroidManifest.xml)
@@ -405,8 +405,8 @@ final status = await Permission.notification.request();
 When a permission is denied, the feature should still work with reduced functionality:
 
 ```dart
-// Example: walk tracking without location
-class WalkTrackingScreen extends ConsumerWidget {
+// Example: task tracking without location
+class TaskTrackingScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final locationGranted = ref.watch(locationPermissionProvider);

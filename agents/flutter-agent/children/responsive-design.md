@@ -30,7 +30,7 @@ The core widget for switching between mobile and tablet layouts. Every screen us
 ```dart
 // lib/core/widgets/responsive_layout.dart
 import 'package:flutter/material.dart';
-import 'package:walking_for_me/core/responsive/breakpoints.dart';
+import 'package:example_app/core/responsive/breakpoints.dart';
 
 class ResponsiveLayout extends StatelessWidget {
   const ResponsiveLayout({
@@ -64,14 +64,14 @@ class ResponsiveLayout extends StatelessWidget {
 ```dart
 @override
 Widget build(BuildContext context, WidgetRef ref) {
-  final walksAsync = ref.watch(walksProvider);
+  final tasksAsync = ref.watch(tasksProvider);
 
   return Scaffold(
-    appBar: AppBar(title: Text(context.l10n.walks_title)),
-    body: walksAsync.when(
-      data: (walks) => ResponsiveLayout(
-        mobile: _MobileWalkList(walks: walks),
-        tablet: _TabletWalkGrid(walks: walks),
+    appBar: AppBar(title: Text(context.l10n.tasks_title)),
+    body: tasksAsync.when(
+      data: (tasks) => ResponsiveLayout(
+        mobile: _MobileTaskList(tasks: tasks),
+        tablet: _TabletTaskGrid(tasks: tasks),
       ),
       loading: () => const LoadingView(),
       error: (e, _) => ErrorView(message: e.toString()),
@@ -89,7 +89,7 @@ For inline responsive values (padding, font sizes, grid columns) without needing
 ```dart
 // lib/core/responsive/responsive_value.dart
 import 'package:flutter/material.dart';
-import 'package:walking_for_me/core/responsive/breakpoints.dart';
+import 'package:example_app/core/responsive/breakpoints.dart';
 
 T responsiveValue<T>(
   BuildContext context, {
@@ -157,7 +157,7 @@ Convenient extensions for quick device checks in any widget.
 ```dart
 // lib/core/extensions/context_extensions.dart
 import 'package:flutter/material.dart';
-import 'package:walking_for_me/core/responsive/breakpoints.dart';
+import 'package:example_app/core/responsive/breakpoints.dart';
 
 extension ResponsiveExtension on BuildContext {
   double get screenWidth => MediaQuery.sizeOf(this).width;
@@ -208,9 +208,9 @@ Widget build(BuildContext context) {
 Use `LayoutBuilder` when responsiveness should depend on the parent container width, not the screen width. This is essential for reusable widgets.
 
 ```dart
-class WalkCard extends StatelessWidget {
-  const WalkCard({super.key, required this.walk});
-  final Walk walk;
+class TaskCard extends StatelessWidget {
+  const TaskCard({super.key, required this.task});
+  final Task task;
 
   @override
   Widget build(BuildContext context) {
@@ -218,10 +218,10 @@ class WalkCard extends StatelessWidget {
       builder: (context, constraints) {
         // Compact card if container is narrow
         if (constraints.maxWidth < 300) {
-          return _CompactWalkCard(walk: walk);
+          return _CompactTaskCard(task: task);
         }
         // Full card if container is wide
-        return _FullWalkCard(walk: walk);
+        return _FullTaskCard(task: task);
       },
     );
   }
@@ -238,8 +238,8 @@ class WalkCard extends StatelessWidget {
 ResponsiveLayout(
   mobile: ListView.builder(
     padding: const EdgeInsets.all(16),
-    itemCount: walks.length,
-    itemBuilder: (_, i) => WalkListTile(walk: walks[i]),
+    itemCount: tasks.length,
+    itemBuilder: (_, i) => TaskListTile(task: tasks[i]),
   ),
   tablet: GridView.builder(
     padding: const EdgeInsets.all(24),
@@ -249,8 +249,8 @@ ResponsiveLayout(
       mainAxisSpacing: 16,
       childAspectRatio: 1.4,
     ),
-    itemCount: walks.length,
-    itemBuilder: (_, i) => WalkGridCard(walk: walks[i]),
+    itemCount: tasks.length,
+    itemBuilder: (_, i) => TaskGridCard(task: tasks[i]),
   ),
 );
 ```
@@ -260,36 +260,36 @@ ResponsiveLayout(
 On mobile, the list and detail are separate screens. On tablet, they are side by side.
 
 ```dart
-class WalksScreen extends ConsumerWidget {
+class TasksScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final walksAsync = ref.watch(walksProvider);
-    final selectedId = ref.watch(selectedWalkIdProvider);
+    final tasksAsync = ref.watch(tasksProvider);
+    final selectedId = ref.watch(selectedTaskIdProvider);
 
     return Scaffold(
-      body: walksAsync.when(
-        data: (walks) => ResponsiveLayout(
-          mobile: WalkListView(
-            walks: walks,
-            onTap: (walk) => context.push('/walks/${walk.id}'),
+      body: tasksAsync.when(
+        data: (tasks) => ResponsiveLayout(
+          mobile: TaskListView(
+            tasks: tasks,
+            onTap: (task) => context.push('/tasks/${task.id}'),
           ),
           tablet: Row(
             children: [
               SizedBox(
                 width: 360,
-                child: WalkListView(
-                  walks: walks,
+                child: TaskListView(
+                  tasks: tasks,
                   selectedId: selectedId,
-                  onTap: (walk) {
-                    ref.read(selectedWalkIdProvider.notifier).state = walk.id;
+                  onTap: (task) {
+                    ref.read(selectedTaskIdProvider.notifier).state = task.id;
                   },
                 ),
               ),
               const VerticalDivider(width: 1),
               Expanded(
                 child: selectedId != null
-                    ? WalkDetailPanel(walkId: selectedId)
-                    : const Center(child: Text('Select a walk')),
+                    ? TaskDetailPanel(taskId: selectedId)
+                    : const Center(child: Text('Select a task')),
               ),
             ],
           ),
@@ -348,13 +348,13 @@ EdgeInsets get screenPadding => EdgeInsets.symmetric(
 Dialogs should be constrained on tablet:
 
 ```dart
-Future<void> _showWalkDialog(BuildContext context) {
+Future<void> _showTaskDialog(BuildContext context) {
   return showDialog(
     context: context,
     builder: (context) => Dialog(
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 500),
-        child: const NewWalkForm(),
+        child: const NewTaskForm(),
       ),
     ),
   );

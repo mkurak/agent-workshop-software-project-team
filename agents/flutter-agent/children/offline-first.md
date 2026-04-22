@@ -82,58 +82,58 @@ class SharedPrefsCacheService implements CacheService {
 ### Cache-First Repository Pattern
 
 ```dart
-class WalkRepository {
+class TaskRepository {
   final ApiClient _api;
   final CacheService _cache;
 
-  WalkRepository(this._api, this._cache);
+  TaskRepository(this._api, this._cache);
 
-  static const _walksKey = 'walks_list';
+  static const _tasksKey = 'tasks_list';
   static const _cacheTtl = Duration(minutes: 5);
 
   /// Returns cached data first (if available), then refreshes from API.
   /// The provider rebuilds on refresh.
-  Future<List<Walk>> getWalks({bool forceRefresh = false}) async {
+  Future<List<Task>> getTasks({bool forceRefresh = false}) async {
     // 1. Try cache first (unless forced refresh)
     if (!forceRefresh) {
-      final cached = await _cache.get(_walksKey);
+      final cached = await _cache.get(_tasksKey);
       if (cached != null) {
-        final walks = _parseWalks(cached);
+        final tasks = _parseTasks(cached);
         // Fire-and-forget background refresh if stale
-        if (await _cache.isExpired(_walksKey)) {
+        if (await _cache.isExpired(_tasksKey)) {
           _refreshInBackground();
         }
-        return walks;
+        return tasks;
       }
     }
 
     // 2. Fetch from API
     try {
-      final response = await _api.get('/walks');
+      final response = await _api.get('/tasks');
       final json = jsonEncode(response.data);
-      await _cache.set(_walksKey, json, ttl: _cacheTtl);
-      return _parseWalks(json);
+      await _cache.set(_tasksKey, json, ttl: _cacheTtl);
+      return _parseTasks(json);
     } on DioException catch (e) {
       // 3. Network error -> fall back to cache (even if expired)
-      final cached = await _cache.get(_walksKey);
-      if (cached != null) return _parseWalks(cached);
+      final cached = await _cache.get(_tasksKey);
+      if (cached != null) return _parseTasks(cached);
       rethrow; // No cache, no network -> error
     }
   }
 
   void _refreshInBackground() async {
     try {
-      final response = await _api.get('/walks');
+      final response = await _api.get('/tasks');
       final json = jsonEncode(response.data);
-      await _cache.set(_walksKey, json, ttl: _cacheTtl);
+      await _cache.set(_tasksKey, json, ttl: _cacheTtl);
     } catch (_) {
       // Silent fail -- stale cache is still being shown
     }
   }
 
-  List<Walk> _parseWalks(String json) {
+  List<Task> _parseTasks(String json) {
     final list = jsonDecode(json) as List;
-    return list.map((e) => Walk.fromJson(e as Map<String, dynamic>)).toList();
+    return list.map((e) => Task.fromJson(e as Map<String, dynamic>)).toList();
   }
 }
 ```
@@ -141,19 +141,19 @@ class WalkRepository {
 ### Riverpod Provider with Cache
 
 ```dart
-final walksProvider = FutureProvider.autoDispose<List<Walk>>((ref) async {
-  final repository = ref.watch(walkRepositoryProvider);
-  return repository.getWalks();
+final tasksProvider = FutureProvider.autoDispose<List<Task>>((ref) async {
+  final repository = ref.watch(taskRepositoryProvider);
+  return repository.getTasks();
 });
 
 // Force refresh (pull-to-refresh)
-ref.refresh(walksProvider);
+ref.refresh(tasksProvider);
 
 // Force refresh bypassing cache
-final walksForceProvider = FutureProvider.family<List<Walk>, bool>(
+final tasksForceProvider = FutureProvider.family<List<Task>, bool>(
   (ref, forceRefresh) async {
-    final repository = ref.watch(walkRepositoryProvider);
-    return repository.getWalks(forceRefresh: forceRefresh);
+    final repository = ref.watch(taskRepositoryProvider);
+    return repository.getTasks(forceRefresh: forceRefresh);
   },
 );
 ```
@@ -286,23 +286,23 @@ class FlushResult {
 ### Usage in Repository
 
 ```dart
-class WalkRepository {
+class TaskRepository {
   final ApiClient _api;
   final OfflineQueueService _queue;
   final ConnectivityService _connectivity;
 
-  WalkRepository(this._api, this._queue, this._connectivity);
+  TaskRepository(this._api, this._queue, this._connectivity);
 
-  Future<void> completeWalk(Walk walk) async {
+  Future<void> completeTask(Task task) async {
     if (await _connectivity.isOnline) {
       // Online: send directly
-      await _api.post('/walks', data: walk.toJson());
+      await _api.post('/tasks', data: task.toJson());
     } else {
       // Offline: queue for later
       await _queue.enqueue(OfflineAction(
-        endpoint: '/walks',
+        endpoint: '/tasks',
         method: 'POST',
-        body: jsonEncode(walk.toJson()),
+        body: jsonEncode(task.toJson()),
       ));
     }
   }
@@ -436,21 +436,21 @@ class StalenessIndicator extends StatelessWidget {
 @override
 Widget build(BuildContext context) {
   final isOnline = ref.watch(isOnlineProvider);
-  final walks = ref.watch(walksProvider);
+  final tasks = ref.watch(tasksProvider);
 
   return Column(
     children: [
       StalenessIndicator(
-        lastUpdated: walks.valueOrNull != null ? _lastFetch : null,
+        lastUpdated: tasks.valueOrNull != null ? _lastFetch : null,
         isOnline: isOnline,
       ),
       Expanded(
-        child: walks.when(
-          data: (data) => WalkList(walks: data),
-          loading: () => const WalkListSkeleton(),
+        child: tasks.when(
+          data: (data) => TaskList(tasks: data),
+          loading: () => const TaskListSkeleton(),
           error: (e, _) => AppErrorView(
             message: e.toString(),
-            onRetry: () => ref.refresh(walksProvider),
+            onRetry: () => ref.refresh(tasksProvider),
           ),
         ),
       ),
@@ -509,6 +509,6 @@ if (response.statusCode == 409) {
 |-----------|---------|---------|
 | Simple key-value | SharedPreferences | Auth token, theme pref, last sync time |
 | Single JSON object | SharedPreferences | User profile cache |
-| List of objects | Hive | Walk history, offline queue |
+| List of objects | Hive | Task history, offline queue |
 | Large binary | File system | Cached images (handled by CachedNetworkImage) |
 | Sensitive data | flutter_secure_storage | Tokens, passwords |

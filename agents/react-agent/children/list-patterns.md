@@ -17,22 +17,22 @@ React is a BRIDGE. Lists display data from the API with infinite scroll or virtu
 ## Infinite Scroll with useInfiniteQuery
 
 ```typescript
-// hooks/use-walks.ts
+// hooks/use-tasks.ts
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { api } from '@/lib/api-client';
 
-interface WalkListParams {
+interface TaskListParams {
   search?: string;
   status?: string;
   sortBy?: string;
 }
 
-export function useWalks(params: WalkListParams) {
+export function useTasks(params: TaskListParams) {
   return useInfiniteQuery({
-    queryKey: ['walks', params],
+    queryKey: ['tasks', params],
     queryFn: ({ pageParam }) =>
       api
-        .get<PaginatedResponse<Walk>>('/walks', {
+        .get<PaginatedResponse<Task>>('/tasks', {
           params: {
             cursor: pageParam,
             pageSize: 20,
@@ -113,10 +113,10 @@ export function useDebouncedValue<T>(value: T, delay = 400): T {
 ## Filter State with Zustand
 
 ```typescript
-// stores/walk-filter-store.ts
+// stores/task-filter-store.ts
 import { create } from 'zustand';
 
-interface WalkFilterState {
+interface TaskFilterState {
   search: string;
   status: string | null;
   sortBy: string;
@@ -135,7 +135,7 @@ const initialState = {
   viewMode: 'list' as const,
 };
 
-export const useWalkFilterStore = create<WalkFilterState>((set) => ({
+export const useTaskFilterStore = create<TaskFilterState>((set) => ({
   ...initialState,
   setSearch: (search) => set({ search }),
   setStatus: (status) => set({ status }),
@@ -305,24 +305,24 @@ export function VirtualList<T>({
 ## Complete Searchable Infinite Scroll List
 
 ```typescript
-// features/walks/walks-list-page.tsx
+// features/tasks/tasks-list-page.tsx
 import { useCallback, useMemo } from 'react';
 import { Search, SlidersHorizontal } from 'lucide-react';
-import { useWalks } from './use-walks';
-import { useWalkFilterStore } from '@/stores/walk-filter-store';
+import { useTasks } from './use-tasks';
+import { useTaskFilterStore } from '@/stores/task-filter-store';
 import { useDebouncedValue } from '@/hooks/use-debounced-value';
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer';
 import { FilterChips } from '@/components/ui/filter-chips';
 import { ViewToggle } from '@/components/ui/view-toggle';
-import { WalkCard } from './walk-card';
-import { WalkListItem } from './walk-list-item';
+import { TaskCard } from './task-card';
+import { TaskListItem } from './task-list-item';
 import { ListSkeleton } from '@/components/ui/list-skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
 import { ErrorState } from '@/components/ui/error-state';
 
-export function WalksListPage() {
+export function TasksListPage() {
   const { search, status, sortBy, viewMode, setSearch, setStatus, setViewMode, reset } =
-    useWalkFilterStore();
+    useTaskFilterStore();
 
   const debouncedSearch = useDebouncedValue(search, 400);
 
@@ -335,7 +335,7 @@ export function WalksListPage() {
     hasNextPage,
     isFetchingNextPage,
     refetch,
-  } = useWalks({
+  } = useTasks({
     search: debouncedSearch,
     status: status ?? undefined,
     sortBy,
@@ -369,7 +369,7 @@ export function WalksListPage() {
     <div className="space-y-4">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Walks</h1>
+        <h1 className="text-2xl font-bold">Tasks</h1>
         <ViewToggle mode={viewMode} onChange={setViewMode} />
       </div>
 
@@ -380,7 +380,7 @@ export function WalksListPage() {
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search walks..."
+          placeholder="Search tasks..."
           className="w-full rounded-lg border border-gray-200 py-2 pl-10 pr-4 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
         />
       </div>
@@ -417,14 +417,14 @@ export function WalksListPage() {
         <ListSkeleton count={6} variant={viewMode} />
       ) : isError ? (
         <ErrorState
-          message={error instanceof Error ? error.message : 'Failed to load walks'}
+          message={error instanceof Error ? error.message : 'Failed to load tasks'}
           onRetry={() => refetch()}
         />
       ) : items.length === 0 ? (
         <EmptyState
-          title="No walks found"
-          subtitle={search ? 'Try adjusting your search or filters' : 'Start your first walk to see it here'}
-          actionLabel={!search ? 'Start Walking' : undefined}
+          title="No tasks found"
+          subtitle={search ? 'Try adjusting your search or filters' : 'Start your first task to see it here'}
+          actionLabel={!search ? 'Get Started' : undefined}
           onAction={!search ? () => {} : undefined}
         />
       ) : (
@@ -437,11 +437,11 @@ export function WalksListPage() {
                 : 'space-y-2'
             }
           >
-            {items.map((walk) =>
+            {items.map((task) =>
               viewMode === 'grid' ? (
-                <WalkCard key={walk.id} walk={walk} />
+                <TaskCard key={task.id} task={task} />
               ) : (
-                <WalkListItem key={walk.id} walk={walk} />
+                <TaskListItem key={task.id} task={task} />
               )
             )}
           </div>

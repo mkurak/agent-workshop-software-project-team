@@ -29,7 +29,7 @@ The first arg switches mode: `start` or `done`.
 
 ### Flow
 
-1. **Derive slug.** Take the description, produce a kebab-case slug (e.g., "walks empty state with start CTA" → `walks-empty-state`). Keep it short (3–5 words). On collision with an existing `.claude/design/{slug}/` directory, append `-2`, `-3`, etc.
+1. **Derive slug.** Take the description, produce a kebab-case slug (e.g., "tasks empty state with start CTA" → `tasks-empty-state`). Keep it short (3–5 words). On collision with an existing `.claude/design/{slug}/` directory, append `-2`, `-3`, etc.
 
 2. **Read project context.**
    - Tokens: locate `flutter/lib/app/theme.dart` (Flutter), `web/tailwind.config.ts` (React), or equivalent.

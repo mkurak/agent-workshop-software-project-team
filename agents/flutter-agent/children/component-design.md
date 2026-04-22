@@ -589,10 +589,10 @@ lib/
       app_error_view.dart
       app_loading_view.dart
   features/
-    walks/
+    tasks/
       widgets/           ← Feature-specific widgets (not reusable)
-        walk_summary_card.dart
-        walk_route_map.dart
+        task_summary_card.dart
+        task_route_map.dart
 ```
 
 - **shared/widgets/** -- reusable across all features (App prefix)

@@ -22,7 +22,7 @@ A high-yield Claude Design prompt has six elements, in this order:
 ## A Worked Example (the pilot's actual login prompt)
 
 ```
-Walking app's mobile login screen for iOS + Android. Single email + password
+Task management app's mobile login screen for iOS + Android. Single email + password
 form with submit, plus inline error banner for failed attempts. States to
 render: idle (form ready), submitting (button shows spinner, fields disabled),
 error (banner above form with API error message). Below the form: "Forgot
@@ -38,7 +38,7 @@ Decompose what that prompt did right:
 
 | Sentence | Element | Why it worked |
 |----------|---------|---------------|
-| "Walking app's mobile login screen for iOS + Android" | Identity + platform | Grounds the bundle in the right paradigm — touch targets, mobile chrome, etc. |
+| "Task management app's mobile login screen for iOS + Android" | Identity + platform | Grounds the bundle in the right paradigm — touch targets, mobile chrome, etc. |
 | "Single email + password form with submit, plus inline error banner" | Action set + structural hint | Bundle knows what fields and what error UX |
 | "States to render: idle / submitting / error" | States explicit | Bundle ships every state ready, no follow-up needed |
 | "Honor tokens in flutter/lib/app/theme.dart" | Reference | Bundle's tokens.jsx self-documents as derived from this file |
@@ -58,7 +58,7 @@ What's NOT in that prompt — and shouldn't be:
 What app + what screen + who uses it. Be concrete:
 
 ```
-✅ "Walking app's mobile login screen"
+✅ "Task management app's mobile login screen"
 ✅ "Admin dashboard's user list page"
 ✅ "E-commerce checkout review step"
 
@@ -83,7 +83,7 @@ State the platform explicitly even when it seems obvious. Mobile vs. web vs. tab
 Every state the screen supports. The bundle ships all of them as separate frames. If you don't list a state, you don't get it.
 
 ```
-✅ "States to render: empty (no walks yet), loading (initial fetch), error (network failed with retry), data (list of walks)"
+✅ "States to render: empty (no tasks yet), loading (initial fetch), error (network failed with retry), data (list of tasks)"
 
 ✅ "States: idle, submitting (button spinner + fields disabled), error (banner above form), success (toast + redirect)"
 

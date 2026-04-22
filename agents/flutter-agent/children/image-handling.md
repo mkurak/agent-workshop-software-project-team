@@ -23,7 +23,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 // Basic usage
 CachedNetworkImage(
-  imageUrl: 'https://api.example.com/images/walk-123.jpg',
+  imageUrl: 'https://api.example.com/images/task-123.jpg',
   placeholder: (context, url) => const _ImagePlaceholder(),
   errorWidget: (context, url, error) => const _ImageError(),
   fit: BoxFit.cover,
@@ -514,12 +514,12 @@ class _PageIndicator extends StatelessWidget {
 
 ```dart
 AppImageCarousel(
-  imageUrls: walk.photoUrls,
+  imageUrls: task.photoUrls,
   height: 200,
   onTap: (index) {
     // Open full-screen image viewer
     context.push('/image-viewer', extra: {
-      'urls': walk.photoUrls,
+      'urls': task.photoUrls,
       'initialIndex': index,
     });
   },

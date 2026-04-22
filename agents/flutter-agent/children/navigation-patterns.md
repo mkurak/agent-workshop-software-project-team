@@ -12,7 +12,7 @@ Flutter navigation beyond routing. This file covers UI navigation components: bo
 | Drawer | Secondary navigation, settings, less-frequent screens | Settings, Help, Account |
 | Tab Bar | Sub-sections within a screen | Activity: Daily / Weekly / Monthly |
 | Modal Bottom Sheet | Quick actions, filters, pickers | Sort options, share menu |
-| Dialog | Confirmations, destructive actions, critical info | "Delete walk?" confirmation |
+| Dialog | Confirmations, destructive actions, critical info | "Delete task?" confirmation |
 
 **Rule of thumb:** If the user needs it constantly → bottom bar. If they need it sometimes → drawer. If it is contextual to the current screen → tab or sheet. If it requires a yes/no decision → dialog.
 
@@ -38,8 +38,8 @@ final appRouter = GoRouter(
               builder: (context, state) => const HomeScreen(),
               routes: [
                 GoRoute(
-                  path: 'walk/:id',
-                  builder: (context, state) => WalkDetailScreen(
+                  path: 'task/:id',
+                  builder: (context, state) => TaskDetailScreen(
                     id: state.pathParameters['id']!,
                   ),
                 ),
@@ -419,7 +419,7 @@ void _showSortSheet(BuildContext context) {
       currentSort: currentSort,
       onSortChanged: (sort) {
         setState(() => currentSort = sort);
-        ref.invalidate(walksProvider); // Re-fetch with new sort
+        ref.invalidate(tasksProvider); // Re-fetch with new sort
       },
     ),
   );
@@ -499,19 +499,19 @@ class ConfirmDialog extends StatelessWidget {
 ### Usage with Result
 
 ```dart
-Future<void> _deleteWalk(BuildContext context, String walkId) async {
+Future<void> _deleteTask(BuildContext context, String taskId) async {
   final confirmed = await showDialog<bool>(
     context: context,
     builder: (context) => ConfirmDialog(
-      title: context.l10n.deleteWalkTitle,
-      message: context.l10n.deleteWalkMessage,
+      title: context.l10n.deleteTaskTitle,
+      message: context.l10n.deleteTaskMessage,
       confirmLabel: context.l10n.delete,
       isDestructive: true,
     ),
   );
 
   if (confirmed == true && context.mounted) {
-    ref.read(deleteWalkProvider(walkId));
+    ref.read(deleteTaskProvider(taskId));
   }
 }
 ```
@@ -633,14 +633,14 @@ Bottom navigation already preserves state via `StatefulShellRoute.indexedStack`.
 For preserving scroll position within a tab:
 
 ```dart
-class WalkListTab extends ConsumerStatefulWidget {
-  const WalkListTab({super.key});
+class TaskListTab extends ConsumerStatefulWidget {
+  const TaskListTab({super.key});
 
   @override
-  ConsumerState<WalkListTab> createState() => _WalkListTabState();
+  ConsumerState<TaskListTab> createState() => _TaskListTabState();
 }
 
-class _WalkListTabState extends ConsumerState<WalkListTab>
+class _TaskListTabState extends ConsumerState<TaskListTab>
     with AutomaticKeepAliveClientMixin {
   // This prevents the tab content from being disposed when switching tabs
   @override
@@ -660,7 +660,7 @@ class _WalkListTabState extends ConsumerState<WalkListTab>
 AppScaffold (BottomNavigationBar)
 ├── Home Branch (StatefulShellBranch)
 │   ├── HomeScreen
-│   └── WalkDetailScreen (pushed within this branch)
+│   └── TaskDetailScreen (pushed within this branch)
 ├── Search Branch
 │   ├── SearchScreen
 │   └── SearchResultDetailScreen
@@ -671,4 +671,4 @@ AppScaffold (BottomNavigationBar)
     └── EditProfileScreen
 ```
 
-Each branch is an independent navigation stack. Going from `HomeScreen → WalkDetailScreen` does not affect the Search branch. Back button within a branch pops within that branch. Back button at root of a branch exits the app (or goes to previous branch, configurable).
+Each branch is an independent navigation stack. Going from `HomeScreen → TaskDetailScreen` does not affect the Search branch. Back button within a branch pops within that branch. Back button at root of a branch exits the app (or goes to previous branch, configurable).

@@ -29,7 +29,7 @@ Events from server to client describe something that **already happened**:
 
 ```
 order-confirmed       -- the order was confirmed
-walk-started          -- the walk began
+task-started          -- the task began
 message-received      -- a message arrived
 user-joined           -- someone joined
 payment-failed        -- payment did not go through
@@ -51,7 +51,7 @@ mark-read             -- client wants to mark as read
 Group related events by feature prefix:
 
 ```
-walk-*                -- walk-started, walk-paused, walk-completed, walk-step-counted
+task-*                -- task-started, task-paused, task-completed, task-step-counted
 chat-*                -- chat-message-received, chat-user-typing, chat-user-left
 notification-*        -- notification-received, notification-dismissed
 order-*               -- order-confirmed, order-cancelled, order-shipped
@@ -69,15 +69,15 @@ This makes it easy to:
 
 ```csharp
 // WRONG -- raw primitive
-await Clients.User(userId).SendAsync("walk-completed", walkId);
+await Clients.User(userId).SendAsync("task-completed", taskId);
 
 // WRONG -- anonymous object (no type safety on server)
-await Clients.User(userId).SendAsync("walk-completed", new { walkId, distance });
+await Clients.User(userId).SendAsync("task-completed", new { taskId, distance });
 
 // CORRECT -- typed record
-await Clients.User(userId).SendAsync("walk-completed", new WalkCompletedEvent
+await Clients.User(userId).SendAsync("task-completed", new TaskCompletedEvent
 {
-    WalkId = walkId,
+    TaskId = taskId,
     DistanceMeters = 5420,
     DurationSeconds = 3600,
     Timestamp = DateTimeOffset.UtcNow
@@ -87,9 +87,9 @@ await Clients.User(userId).SendAsync("walk-completed", new WalkCompletedEvent
 ### Rule 6: Every payload includes a timestamp
 
 ```csharp
-public sealed record WalkCompletedEvent
+public sealed record TaskCompletedEvent
 {
-    public required Guid WalkId { get; init; }
+    public required Guid TaskId { get; init; }
     public required double DistanceMeters { get; init; }
     public required int DurationSeconds { get; init; }
     public required DateTimeOffset Timestamp { get; init; } // Always present
@@ -109,7 +109,7 @@ For events that may be replayed (reconnection scenarios), include an ID:
 public sealed record NotificationReceivedEvent
 {
     public required string EventId { get; init; }      // Unique per event instance
-    public required string Type { get; init; }         // "walk-reminder", "friend-request"
+    public required string Type { get; init; }         // "task-reminder", "friend-request"
     public required string Title { get; init; }
     public required string Body { get; init; }
     public required DateTimeOffset Timestamp { get; init; }
@@ -126,10 +126,10 @@ All event payloads live in a shared contracts directory:
 src/ExampleApp.Socket/
     Contracts/
         Events/
-            Walk/
-                WalkStartedEvent.cs
-                WalkCompletedEvent.cs
-                WalkStepCountedEvent.cs
+            Task/
+                TaskStartedEvent.cs
+                TaskCompletedEvent.cs
+                TaskStepCountedEvent.cs
             Chat/
                 ChatMessageReceivedEvent.cs
                 ChatUserTypingEvent.cs
@@ -141,13 +141,13 @@ src/ExampleApp.Socket/
 ```
 
 ```csharp
-// Contracts/Events/Walk/WalkStartedEvent.cs
-namespace ExampleApp.Socket.Contracts.Events.Walk;
+// Contracts/Events/Task/TaskStartedEvent.cs
+namespace ExampleApp.Socket.Contracts.Events.Task;
 
-public sealed record WalkStartedEvent
+public sealed record TaskStartedEvent
 {
     public required string EventId { get; init; }
-    public required Guid WalkId { get; init; }
+    public required Guid TaskId { get; init; }
     public required Guid UserId { get; init; }
     public required DateTimeOffset StartedAt { get; init; }
     public required DateTimeOffset Timestamp { get; init; }
@@ -155,13 +155,13 @@ public sealed record WalkStartedEvent
 ```
 
 ```csharp
-// Contracts/Events/Walk/WalkCompletedEvent.cs
-namespace ExampleApp.Socket.Contracts.Events.Walk;
+// Contracts/Events/Task/TaskCompletedEvent.cs
+namespace ExampleApp.Socket.Contracts.Events.Task;
 
-public sealed record WalkCompletedEvent
+public sealed record TaskCompletedEvent
 {
     public required string EventId { get; init; }
-    public required Guid WalkId { get; init; }
+    public required Guid TaskId { get; init; }
     public required Guid UserId { get; init; }
     public required double DistanceMeters { get; init; }
     public required int DurationSeconds { get; init; }
@@ -196,7 +196,7 @@ public sealed record NotificationReceivedEvent
 {
     public required string EventId { get; init; }
     public required Guid NotificationId { get; init; }
-    public required string Type { get; init; }       // "walk-reminder", "friend-request", "achievement"
+    public required string Type { get; init; }       // "task-reminder", "friend-request", "achievement"
     public required string Title { get; init; }
     public required string Body { get; init; }
     public required Dictionary<string, string>? Data { get; init; }  // Extra context
@@ -213,9 +213,9 @@ Document every event in a structured format. This is the contract between Socket
 ```
 | Event Name              | Direction         | Payload Type                | Description                                    |
 |-------------------------|-------------------|-----------------------------|------------------------------------------------|
-| walk-started            | server -> client  | WalkStartedEvent            | A walk session has begun                       |
-| walk-completed          | server -> client  | WalkCompletedEvent          | A walk session has ended                       |
-| walk-step-counted       | server -> client  | WalkStepCountedEvent        | Step count updated during active walk          |
+| task-started            | server -> client  | TaskStartedEvent            | A task session has begun                       |
+| task-completed          | server -> client  | TaskCompletedEvent          | A task session has ended                       |
+| task-step-counted       | server -> client  | TaskStepCountedEvent        | Step count updated during active task          |
 | chat-message-received   | server -> client  | ChatMessageReceivedEvent    | New chat message in a room                     |
 | chat-user-typing        | server -> client  | ChatUserTypingEvent         | A user started typing in a room                |
 | notification-received   | server -> client  | NotificationReceivedEvent   | New notification for the user                  |
@@ -262,7 +262,7 @@ app.MapPost("/api/internal/broadcast", async (
 });
 ```
 
-The `EventName` in the broadcast request follows the same kebab-case convention: `"walk-completed"`, `"notification-received"`.
+The `EventName` in the broadcast request follows the same kebab-case convention: `"task-completed"`, `"notification-received"`.
 
 ### From Hub Methods
 
@@ -299,10 +299,10 @@ namespace ExampleApp.Socket.Contracts;
 /// </summary>
 public static class SocketEvents
 {
-    // Walk
-    public const string WalkStarted = "walk-started";
-    public const string WalkCompleted = "walk-completed";
-    public const string WalkStepCounted = "walk-step-counted";
+    // Task
+    public const string TaskStarted = "task-started";
+    public const string TaskCompleted = "task-completed";
+    public const string TaskStepCounted = "task-step-counted";
 
     // Chat
     public const string ChatMessageReceived = "chat-message-received";
@@ -323,7 +323,7 @@ public static class SocketEvents
 Usage:
 
 ```csharp
-await Clients.User(userId).SendAsync(SocketEvents.WalkCompleted, payload);
+await Clients.User(userId).SendAsync(SocketEvents.TaskCompleted, payload);
 ```
 
 ## Checklist for Adding a New Event

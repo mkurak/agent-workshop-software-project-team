@@ -12,9 +12,9 @@ Single Dio instance configured with base URL, timeouts, and interceptors. Expose
 // lib/core/network/dio_provider.dart
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:walking_for_me/core/network/auth_interceptor.dart';
-import 'package:walking_for_me/core/network/error_interceptor.dart';
-import 'package:walking_for_me/core/network/logging_interceptor.dart';
+import 'package:example_app/core/network/auth_interceptor.dart';
+import 'package:example_app/core/network/error_interceptor.dart';
+import 'package:example_app/core/network/logging_interceptor.dart';
 
 final dioProvider = Provider<Dio>((ref) {
   final dio = Dio(
@@ -67,7 +67,7 @@ Injects the access token into every request. On 401 response, attempts a token r
 // lib/core/network/auth_interceptor.dart
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:walking_for_me/features/auth/data/token_storage.dart';
+import 'package:example_app/features/auth/data/token_storage.dart';
 
 class AuthInterceptor extends Interceptor {
   AuthInterceptor({required this.ref, required this.dio});
@@ -155,7 +155,7 @@ Transforms Dio exceptions into app-specific, user-friendly errors.
 ```dart
 // lib/core/network/error_interceptor.dart
 import 'package:dio/dio.dart';
-import 'package:walking_for_me/core/errors/app_exception.dart';
+import 'package:example_app/core/errors/app_exception.dart';
 
 class ErrorInterceptor extends Interceptor {
   @override
@@ -260,10 +260,10 @@ class ServerException extends AppException {
 Every API response is a Dart model with `fromJson` factory and `toJson` method.
 
 ```dart
-// lib/features/walks/data/models/walk_model.dart
+// lib/features/tasks/data/models/task_model.dart
 
-class Walk {
-  const Walk({
+class Task {
+  const Task({
     required this.id,
     required this.title,
     required this.distanceKm,
@@ -279,10 +279,10 @@ class Walk {
   final int durationMinutes;
   final DateTime startedAt;
   final DateTime? completedAt;
-  final WalkStatus status;
+  final TaskStatus status;
 
-  factory Walk.fromJson(Map<String, dynamic> json) {
-    return Walk(
+  factory Task.fromJson(Map<String, dynamic> json) {
+    return Task(
       id: json['id'] as String,
       title: json['title'] as String,
       distanceKm: (json['distanceKm'] as num).toDouble(),
@@ -291,7 +291,7 @@ class Walk {
       completedAt: json['completedAt'] != null
           ? DateTime.parse(json['completedAt'] as String)
           : null,
-      status: WalkStatus.values.byName(json['status'] as String),
+      status: TaskStatus.values.byName(json['status'] as String),
     );
   }
 
@@ -308,7 +308,7 @@ class Walk {
   }
 }
 
-enum WalkStatus { planned, active, completed, cancelled }
+enum TaskStatus { planned, active, completed, cancelled }
 ```
 
 ### Paginated Response Model
@@ -357,26 +357,26 @@ class PaginatedResponse<T> {
 Abstract interface defines the contract. Implementation uses Dio.
 
 ```dart
-// lib/features/walks/data/repositories/walk_repository.dart
+// lib/features/tasks/data/repositories/task_repository.dart
 
 // Abstract interface
-abstract class WalkRepository {
-  Future<List<Walk>> getWalks({String? status, int page = 1});
-  Future<Walk> getWalkById(String id);
-  Future<Walk> createWalk(CreateWalkRequest request);
-  Future<Walk> updateWalk(String id, UpdateWalkRequest request);
-  Future<void> deleteWalk(String id);
+abstract class TaskRepository {
+  Future<List<Task>> getTasks({String? status, int page = 1});
+  Future<Task> getTaskById(String id);
+  Future<Task> createTask(CreateTaskRequest request);
+  Future<Task> updateTask(String id, UpdateTaskRequest request);
+  Future<void> deleteTask(String id);
 }
 
 // Implementation
-class WalkRepositoryImpl implements WalkRepository {
-  WalkRepositoryImpl(this._dio);
+class TaskRepositoryImpl implements TaskRepository {
+  TaskRepositoryImpl(this._dio);
   final Dio _dio;
 
   @override
-  Future<List<Walk>> getWalks({String? status, int page = 1}) async {
+  Future<List<Task>> getTasks({String? status, int page = 1}) async {
     final response = await _dio.get(
-      '/api/walks',
+      '/api/tasks',
       queryParameters: {
         if (status != null) 'status': status,
         'page': page,
@@ -385,37 +385,37 @@ class WalkRepositoryImpl implements WalkRepository {
 
     final data = response.data as List<dynamic>;
     return data
-        .map((json) => Walk.fromJson(json as Map<String, dynamic>))
+        .map((json) => Task.fromJson(json as Map<String, dynamic>))
         .toList();
   }
 
   @override
-  Future<Walk> getWalkById(String id) async {
-    final response = await _dio.get('/api/walks/$id');
-    return Walk.fromJson(response.data as Map<String, dynamic>);
+  Future<Task> getTaskById(String id) async {
+    final response = await _dio.get('/api/tasks/$id');
+    return Task.fromJson(response.data as Map<String, dynamic>);
   }
 
   @override
-  Future<Walk> createWalk(CreateWalkRequest request) async {
+  Future<Task> createTask(CreateTaskRequest request) async {
     final response = await _dio.post(
-      '/api/walks',
+      '/api/tasks',
       data: request.toJson(),
     );
-    return Walk.fromJson(response.data as Map<String, dynamic>);
+    return Task.fromJson(response.data as Map<String, dynamic>);
   }
 
   @override
-  Future<Walk> updateWalk(String id, UpdateWalkRequest request) async {
+  Future<Task> updateTask(String id, UpdateTaskRequest request) async {
     final response = await _dio.put(
-      '/api/walks/$id',
+      '/api/tasks/$id',
       data: request.toJson(),
     );
-    return Walk.fromJson(response.data as Map<String, dynamic>);
+    return Task.fromJson(response.data as Map<String, dynamic>);
   }
 
   @override
-  Future<void> deleteWalk(String id) async {
-    await _dio.delete('/api/walks/$id');
+  Future<void> deleteTask(String id) async {
+    await _dio.delete('/api/tasks/$id');
   }
 }
 ```
@@ -423,8 +423,8 @@ class WalkRepositoryImpl implements WalkRepository {
 ### Request Models
 
 ```dart
-class CreateWalkRequest {
-  const CreateWalkRequest({
+class CreateTaskRequest {
+  const CreateTaskRequest({
     required this.title,
     required this.distanceKm,
     this.notes,
@@ -447,11 +447,11 @@ class CreateWalkRequest {
 ## Riverpod Provider for Repository
 
 ```dart
-// lib/features/walks/data/repositories/walk_repository.dart (bottom of file)
+// lib/features/tasks/data/repositories/task_repository.dart (bottom of file)
 
-final walkRepositoryProvider = Provider<WalkRepository>((ref) {
+final taskRepositoryProvider = Provider<TaskRepository>((ref) {
   final dio = ref.watch(dioProvider);
-  return WalkRepositoryImpl(dio);
+  return TaskRepositoryImpl(dio);
 });
 ```
 
@@ -511,35 +511,35 @@ From provider to screen, end to end:
 
 ```dart
 // 1. Provider fetches data via repository
-final walksProvider = FutureProvider<List<Walk>>((ref) async {
-  final repository = ref.watch(walkRepositoryProvider);
-  return repository.getWalks();
+final tasksProvider = FutureProvider<List<Task>>((ref) async {
+  final repository = ref.watch(taskRepositoryProvider);
+  return repository.getTasks();
 });
 
 // 2. Screen watches provider and handles AsyncValue
-class WalksScreen extends ConsumerWidget {
+class TasksScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final walksAsync = ref.watch(walksProvider);
+    final tasksAsync = ref.watch(tasksProvider);
 
     return Scaffold(
-      body: walksAsync.when(
-        data: (walks) => WalksList(walks: walks),
+      body: tasksAsync.when(
+        data: (tasks) => TasksList(tasks: tasks),
         loading: () => const LoadingView(),
         error: (error, _) => ErrorView(
           message: error is AppException ? error.message : 'Unexpected error',
-          onRetry: () => ref.invalidate(walksProvider),
+          onRetry: () => ref.invalidate(tasksProvider),
         ),
       ),
     );
   }
 }
 
-// 3. Mutation: create a walk
-Future<void> _createWalk(WidgetRef ref, CreateWalkRequest request) async {
-  final repository = ref.read(walkRepositoryProvider);
-  await repository.createWalk(request);
-  ref.invalidate(walksProvider); // Refresh the list
+// 3. Mutation: create a task
+Future<void> _createTask(WidgetRef ref, CreateTaskRequest request) async {
+  final repository = ref.read(taskRepositoryProvider);
+  await repository.createTask(request);
+  ref.invalidate(tasksProvider); // Refresh the list
 }
 ```
 
@@ -550,29 +550,29 @@ Future<void> _createWalk(WidgetRef ref, CreateWalkRequest request) async {
 ### 1. Direct Dio call in widget
 ```dart
 // BAD
-final response = await Dio().get('http://localhost:3000/api/walks');
+final response = await Dio().get('http://localhost:3000/api/tasks');
 // GOOD
-final walks = ref.watch(walksProvider);
+final tasks = ref.watch(tasksProvider);
 ```
 
 ### 2. Business logic in repository
 ```dart
 // BAD: calculating in Flutter
 Future<double> getTotalDistance() async {
-  final walks = await getWalks();
-  return walks.fold(0.0, (sum, w) => sum + w.distanceKm);
+  final tasks = await getTasks();
+  return tasks.fold(0.0, (sum, w) => sum + w.distanceKm);
 }
 // GOOD: API returns the aggregate
-Future<WalkStats> getWalkStats() async {
-  final response = await _dio.get('/api/walks/stats');
-  return WalkStats.fromJson(response.data);
+Future<TaskStats> getTaskStats() async {
+  final response = await _dio.get('/api/tasks/stats');
+  return TaskStats.fromJson(response.data);
 }
 ```
 
 ### 3. Missing error handling
 ```dart
 // BAD: no try-catch, no error interceptor
-final response = await _dio.get('/api/walks');
+final response = await _dio.get('/api/tasks');
 // GOOD: ErrorInterceptor transforms all errors automatically
 // Widget handles errors via AsyncValue.when(error: ...)
 ```

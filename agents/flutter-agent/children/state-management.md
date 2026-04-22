@@ -12,15 +12,15 @@ For computed values, configuration, and dependency injection.
 
 ```dart
 // Dependency injection: expose a repository instance
-final walkRepositoryProvider = Provider<WalkRepository>((ref) {
+final taskRepositoryProvider = Provider<TaskRepository>((ref) {
   final dio = ref.watch(dioProvider);
-  return WalkRepositoryImpl(dio);
+  return TaskRepositoryImpl(dio);
 });
 
 // Computed value from another provider
-final completedWalksCountProvider = Provider<int>((ref) {
-  final walks = ref.watch(walksProvider).valueOrNull ?? [];
-  return walks.where((w) => w.isCompleted).length;
+final completedTasksCountProvider = Provider<int>((ref) {
+  final tasks = ref.watch(tasksProvider).valueOrNull ?? [];
+  return tasks.where((w) => w.isCompleted).length;
 });
 ```
 
@@ -30,15 +30,15 @@ For one-time async data fetches. The most common provider for API data.
 
 ```dart
 // Simple fetch
-final walksProvider = FutureProvider<List<Walk>>((ref) async {
-  final repository = ref.watch(walkRepositoryProvider);
-  return repository.getWalks();
+final tasksProvider = FutureProvider<List<Task>>((ref) async {
+  final repository = ref.watch(taskRepositoryProvider);
+  return repository.getTasks();
 });
 
 // Auto-dispose: free resources when no widget is listening
-final walksProvider = FutureProvider.autoDispose<List<Walk>>((ref) async {
-  final repository = ref.watch(walkRepositoryProvider);
-  return repository.getWalks();
+final tasksProvider = FutureProvider.autoDispose<List<Task>>((ref) async {
+  final repository = ref.watch(taskRepositoryProvider);
+  return repository.getTasks();
 });
 ```
 
@@ -48,24 +48,24 @@ For fetching data that depends on a parameter (ID, filter, page).
 
 ```dart
 // Single parameter
-final walkDetailProvider = FutureProvider.family<Walk, String>((ref, walkId) async {
-  final repository = ref.watch(walkRepositoryProvider);
-  return repository.getWalkById(walkId);
+final taskDetailProvider = FutureProvider.family<Task, String>((ref, taskId) async {
+  final repository = ref.watch(taskRepositoryProvider);
+  return repository.getTaskById(taskId);
 });
 
 // Usage in widget
-final walkAsync = ref.watch(walkDetailProvider(walkId));
+final taskAsync = ref.watch(taskDetailProvider(taskId));
 
 // Multiple parameters: use a record or custom class
-final walksByFilterProvider = FutureProvider.family<List<Walk>, ({String status, int page})>(
+final tasksByFilterProvider = FutureProvider.family<List<Task>, ({String status, int page})>(
   (ref, params) async {
-    final repository = ref.watch(walkRepositoryProvider);
-    return repository.getWalks(status: params.status, page: params.page);
+    final repository = ref.watch(taskRepositoryProvider);
+    return repository.getTasks(status: params.status, page: params.page);
   },
 );
 
 // Usage
-final walks = ref.watch(walksByFilterProvider((status: 'active', page: 1)));
+final tasks = ref.watch(tasksByFilterProvider((status: 'active', page: 1)));
 ```
 
 ### 4. StateNotifierProvider (Mutable State)
@@ -75,26 +75,26 @@ For complex local state that changes over time. Forms, filters, multi-step flows
 ```dart
 // State class (immutable)
 @immutable
-class WalkFilterState {
-  const WalkFilterState({
-    this.status = WalkStatus.all,
+class TaskFilterState {
+  const TaskFilterState({
+    this.status = TaskStatus.all,
     this.dateRange,
     this.searchQuery = '',
-    this.sortBy = WalkSortBy.newest,
+    this.sortBy = TaskSortBy.newest,
   });
 
-  final WalkStatus status;
+  final TaskStatus status;
   final DateTimeRange? dateRange;
   final String searchQuery;
-  final WalkSortBy sortBy;
+  final TaskSortBy sortBy;
 
-  WalkFilterState copyWith({
-    WalkStatus? status,
+  TaskFilterState copyWith({
+    TaskStatus? status,
     DateTimeRange? dateRange,
     String? searchQuery,
-    WalkSortBy? sortBy,
+    TaskSortBy? sortBy,
   }) {
-    return WalkFilterState(
+    return TaskFilterState(
       status: status ?? this.status,
       dateRange: dateRange ?? this.dateRange,
       searchQuery: searchQuery ?? this.searchQuery,
@@ -104,10 +104,10 @@ class WalkFilterState {
 }
 
 // Notifier
-class WalkFilterNotifier extends StateNotifier<WalkFilterState> {
-  WalkFilterNotifier() : super(const WalkFilterState());
+class TaskFilterNotifier extends StateNotifier<TaskFilterState> {
+  TaskFilterNotifier() : super(const TaskFilterState());
 
-  void setStatus(WalkStatus status) {
+  void setStatus(TaskStatus status) {
     state = state.copyWith(status: status);
   }
 
@@ -119,26 +119,26 @@ class WalkFilterNotifier extends StateNotifier<WalkFilterState> {
     state = state.copyWith(dateRange: range);
   }
 
-  void setSortBy(WalkSortBy sortBy) {
+  void setSortBy(TaskSortBy sortBy) {
     state = state.copyWith(sortBy: sortBy);
   }
 
   void reset() {
-    state = const WalkFilterState();
+    state = const TaskFilterState();
   }
 }
 
 // Provider
-final walkFilterProvider =
-    StateNotifierProvider<WalkFilterNotifier, WalkFilterState>((ref) {
-  return WalkFilterNotifier();
+final taskFilterProvider =
+    StateNotifierProvider<TaskFilterNotifier, TaskFilterState>((ref) {
+  return TaskFilterNotifier();
 });
 
-// Filtered walks provider that reacts to filter changes
-final filteredWalksProvider = FutureProvider<List<Walk>>((ref) async {
-  final filter = ref.watch(walkFilterProvider);
-  final repository = ref.watch(walkRepositoryProvider);
-  return repository.getWalks(
+// Filtered tasks provider that reacts to filter changes
+final filteredTasksProvider = FutureProvider<List<Task>>((ref) async {
+  final filter = ref.watch(taskFilterProvider);
+  final repository = ref.watch(taskRepositoryProvider);
+  return repository.getTasks(
     status: filter.status,
     dateRange: filter.dateRange,
     search: filter.searchQuery,
@@ -190,14 +190,14 @@ The core pattern for handling async data in widgets. Every FutureProvider and St
 ```dart
 @override
 Widget build(BuildContext context, WidgetRef ref) {
-  final walksAsync = ref.watch(walksProvider);
+  final tasksAsync = ref.watch(tasksProvider);
 
-  return walksAsync.when(
-    data: (walks) => WalksList(walks: walks),
+  return tasksAsync.when(
+    data: (tasks) => TasksList(tasks: tasks),
     loading: () => const LoadingView(),
     error: (error, stack) => ErrorView(
       message: error.toString(),
-      onRetry: () => ref.invalidate(walksProvider),
+      onRetry: () => ref.invalidate(tasksProvider),
     ),
   );
 }
@@ -209,19 +209,19 @@ When refreshing, `when` defaults to showing loading again. To keep old data visi
 
 ```dart
 // Option 1: skipLoadingOnRefresh (built-in)
-walksAsync.when(
+tasksAsync.when(
   skipLoadingOnRefresh: true, // keeps showing old data during refresh
-  data: (walks) => WalksList(walks: walks),
+  data: (tasks) => TasksList(tasks: tasks),
   loading: () => const LoadingView(),
   error: (error, stack) => ErrorView(...),
 );
 
 // Option 2: use hasValue + isRefreshing
-if (walksAsync.isRefreshing) {
+if (tasksAsync.isRefreshing) {
   // show a subtle indicator (e.g., linear progress bar at top)
 }
-final walks = walksAsync.valueOrNull;
-if (walks != null) {
+final tasks = tasksAsync.valueOrNull;
+if (tasks != null) {
   // render data even during refresh
 }
 ```
@@ -233,22 +233,22 @@ When a screen needs data from multiple providers:
 ```dart
 @override
 Widget build(BuildContext context, WidgetRef ref) {
-  final walksAsync = ref.watch(walksProvider);
+  final tasksAsync = ref.watch(tasksProvider);
   final profileAsync = ref.watch(profileProvider);
 
   // Both must be loaded
-  if (walksAsync.isLoading || profileAsync.isLoading) {
+  if (tasksAsync.isLoading || profileAsync.isLoading) {
     return const LoadingView();
   }
 
-  if (walksAsync.hasError) {
-    return ErrorView(message: walksAsync.error.toString());
+  if (tasksAsync.hasError) {
+    return ErrorView(message: tasksAsync.error.toString());
   }
 
-  final walks = walksAsync.requireValue;
+  final tasks = tasksAsync.requireValue;
   final profile = profileAsync.requireValue;
 
-  return DashboardContent(walks: walks, profile: profile);
+  return DashboardContent(tasks: tasks, profile: profile);
 }
 ```
 
@@ -264,8 +264,8 @@ Use inside `build` method. Widget rebuilds when the provider value changes.
 @override
 Widget build(BuildContext context, WidgetRef ref) {
   // CORRECT: watch in build -- rebuilds when data changes
-  final walks = ref.watch(walksProvider);
-  final filter = ref.watch(walkFilterProvider);
+  final tasks = ref.watch(tasksProvider);
+  final filter = ref.watch(taskFilterProvider);
 
   return ...;
 }
@@ -281,7 +281,7 @@ Widget build(BuildContext context, WidgetRef ref) {
   return ElevatedButton(
     onPressed: () {
       // CORRECT: read in callback
-      ref.read(walkFilterProvider.notifier).reset();
+      ref.read(taskFilterProvider.notifier).reset();
     },
     child: Text('Reset'),
   );
@@ -293,11 +293,11 @@ Widget build(BuildContext context, WidgetRef ref) {
 ```dart
 // BAD: watch in callback -- causes unnecessary rebuilds
 onPressed: () {
-  ref.watch(walkFilterProvider.notifier).reset(); // WRONG
+  ref.watch(taskFilterProvider.notifier).reset(); // WRONG
 }
 
 // BAD: read in build -- won't rebuild when data changes
-final walks = ref.read(walksProvider); // WRONG in build method
+final tasks = ref.read(tasksProvider); // WRONG in build method
 ```
 
 ---
@@ -309,10 +309,10 @@ final walks = ref.read(walksProvider); // WRONG in build method
 Marks the provider as dirty. Next time a widget reads it, it will refetch.
 
 ```dart
-// After creating a new walk, invalidate the list to refetch
-Future<void> _createWalk(WidgetRef ref, Walk walk) async {
-  await ref.read(walkRepositoryProvider).createWalk(walk);
-  ref.invalidate(walksProvider); // will refetch on next read
+// After creating a new task, invalidate the list to refetch
+Future<void> _createTask(WidgetRef ref, Task task) async {
+  await ref.read(taskRepositoryProvider).createTask(task);
+  ref.invalidate(tasksProvider); // will refetch on next read
 }
 ```
 
@@ -323,7 +323,7 @@ Forces an immediate refetch and returns the new Future.
 ```dart
 // Pull-to-refresh
 RefreshIndicator(
-  onRefresh: () => ref.refresh(walksProvider.future),
+  onRefresh: () => ref.refresh(tasksProvider.future),
   child: ...,
 );
 ```
@@ -346,22 +346,22 @@ Providers are kept alive by default. Use `autoDispose` to free resources when no
 
 ```dart
 // Disposed when the screen is popped
-final walkDetailProvider = FutureProvider.autoDispose.family<Walk, String>(
-  (ref, walkId) async {
-    final repository = ref.watch(walkRepositoryProvider);
-    return repository.getWalkById(walkId);
+final taskDetailProvider = FutureProvider.autoDispose.family<Task, String>(
+  (ref, taskId) async {
+    final repository = ref.watch(taskRepositoryProvider);
+    return repository.getTaskById(taskId);
   },
 );
 
 // Keep alive for a duration even after listeners are gone
-final walksProvider = FutureProvider.autoDispose<List<Walk>>((ref) async {
+final tasksProvider = FutureProvider.autoDispose<List<Task>>((ref) async {
   // Keeps data cached for 30 seconds after last listener
   ref.keepAlive();
   final link = ref.keepAlive();
   Timer(const Duration(seconds: 30), link.close);
 
-  final repository = ref.watch(walkRepositoryProvider);
-  return repository.getWalks();
+  final repository = ref.watch(taskRepositoryProvider);
+  return repository.getTasks();
 });
 ```
 
@@ -373,9 +373,9 @@ Override providers for different parts of the widget tree (useful for testing):
 // In tests: override repository with a mock
 ProviderScope(
   overrides: [
-    walkRepositoryProvider.overrideWithValue(MockWalkRepository()),
+    taskRepositoryProvider.overrideWithValue(MockTaskRepository()),
   ],
-  child: const WalksScreen(),
+  child: const TasksScreen(),
 );
 ```
 
@@ -386,23 +386,23 @@ ProviderScope(
 ### File structure
 
 ```
-lib/features/walks/
+lib/features/tasks/
   presentation/
     providers/
-      walks_provider.dart          # FutureProvider for walk list
-      walk_detail_provider.dart    # FutureProvider.family for single walk
-      walk_filter_provider.dart    # StateNotifierProvider for filters
+      tasks_provider.dart          # FutureProvider for task list
+      task_detail_provider.dart    # FutureProvider.family for single task
+      task_filter_provider.dart    # StateNotifierProvider for filters
 ```
 
 ### Naming Convention
 
 | Provider Type | Naming Pattern | Example |
 |--------------|----------------|---------|
-| FutureProvider (list) | `{feature}Provider` | `walksProvider` |
-| FutureProvider.family (detail) | `{feature}DetailProvider` | `walkDetailProvider` |
-| StateNotifierProvider | `{feature}{Purpose}Provider` | `walkFilterProvider` |
+| FutureProvider (list) | `{feature}Provider` | `tasksProvider` |
+| FutureProvider.family (detail) | `{feature}DetailProvider` | `taskDetailProvider` |
+| StateNotifierProvider | `{feature}{Purpose}Provider` | `taskFilterProvider` |
 | StateProvider | `{purpose}Provider` | `selectedTabProvider` |
-| StreamProvider | `{feature}StreamProvider` | `walkUpdatesStreamProvider` |
+| StreamProvider | `{feature}StreamProvider` | `taskUpdatesStreamProvider` |
 
 ---
 
@@ -432,8 +432,8 @@ final profileProvider = FutureProvider<Profile>((ref) async {
 ### 3. Forgetting autoDispose on detail screens
 ```dart
 // BAD: detail data stays in memory after navigating away
-final walkDetailProvider = FutureProvider.family<Walk, String>(...);
+final taskDetailProvider = FutureProvider.family<Task, String>(...);
 
 // GOOD: dispose when the detail screen is popped
-final walkDetailProvider = FutureProvider.autoDispose.family<Walk, String>(...);
+final taskDetailProvider = FutureProvider.autoDispose.family<Task, String>(...);
 ```
