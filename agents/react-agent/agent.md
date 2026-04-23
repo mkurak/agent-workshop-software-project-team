@@ -196,3 +196,7 @@ Tenant-based theming for SaaS. CSS custom properties (variables) for runtime col
 ### Claude Design Handoff
 Bundle from Claude Design (via `/design-screen done`) is React-native — adaptation, not paradigm translation. Five rules: swap raw web primitives for `@/components/ui/*`, swap useState for project state library (Zustand / React Query), honor project router (Link/href), wire i18next + en/tr namespaces, translate inline styles to Tailwind tokens. Lighter friction than Flutter; same self-contained brief discipline.
 → [Details](children/claude-design-handoff.md)
+
+### DST Handoff (design-system-team bundles)
+Different bundle shape than Claude Design — JSON-based (prototype.json + ds.json + resolved-tokens.json + preview.html + README + integration-notes), zipped via the `/dst-handoff` skill. **Mandatory theme-sync step before component code:** compare `tailwind.config.ts` / `tokens.css` against `ds.json` and rewrite the theme first if they drift, otherwise "trust project theme" silently yields stale colors. Target variants: `react-admin` (Vite + shadcn + Zustand) and `react-public` (Next.js + next/image + SEO metadata). Same 5 translation rules apply. Worked example inside.
+→ [Details](children/dst-handoff.md)

@@ -183,3 +183,7 @@ In-app browser for 3D Secure payments, OAuth flows, legal pages, external conten
 ### Claude Design Handoff
 React+HTML bundle from Claude Design (via `/design-screen done`) gets translated to Flutter. Five rules: trust project theme over precomputed colors, map React state to FocusNode/AsyncValue/etc., substitute SVG icons with M3 equivalents, extract new ARB keys + gen-l10n, take geometry from bundle but behavior from project. Write engineer notes; document deltas honestly (4/5 fidelity is realistic).
 → [Details](children/claude-design-handoff.md)
+
+### DST Handoff (design-system-team bundles)
+Different bundle shape than Claude Design — JSON-based (prototype.json + ds.json + resolved-tokens.json + preview.html + README + integration-notes), zipped via the `/dst-handoff` skill. **Mandatory theme-sync step before screen code:** compare `lib/app/theme.dart` against `ds.json` and rewrite the theme first if they drift, otherwise "trust project theme" silently yields stale colors. Same 5 translation rules apply. Worked example inside.
+→ [Details](children/dst-handoff.md)
