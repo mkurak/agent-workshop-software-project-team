@@ -151,6 +151,19 @@ services:
       - ConnectionStrings__RabbitMq=amqp://guest:guest@rabbitmq:5672/
 ```
 
+### MailSender service — package pins
+
+The MailSender consumer host (`Microsoft.NET.Sdk.Worker`) sends transactional emails via SMTP using **MailKit**. Pin to the canonical minimum from [`software-project-team/dependency-versions.md`](../../../dependency-versions.md):
+
+```xml
+<!-- src/<App>.MailSender/<App>.MailSender.csproj -->
+<PackageReference Include="MailKit"             Version="4.16.0" />
+<PackageReference Include="RabbitMQ.Client"     Version="6.8.1" />
+<PackageReference Include="StackExchange.Redis" Version="2.8.16" />
+```
+
+> **Security note — minimum 4.16.0 (medium CVE).** MailKit < 4.16.0 has a STARTTLS Response Injection vulnerability that enables SASL mechanism downgrade. Any new MailSender host MUST start at 4.16.0 or later. Reference: walkingforme PR #3 (2026-04-26). For the centralized pin and any future bumps, see `software-project-team/dependency-versions.md`.
+
 ### Connection String Format
 ```
 amqp://{user}:{password}@{host}:{port}/{vhost}
