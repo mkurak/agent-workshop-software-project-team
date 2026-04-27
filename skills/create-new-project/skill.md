@@ -157,6 +157,15 @@ src/
 - Auto-migrate in Development
 - seed.sql file with admin test user
 
+**Cold-build csproj requirements (mandatory — verified failure modes):**
+
+These four package/framework references are **required for cold build to succeed**. Their omission is the most common cause of verify-system stalling on a fresh scaffold. See [api-agent/children/known-issues.md](../../agents/api-agent/children/known-issues.md) for the discovery context, [api-agent/children/architecture-layers.md](../../agents/api-agent/children/architecture-layers.md) for the canonical csproj package sets.
+
+1. **`Infrastructure.csproj`** — must include `<FrameworkReference Include="Microsoft.AspNetCore.App" />` because `Auth/CurrentUser.cs` uses `IHttpContextAccessor` (from `Microsoft.AspNetCore.Http`).
+2. **`Api.csproj`** — must include `Microsoft.EntityFrameworkCore.Design` package (with `PrivateAssets`). EF Core's tooling requires it on the **startup project** running `dotnet ef`, not just on `Infrastructure`.
+3. **`Worker.csproj`, `LogIngest.csproj`, `MailSender.csproj`** — each must include `<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.*" />`. .NET 9's `Microsoft.NET.Sdk.Worker` SDK does NOT transitively expose the `Host` static class; cold build fails with `CS0103: 'Host' does not exist`.
+4. **Initial EF migration** — generate it as the **last step of Phase 2** (subsection 2.8 below) before `docker compose up -d`.
+
 **If SaaS = Yes, additionally include:**
 - User entity (email, passwordHash, firstName, lastName)
 - Profile entity (userId, tenantId, role, isActive)
@@ -313,6 +322,22 @@ Create `.mcp.json` at project root for codebase-memory-mcp integration:
 ```
 
 This provides knowledge graph indexing of the entire codebase — function relationships, call chains, dependency mapping. Agents can query "who calls this?" and get precise answers instead of scanning files.
+
+#### 2.8 Initial EF Migration (mandatory)
+
+After all .NET projects, Docker compose, and supporting files are in place but BEFORE Phase 3's `docker compose up -d`, scaffold the initial EF migration. This requires the four cold-build csproj requirements from § 2.2 (Infrastructure framework reference + Api EF Design package + Worker hosting) to already be in place — the migration scaffold itself uses EF design-time tools.
+
+```bash
+docker compose run --rm api dotnet ef migrations add InitialCreate \
+  --project ../{ProjectName}.Infrastructure \
+  --startup-project .
+```
+
+This creates `Infrastructure/Persistence/Migrations/{timestamp}_InitialCreate.{cs,Designer.cs}` + `ApplicationDbContextModelSnapshot.cs`. EF auto-migrate picks them up on first API startup.
+
+Without this step, the API starts but the database stays empty — verify-system Level 3 fails on auth/login because the `Users` table doesn't exist. The four cold-build requirements (csproj refs + initial migration) are interdependent: skipping any of them blocks verify-system.
+
+If `dotnet-ef` is not on the api container's tool set, the run command fails with "Could not execute because the specified command or file was not found." Install it inside the container first (`docker compose run --rm api dotnet tool install --global dotnet-ef`) or — preferably — bake the install into `Dockerfile.dev` so subsequent fresh builds already have it.
 
 ### Phase 3 — Build and Start
 
