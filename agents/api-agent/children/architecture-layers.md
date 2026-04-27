@@ -50,9 +50,13 @@ Consequence: Application.csproj must reference:
 
 ### Infrastructure .csproj — required package set
 
-Because Infrastructure hosts a `BackgroundService` (the log publisher) and reads options from config, it needs hosting abstractions:
+Because Infrastructure hosts a `BackgroundService` (the log publisher), reads options from config, AND implements `ICurrentUser` via `IHttpContextAccessor`, it needs both hosting abstractions and an ASP.NET Core framework reference:
 
 ```xml
+<ItemGroup>
+  <FrameworkReference Include="Microsoft.AspNetCore.App" />
+</ItemGroup>
+
 <ItemGroup>
   <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.*" />
   <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.*">
@@ -71,6 +75,7 @@ Because Infrastructure hosts a `BackgroundService` (the log publisher) and reads
 </ItemGroup>
 ```
 
+- **`<FrameworkReference Include="Microsoft.AspNetCore.App" />`** — required because `Infrastructure/Auth/CurrentUser.cs` uses `IHttpContextAccessor` (from `Microsoft.AspNetCore.Http`). Without this, cold build fails with `CS0234: namespace 'AspNetCore' does not exist in 'Microsoft'`. The framework reference brings in the full ASP.NET Core shared framework, which exposes `IHttpContextAccessor` along with all related abstractions. The clean-arch alternative (move `CurrentUser` to Api, expose `ICurrentUser` interface from Infrastructure) is fine architecturally but the team's convention places `CurrentUser` in `Infrastructure/Auth/` to keep auth implementation co-located.
 - **`Microsoft.Extensions.Hosting`** — required for `BackgroundService` (used by `RmqLogPublisher`). Without it, Infrastructure fails to compile.
 - **`Microsoft.Extensions.Options.ConfigurationExtensions`** — required for `.Bind()` on config sections in DI registration.
 - **`AWSSDK.S3` over `Minio`** — the AWS SDK is the canonical choice because it talks to both MinIO and real S3 with the same code. The `Minio` package's API has churned between 5.x and 6.x (e.g., `ListObjectsAsync` → `ListObjectsEnumAsync`), which creates scaffold drift.
@@ -85,6 +90,40 @@ Because Infrastructure hosts a `BackgroundService` (the log publisher) and reads
 - Internal token validation (X-Internal-Token) for system-to-system
 - EF auto-migrate (Development only)
 - Serilog + RMQ log pipeline
+
+### Api .csproj — required package set
+
+Because Api is the **startup project** for `dotnet ef` migration tooling, it needs the EF Design package even though Infrastructure also has it. EF Design must be on the project that runs the tool, not just the project containing the `DbContext`:
+
+```xml
+<ItemGroup>
+  <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.*">
+    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    <PrivateAssets>all</PrivateAssets>
+  </PackageReference>
+  <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.*" />
+  <PackageReference Include="Swashbuckle.AspNetCore" Version="6.*" />
+  <PackageReference Include="Serilog.AspNetCore" Version="8.*" />
+  <PackageReference Include="Mediator.SourceGenerator" Version="3.*" />
+</ItemGroup>
+```
+
+- **`Microsoft.EntityFrameworkCore.Design` on Api**: without it, `dotnet ef migrations add` fails with `Your startup project doesn't reference Microsoft.EntityFrameworkCore.Design`. Cold-build verification stalls because the initial migration can't be scaffolded.
+
+## Worker / LogIngest / MailSender (`Microsoft.NET.Sdk.Worker` projects)
+
+These three projects use the Worker SDK and call `Host.CreateApplicationBuilder(args)` in `Program.cs`. **In .NET 9 the Worker SDK does NOT transitively expose `Host`** — projects must explicitly reference `Microsoft.Extensions.Hosting`:
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.*" />
+    <!-- … other refs … -->
+  </ItemGroup>
+</Project>
+```
+
+Without this reference, cold build fails with `CS0103: The name 'Host' does not exist in the current context`. This was a working transitive in earlier .NET versions; .NET 9's Worker SDK trimmed it. Affects `Worker`, `LogIngest`, `MailSender` — all three host-builder-based services.
 
 ## Vertical Slice Structure
 
