@@ -37,42 +37,46 @@ CancellationToken is passed to every async call. When the host shuts down, jobs 
 ### 5. Distributed lock for multi-pod
 In multi-pod deployments, only one instance runs each job. Redis distributed lock prevents concurrent execution of the same job.
 
+
+### Wiki + journal discipline
+Before deciding on a topic that already has a wiki page (`.claude/wiki/<topic>.md`) or a recent journal entry (`.claude/journal/<date>_*.md`), read it. The wiki holds current truth; the journal holds the why. Skipping this step is the most common cause of re-litigating settled decisions.
+
 ## Knowledge Base
 
 On every invocation, read the relevant `children/` files below based on the task at hand. If project-specific rules exist, also read `.claude/docs/coding-standards/worker.md`.
 
----
+<!-- Auto-rebuilt from children/*.md frontmatter by Phase 2.C migration script (and future /save-learnings runs). Source of truth is each child file's `knowledge-base-summary` field; hand-edits here are overwritten. -->
 
 ### Job Blueprint ⭐
 The primary production unit of this agent. Template + checklist + naming conventions for creating new scheduled jobs. Read this FIRST when adding any new job. Covers: BackgroundService skeleton, cron parsing, API call, distributed lock, error handling, logging, idempotency.
-→ [Details](children/job-blueprint.md)
+-> [Details](children/job-blueprint.md)
 
 ---
 
 ### Cron Scheduling
 Cronos library for cron expression parsing. Expressions stored in dynamic settings (not hardcoded). Timezone handling. Standard cron format (5-field). Common patterns: every minute, hourly, daily at midnight, weekly, monthly.
-→ [Details](children/cron-scheduling.md)
+-> [Details](children/cron-scheduling.md)
 
 ---
 
 ### API Client Pattern
 Worker → API communication via typed HttpClient. IApiClient interface, ApiClient implementation. InternalTokenHandler (DelegatingHandler) auto-injects X-Internal-Token on every request. Same pattern as Socket Agent but from Worker context.
-→ [Details](children/api-client-pattern.md)
+-> [Details](children/api-client-pattern.md)
 
 ---
 
 ### Distributed Locking
 Redis-based distributed lock to prevent concurrent execution of the same job across multiple pods. SETNX with TTL. Lock acquired → run job → release. Lock not acquired → skip this cycle. Handles lock expiry, dead locks, and crash recovery.
-→ [Details](children/distributed-locking.md)
+-> [Details](children/distributed-locking.md)
 
 ---
 
 ### Graceful Shutdown
 CancellationToken handling throughout the job lifecycle. Host.StopAsync signals cancellation → jobs finish current iteration → clean exit. No mid-operation kills. Drain pattern for long-running batch operations.
-→ [Details](children/graceful-shutdown.md)
+-> [Details](children/graceful-shutdown.md)
 
 ---
 
 ### Health Monitoring
 Job execution tracking: last run time, last success, last failure, consecutive failure count. Redis-based health state. Health endpoint for orchestration tools. Stale job detection: "this job hasn't run in 2x its expected interval → alert."
-→ [Details](children/health-monitoring.md)
+-> [Details](children/health-monitoring.md)

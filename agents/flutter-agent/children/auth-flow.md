@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Login → register → forgot password → email verification. Secure token storage (flutter_secure_storage). Auto-login on app start (check stored refresh token). Token refresh interceptor in Dio. Logout (clear tokens, navigate to login). Multi-profile selection."
+---
 # Auth Flow
 
 ## Philosophy

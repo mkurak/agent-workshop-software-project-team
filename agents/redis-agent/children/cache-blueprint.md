@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Primary blueprint for implementing cache. Cache-aside pattern with Redis as the cache layer. When to cache (read-heavy, rarely changing data) vs when not to (user-specific, frequently changing). ICacheable interface on queries, CachingBehavior as Mediator pipeline, TTL from dynamic settings, invalidation via ICacheInvalidator on commands."
+---
 # Cache Blueprint
 
 This is the primary blueprint for implementing caching in the project. Every cache implementation follows this pattern.

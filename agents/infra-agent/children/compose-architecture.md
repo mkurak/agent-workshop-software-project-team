@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Service categories: infrastructure (db, rabbitmq, redis, elasticsearch), .NET hosts (api, socket, worker, log-ingest, mail-sender), frontend (react app), tools (adminer, kibana, mailpit, redis-commander). Dependency chain and startup order."
+---
 # Compose Architecture
 
 ## Service Tiers

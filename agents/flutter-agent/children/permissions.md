@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Camera, photo gallery, location, notifications, microphone. Permission request flow: check → request → handle (granted/denied/permanently denied). Platform differences (iOS one-time dialog vs Android). Graceful degradation when denied. permission_handler package."
+---
 # Permissions
 
 ## Overview

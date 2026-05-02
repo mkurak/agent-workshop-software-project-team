@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Detailed examples for each exchange type. Fanout for broadcast (logs, notifications). Direct for targeted routing. Topic for pattern-based routing. Headers exchange (rare). Default exchange for simple point-to-point. Complete C# code examples for each pattern."
+---
 # Exchange Patterns
 
 Detailed examples for each RabbitMQ exchange type with complete C# code.

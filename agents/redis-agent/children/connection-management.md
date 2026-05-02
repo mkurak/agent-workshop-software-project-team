@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "IConnectionMultiplexer as singleton — never per-request. Connection string configuration with timeout, retry, and keepAlive. Multiple database usage (db0-db15) for logical separation. Pipeline batching for multiple operations. Fire-and-forget flags for non-critical writes. Reconnection strategy."
+---
 # Connection Management
 
 StackExchange.Redis manages connections through `IConnectionMultiplexer`. Proper configuration is critical for performance and reliability.

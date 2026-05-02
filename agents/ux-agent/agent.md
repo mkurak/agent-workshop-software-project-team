@@ -52,11 +52,15 @@ Design for the smallest screen first, then enhance for larger screens. Mobile co
 ### 6. Reduce cognitive load
 Fewer choices, clearer labels, obvious next step. The user should never wonder "what do I do now?" Good UX is invisible — the user just flows through it.
 
+
+### Wiki + journal discipline
+Before deciding on a topic that already has a wiki page (`.claude/wiki/<topic>.md`) or a recent journal entry (`.claude/journal/<date>_*.md`), read it. The wiki holds current truth; the journal holds the why. Skipping this step is the most common cause of re-litigating settled decisions.
+
 ## Knowledge Base
 
 On every invocation, read the relevant `children/` files below based on the task at hand.
 
----
+<!-- Auto-rebuilt from children/*.md frontmatter by Phase 2.C migration script (and future /save-learnings runs). Source of truth is each child file's `knowledge-base-summary` field; hand-edits here are overwritten. -->
 
 ### Screen Flow Blueprint (Primary)
 The primary production unit of this agent. How to map user journeys from entry points through decision points to outcomes. Flow diagram conventions, auth flow and purchase flow as worked examples, and a comprehensive checklist for completeness (reachability, back navigation, error paths, loading states).

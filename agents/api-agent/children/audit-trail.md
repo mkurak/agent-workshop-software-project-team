@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Two-layer change tracking. Layer 1: IAuditableEntity (CreatedBy, ModifiedBy) on every entity. Layer 2: AuditLog table — automatic change history via ChangeTracker (entity, field, old value, new value, who, when). No extra code in handlers — interceptor handles everything."
+---
 # Audit Trail: Two-Layer Change Tracking
 
 ## Layer 1: IAuditableEntity (Default on Every Entity)

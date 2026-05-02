@@ -352,3 +352,7 @@ Run anytime after infrastructure changes, compose updates, or if something feels
 4. **Log evidence.** For each pipeline test, show the actual log line or response that proves it worked.
 5. **Ports from .env.** Read port numbers from `.env` file, don't hardcode. Every project might use different ports.
 6. **Init containers are expected to exit.** minio-init, migration runners — these exit after their job. Don't flag them as failures.
+
+## Accumulated Learnings
+
+(Auto-rebuilt by /save-learnings from `learnings/*.md` frontmatter. Do not edit by hand. Initially empty — entries appear as the skill encounters reusable edge cases.)

@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Mobile apps lose connection frequently. Client reconnects but missed events during downtime. Strategies: missed events queue (Redis), \"fetch last N events\" endpoint, or client-side last-event-id tracking."
+---
 # Reconnection Handling
 
 Mobile clients lose connection constantly -- tunnel, elevator, airplane mode, app backgrounded by OS. The critical question: what events did the user miss while offline?

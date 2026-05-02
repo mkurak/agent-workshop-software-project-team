@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Verify implementation matches documented architecture. Check for layer violations, dependency direction, feature organization, thin host compliance, and code in the wrong layer. The architecture document is the source of truth."
+---
 # Architecture Review
 
 ## Pre-Review Step

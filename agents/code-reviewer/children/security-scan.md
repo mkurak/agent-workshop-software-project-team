@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Check for SQL injection, XSS, auth bypass, data leaks, secrets in code, CORS misconfiguration, and missing rate limiting. Every security finding is critical severity. When in doubt, flag it."
+---
 # Security Scan
 
 Every security finding is **Critical** severity by default. When in doubt, flag it -- a false positive is better than a missed vulnerability.

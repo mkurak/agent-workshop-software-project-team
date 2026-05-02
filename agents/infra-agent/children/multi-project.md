@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Multiple projects on the same machine (ExampleApp + AdminApp). Port offset strategy (project B = default + 10000). Container naming convention prevents conflicts. Network isolation. Shared vs isolated infrastructure services."
+---
 # Multi-Project Coexistence
 
 Running multiple Docker Compose projects on the same development machine without port conflicts, naming collisions, or resource fights.

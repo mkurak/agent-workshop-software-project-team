@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "TanStack React Query for server state (API data with automatic caching, refetch, pagination). Zustand for client state (UI state, sidebar, filters). When to use which. No Redux — keep it simple."
+---
 # State Management
 
 Two tools, two jobs. React Query for server state. Zustand for client state. No Redux.

@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Client sends `X-Idempotency-Key` header (UUID v4). `IIdempotent` interface on commands → IdempotencyBehavior checks Redis SETNX. Already processed → return cached response, handler doesn't run. Race condition protection via \"processing\" flag. Key is optional — null means behavior is skipped."
+---
 # Idempotency: When the Same Request Arrives Twice
 
 ## Problem

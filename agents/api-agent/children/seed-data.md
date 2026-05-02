@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "SQL-file-based development seeding. Single `Seeds/seed.sql` file, append-only, idempotent INSERTs. Auto-executed on startup in Development. Reset-db endpoint for clean slate. Agent should ask \"does this feature need seed data?\" on every new feature — if yes, append to seed.sql."
+---
 # Seed Data: SQL-Based Development Seeding
 
 ## Philosophy

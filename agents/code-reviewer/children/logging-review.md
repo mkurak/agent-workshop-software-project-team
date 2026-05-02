@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Check for missing logs, string interpolation instead of message templates, sensitive data in logs, missing log levels, and inconsistent property naming. Every handler must tell its story through logs."
+---
 # Logging Review
 
 ## Missing Logs

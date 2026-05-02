@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Two patterns: cache-first (read) and offline queue (write). Local storage with shared_preferences or Hive. Connectivity monitoring. Show cached data when offline with staleness indicator. Queue user actions, sync when connection returns. Conflict resolution strategy."
+---
 # Offline First
 
 ## Philosophy

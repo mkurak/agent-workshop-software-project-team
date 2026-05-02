@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Table names: PascalCase plural mapped to snake_case. Column names: PascalCase mapped to snake_case. Index: IX_{Table}_{Columns}. FK: FK_{Table}_{ReferencedTable}. Schema usage patterns. EF snake_case convention setup."
+---
 # Naming Conventions
 
 ## The Dual Convention

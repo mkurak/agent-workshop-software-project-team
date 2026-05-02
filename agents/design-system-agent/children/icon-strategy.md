@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Icon set selection and consistency rules. Size scale (16, 20, 24, 32). Color inheritance. Custom icon guidelines (SVG, stroke width). Flutter and React usage patterns."
+---
 # Icon Strategy
 
 Consistent icon usage across the entire application. One icon set, one style, one set of sizes. Visual consistency in icons is immediately noticeable when broken.

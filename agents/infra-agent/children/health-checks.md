@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Health check configuration for every service type. PostgreSQL: pg_isready. RabbitMQ: rabbitmq-diagnostics ping. Redis: redis-cli ping. Elasticsearch: curl cluster health. .NET: /health endpoint. depends_on with condition: service_healthy."
+---
 # Health Checks
 
 Every infrastructure service MUST have a health check. Without health checks, `depends_on` only waits for the container to start, not for the service inside to be ready. This leads to race conditions: API tries to connect to PostgreSQL before it accepts connections, consumers try to bind to RabbitMQ before it has booted.

@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Type scale from display to caption. Font selection criteria, line heights, letter spacing. Responsive typography for tablet. Google Fonts integration. Code examples for Flutter TextTheme and Tailwind typography config."
+---
 # Typography
 
 Type system for the design system. Typography creates hierarchy, guides the eye, and establishes the visual tone of the application.

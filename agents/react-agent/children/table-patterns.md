@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "TanStack Table for data tables. Server-side sorting, filtering, pagination. Column definitions with TypeScript. Row actions (edit, delete). Selectable rows. Responsive: table on desktop, card list on mobile."
+---
 # Table Patterns
 
 ## Philosophy

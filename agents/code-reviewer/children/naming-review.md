@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Check names against project conventions. Class, method, variable, file, and namespace naming. Consistency verification (same concept = same name everywhere). Abbreviation rules and magic string/number detection."
+---
 # Naming Review
 
 ## Pre-Review Step

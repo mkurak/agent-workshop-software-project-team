@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "CPU and memory limits for containers. Elasticsearch/Kibana tuning (JVM heap size). Preventing single container from consuming all host resources. Development vs production resource profiles."
+---
 # Resource Limits
 
 Container CPU and memory limits. Without limits, a single container (especially Elasticsearch) can consume all host resources and freeze the machine.

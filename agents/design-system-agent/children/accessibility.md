@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "WCAG 2.1 AA requirements applied to design tokens. Contrast ratios, touch targets, focus indicators, font minimums, screen reader considerations, reduced motion, color-blind safe design."
+---
 # Accessibility
 
 WCAG 2.1 AA is the minimum standard. Accessibility is not a feature — it is a requirement. Every design token, every color combination, every interactive element must meet these standards.

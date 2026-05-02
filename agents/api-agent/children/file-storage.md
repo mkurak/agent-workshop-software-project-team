@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "MinIO (S3-compatible) in dev, AWS S3 in production. Entity-based path default: `{entity}/{id}/{purpose}-{guid}.{ext}`. Handler can override with custom path. `IStorageService` in Application, `S3StorageService` in Infrastructure. Integrates with soft delete — hard delete phase removes entire entity directory."
+---
 # File Upload & Storage Pattern
 
 ## Infrastructure

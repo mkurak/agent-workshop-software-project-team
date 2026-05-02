@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "PostgreSQL pg_dump/pg_restore for database backup. Volume backup for persistent data. Automated backup via Worker job. Restore procedure for development (import production snapshot)."
+---
 # Backup & Restore
 
 Database and volume backup strategies. From manual dev snapshots to automated production backups.

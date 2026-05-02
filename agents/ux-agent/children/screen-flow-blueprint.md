@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "The primary production unit of this agent. How to map user journeys from entry points through decision points to outcomes. Flow diagram conventions, auth flow and purchase flow as worked examples, and a comprehensive checklist for completeness (reachability, back navigation, error paths, loading states)."
+---
 # Screen Flow Blueprint
 
 This is the primary production unit of the UX Agent. Every new feature starts with a screen flow specification before any code is written.

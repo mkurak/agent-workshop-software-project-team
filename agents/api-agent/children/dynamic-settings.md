@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Two-layer configuration: static (appsettings = defaults) + dynamic (DB → Redis = override). Redis-only, no dictionary cache, no RMQ, no periodic refresh. Set: API endpoint → write DB + Redis → instant propagation. Get: read Redis → fallback DB → fallback appsettings. Other hosts access via API endpoints."
+---
 # Dynamic Settings: DB + Redis Centralized Configuration System
 
 ## Philosophy

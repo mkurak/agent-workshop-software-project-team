@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "PDF generation (react-pdf or html2pdf). CSV export from table data. Print-friendly view with @media print. Invoice/report template. Download trigger pattern."
+---
 # Print & Export: CSV, PDF, Print View
 
 ## Philosophy

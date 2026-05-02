@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Form design principles covering input type selection, label placement, validation timing (on blur not keypress), error message specificity, required vs optional indication, multi-step forms with progress indicators, and auto-save vs explicit save decisions."
+---
 # Form UX
 
 ## Core Principle

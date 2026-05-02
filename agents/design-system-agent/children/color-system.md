@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Complete color architecture: brand, neutral scale (50-950), semantic colors. Color roles (surface, on-surface, container). Material 3 mapping. Dark mode color design. Contrast ratio requirements. Code examples for Flutter ColorScheme and Tailwind config."
+---
 # Color System
 
 Complete color architecture for the design system. Every color in the application must come from this system — no hardcoded hex values anywhere in UI code.

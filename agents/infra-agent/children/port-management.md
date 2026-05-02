@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Port convention to avoid conflicts between projects. Offset strategy: project A uses default ports, project B adds 10000. Port mapping in .env for easy override. Common port assignments table."
+---
 # Port Management
 
 Every service exposes ports through `${VAR:-default}` in docker-compose.yml. This makes ports overridable per developer (via `.env`) and per project (via offset strategy). No port is hardcoded.

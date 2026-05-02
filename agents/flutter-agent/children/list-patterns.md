@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Infinite scroll with cursor-based pagination (matching API pattern). Pull-to-refresh. Empty state widget. Loading shimmer/skeleton. Error state with retry. Search with debounce. Filter chips. SliverList for performance."
+---
 # List Patterns
 
 ## Philosophy

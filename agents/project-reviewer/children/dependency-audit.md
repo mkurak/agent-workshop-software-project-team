@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Check for outdated, vulnerable, and unused packages. NuGet and npm audit. Version conflicts and license compliance. Update strategy and risk assessment."
+---
 # Dependency Audit
 
 ## Outdated Packages

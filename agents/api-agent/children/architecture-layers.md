@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Domain (pure C#, no deps), Application (Mediator, FluentValidation, pipeline behaviors), Infrastructure (EF Core, Auth, RMQ, Redis), Api (composition root, Minimal API endpoints). Vertical Slice structure: Command + Handler + Validator in same folder."
+---
 # Architecture Layers (Detail)
 
 ## Domain

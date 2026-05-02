@@ -43,60 +43,64 @@ Never rely on EF Core defaults for cascade behavior. Every relationship MUST spe
 ### 6. No raw SQL in handlers
 If a query is too complex for LINQ, create a database view or stored procedure. Handlers stay clean and testable. Raw SQL lives in migrations or dedicated query services within Infrastructure.
 
+
+### Wiki + journal discipline
+Before deciding on a topic that already has a wiki page (`.claude/wiki/<topic>.md`) or a recent journal entry (`.claude/journal/<date>_*.md`), read it. The wiki holds current truth; the journal holds the why. Skipping this step is the most common cause of re-litigating settled decisions.
+
 ## Knowledge Base
 
 On every invocation, read the relevant `children/` files below based on the task at hand. If project-specific rules exist, also read `.claude/docs/coding-standards/database.md`.
 
----
+<!-- Auto-rebuilt from children/*.md frontmatter by Phase 2.C migration script (and future /save-learnings runs). Source of truth is each child file's `knowledge-base-summary` field; hand-edits here are overwritten. -->
 
 ### Schema Design Blueprint
 Primary blueprint for designing new tables and entities. Contains the IEntityTypeConfiguration template, complete checklist (PK, indexes, FK cascade, string lengths, required/optional, unique constraints, audit fields), and code examples for every configuration scenario.
-→ [Details](children/schema-design-blueprint.md)
+-> [Details](children/schema-design-blueprint.md)
 
 ---
 
 ### Migration Management
 Creating, applying, and reverting migrations inside Docker. Naming convention: `{Timestamp}_{Description}`. Auto-migrate in Development, manual apply in Production. Handling merge conflicts in migration snapshots. Empty migrations for data seeding.
-→ [Details](children/migration-management.md)
+-> [Details](children/migration-management.md)
 
 ---
 
 ### Index Strategy
 When and how to add indexes. Composite indexes, partial indexes (PostgreSQL WHERE clause), covering indexes. B-tree vs GIN vs GiST selection. Mandatory index on every foreign key. EXPLAIN ANALYZE for verification. Monitoring slow queries via pg_stat_statements.
-→ [Details](children/index-strategy.md)
+-> [Details](children/index-strategy.md)
 
 ---
 
 ### Query Optimization
 Preventing N+1 queries with Include and projection. AsNoTracking for read-only paths. Projection (Select) vs full entity load tradeoffs. Pagination performance. Batch operations. Query splitting for complex includes. When raw SQL is justified.
-→ [Details](children/query-optimization.md)
+-> [Details](children/query-optimization.md)
 
 ---
 
 ### Naming Conventions
 Table names: PascalCase plural mapped to snake_case. Column names: PascalCase mapped to snake_case. Index: IX_{Table}_{Columns}. FK: FK_{Table}_{ReferencedTable}. Schema usage patterns. EF snake_case convention setup.
-→ [Details](children/naming-conventions.md)
+-> [Details](children/naming-conventions.md)
 
 ---
 
 ### Relationships
 One-to-one, one-to-many, many-to-many configuration patterns. Navigation properties. Cascade delete behavior selection guide (Cascade, Restrict, SetNull, NoAction). Owned types for value objects. Table splitting for wide entities.
-→ [Details](children/relationships.md)
+-> [Details](children/relationships.md)
 
 ---
 
 ### Data Types
 PostgreSQL-specific type mappings: uuid with gen_random_uuid(), timestamptz (always UTC), text vs varchar, jsonb for semi-structured data, decimal for money (never float), enum mapping via HasConversion, array types. EF Core configuration for each.
-→ [Details](children/data-types.md)
+-> [Details](children/data-types.md)
 
 ---
 
 ### Constraint Patterns
 Unique constraints (single and composite). Check constraints for data integrity. Default values. Not null enforcement. Global query filter for soft delete. Concurrency token (RowVersion/xmin). Code examples for each pattern.
-→ [Details](children/constraint-patterns.md)
+-> [Details](children/constraint-patterns.md)
 
 ---
 
 ### Monitoring
 pg_stat_statements for slow query detection. Index usage statistics (pg_stat_user_indexes). Table bloat detection. Connection pool monitoring. VACUUM and auto-maintenance. Kibana dashboard integration for database-related logs.
-→ [Details](children/monitoring.md)
+-> [Details](children/monitoring.md)

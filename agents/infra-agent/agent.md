@@ -45,108 +45,112 @@ Services don't just "depend on" — they wait for health. PostgreSQL must be "pg
 ### 6. Container naming convention
 All containers prefixed with project abbreviation: `wfm-api`, `wfm-db`, `wfm-rabbitmq`. No generic names that conflict across projects.
 
+
+### Wiki + journal discipline
+Before deciding on a topic that already has a wiki page (`.claude/wiki/<topic>.md`) or a recent journal entry (`.claude/journal/<date>_*.md`), read it. The wiki holds current truth; the journal holds the why. Skipping this step is the most common cause of re-litigating settled decisions.
+
 ## Knowledge Base
 
 On every invocation, read the relevant `children/` files below based on the task at hand.
 
----
+<!-- Auto-rebuilt from children/*.md frontmatter by Phase 2.C migration script (and future /save-learnings runs). Source of truth is each child file's `knowledge-base-summary` field; hand-edits here are overwritten. -->
 
 ### Compose Service Blueprint ⭐
 The primary production unit of this agent. Template + checklist for adding new services to docker-compose.yml. Covers: service definition, environment variables, volumes, health check, dependency chain, port mapping, naming convention.
-→ [Details](children/compose-blueprint.md)
+-> [Details](children/compose-blueprint.md)
 
 ---
 
 ### Compose Architecture
 Service categories: infrastructure (db, rabbitmq, redis, elasticsearch), .NET hosts (api, socket, worker, log-ingest, mail-sender), frontend (react app), tools (adminer, kibana, mailpit, redis-commander). Dependency chain and startup order.
-→ [Details](children/compose-architecture.md)
+-> [Details](children/compose-architecture.md)
 
 ---
 
 ### Dockerfile Patterns
 Two patterns: Dev (SDK + dotnet watch, source mounted) and Prod (multi-stage, restore→build→publish→runtime, non-root user). Layer caching optimization: copy .csproj first, restore, then copy source.
-→ [Details](children/dockerfile-patterns.md)
+-> [Details](children/dockerfile-patterns.md)
 
 ---
 
 ### Volume Strategy
 Four volume types: shadow volumes (bin/obj isolation), NuGet cache (per-service package cache), persistent data (postgres, redis, elasticsearch), source mounts (live code editing). Naming convention and cleanup.
-→ [Details](children/volume-strategy.md)
+-> [Details](children/volume-strategy.md)
 
 ---
 
 ### Environment Management
 .env + .env.example pattern. Variable naming convention (SCREAMING_SNAKE_CASE). Secret management (gitignore .env, commit .env.example). Environment-specific overrides. Docker Compose variable interpolation.
-→ [Details](children/env-management.md)
+-> [Details](children/env-management.md)
 
 ---
 
 ### Health Checks
 Health check configuration for every service type. PostgreSQL: pg_isready. RabbitMQ: rabbitmq-diagnostics ping. Redis: redis-cli ping. Elasticsearch: curl cluster health. .NET: /health endpoint. depends_on with condition: service_healthy.
-→ [Details](children/health-checks.md)
+-> [Details](children/health-checks.md)
 
 ---
 
 ### Port Management
 Port convention to avoid conflicts between projects. Offset strategy: project A uses default ports, project B adds 10000. Port mapping in .env for easy override. Common port assignments table.
-→ [Details](children/port-management.md)
+-> [Details](children/port-management.md)
 
 ---
 
 ### Hot Reload
 Every service supports hot reload in development. .NET: dotnet watch run. React/Vite: HMR. Flutter: hot reload (native, not Docker). File watcher configuration. Volume mount requirements for hot reload to work.
-→ [Details](children/hot-reload.md)
+-> [Details](children/hot-reload.md)
 
 ---
 
 ### Logging Infrastructure
 Serilog → RabbitMQ → LogIngest → Elasticsearch → Kibana pipeline. Docker Compose configuration for the full logging stack. Index lifecycle, retention, Kibana setup. LogIngest uses console-only logging (prevents infinite loop).
-→ [Details](children/logging-infra.md)
+-> [Details](children/logging-infra.md)
 
 ---
 
 ### MinIO Setup
 S3-compatible object storage for development. Bucket initialization. Console UI access. Environment variables for API integration. Production equivalent: AWS S3, GCP Cloud Storage.
-→ [Details](children/minio-setup.md)
+-> [Details](children/minio-setup.md)
 
 ---
 
 ### CI/CD Pipeline
 GitHub Actions templates: build, test, push image, deploy. Multi-stage Docker build for production images. Environment-specific deployments (staging, production). Secrets management in CI.
-→ [Details](children/ci-cd.md)
+-> [Details](children/ci-cd.md)
 
 ---
 
 ### Production Dockerfile
 Multi-stage build: SDK restore+publish → runtime image. Security: non-root user, no shell, minimal base image. Health endpoint exposed. Environment-configurable. Image size optimization.
-→ [Details](children/production-dockerfile.md)
+-> [Details](children/production-dockerfile.md)
 
 ---
 
 ### Backup & Restore
 PostgreSQL pg_dump/pg_restore for database backup. Volume backup for persistent data. Automated backup via Worker job. Restore procedure for development (import production snapshot).
-→ [Details](children/backup-restore.md)
+-> [Details](children/backup-restore.md)
 
 ---
 
 ### Multi-Project Coexistence
 Multiple projects on the same machine (ExampleApp + AdminApp). Port offset strategy (project B = default + 10000). Container naming convention prevents conflicts. Network isolation. Shared vs isolated infrastructure services.
-→ [Details](children/multi-project.md)
+-> [Details](children/multi-project.md)
 
 ---
 
 ### Resource Limits
 CPU and memory limits for containers. Elasticsearch/Kibana tuning (JVM heap size). Preventing single container from consuming all host resources. Development vs production resource profiles.
-→ [Details](children/resource-limits.md)
+-> [Details](children/resource-limits.md)
 
 ---
 
 ### SSL/TLS for Local Development
 mkcert for trusted self-signed certificates. Reverse proxy (nginx/traefik) for HTTPS termination. Required for: OAuth callbacks, secure cookies, PWA testing. Optional — most projects work without it.
-→ [Details](children/ssl-local.md)
+-> [Details](children/ssl-local.md)
 
 ---
 
 ### Code Intelligence (codebase-memory-mcp)
 Knowledge graph of entire codebase via MCP. 66 languages, zero dependencies, sub-ms queries. Solves context blindness in large projects — agent knows who calls whom, who implements what. Always install on projects with 50+ files. Auto-indexed, `.mcp.json` configured.
-→ [Details](children/code-intelligence.md)
+-> [Details](children/code-intelligence.md)

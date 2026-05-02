@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Key naming pattern: `{scope}:{entity}:{identifier}`. Six standard scopes: cache, lock, session, rate, settings, connections. Wildcard patterns for bulk operations with SCAN. Key expiry conventions aligned with TTL strategy. Naming must be human-readable in Redis Commander."
+---
 # Key Naming Convention
 
 Every Redis key in the project follows a strict naming pattern. Consistent naming makes keys human-readable in Redis Commander, enables wildcard operations, and prevents collisions.

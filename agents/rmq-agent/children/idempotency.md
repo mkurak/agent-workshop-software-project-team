@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Why idempotency matters (network partitions, consumer crashes, redelivery). Redis SETNX pattern for deduplication. Message ID as the idempotency key. TTL for idempotency keys (24h). Check-before-process, ack-after-process pattern. Code examples."
+---
 # Idempotency
 
 Processing the same message twice must produce the same result. This is the most critical reliability guarantee in message-based systems.

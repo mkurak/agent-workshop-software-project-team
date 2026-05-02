@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "PostgreSQL-specific type mappings: uuid with gen_random_uuid(), timestamptz (always UTC), text vs varchar, jsonb for semi-structured data, decimal for money (never float), enum mapping via HasConversion, array types. EF Core configuration for each."
+---
 # Data Types
 
 ## PostgreSQL-Specific Type Mappings

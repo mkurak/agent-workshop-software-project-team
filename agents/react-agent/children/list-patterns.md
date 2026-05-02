@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Infinite scroll, virtual list (TanStack Virtual) for large datasets. Search with debounce. Filter chips. Empty/loading/error states. Skeleton loading. Pull-to-refresh equivalent (manual refresh button)."
+---
 # List Patterns
 
 ## Philosophy

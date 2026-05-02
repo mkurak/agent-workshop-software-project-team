@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Exchange types (fanout, direct, topic) and when to use each. Queue naming convention: `{purpose}.{consumer}` (e.g., `emails.smtp`). Exchange naming: `{purpose}.{type}` (e.g., `emails.fanout`). Binding patterns and routing key strategies."
+---
 # Topology Design
 
 RabbitMQ topology is the arrangement of exchanges, queues, and bindings. Good topology design determines message flow, decoupling, and scalability.

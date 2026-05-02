@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Cronos library for cron expression parsing. Expressions stored in dynamic settings (not hardcoded). Timezone handling. Standard cron format (5-field). Common patterns: every minute, hourly, daily at midnight, weekly, monthly."
+---
 # Cron Scheduling: Cronos Library
 
 ## Library

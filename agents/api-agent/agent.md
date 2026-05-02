@@ -49,120 +49,124 @@ Always map to a DTO/Response record. Leaking entities is dangerous.
 ### 8. Every Command is accompanied by a Validator
 FluentValidation `AbstractValidator<TCommand>` is mandatory. The pipeline behavior runs it automatically.
 
+
+### Wiki + journal discipline
+Before deciding on a topic that already has a wiki page (`.claude/wiki/<topic>.md`) or a recent journal entry (`.claude/journal/<date>_*.md`), read it. The wiki holds current truth; the journal holds the why. Skipping this step is the most common cause of re-litigating settled decisions.
+
 ## Knowledge Base
 
 On every invocation, read the relevant `children/` files below based on the task at hand. If project-specific rules exist, also read `.claude/docs/coding-standards/api.md`.
 
----
+<!-- Auto-rebuilt from children/*.md frontmatter by Phase 2.C migration script (and future /save-learnings runs). Source of truth is each child file's `knowledge-base-summary` field; hand-edits here are overwritten. -->
 
 ### Architecture Layers
 Domain (pure C#, no deps), Application (Mediator, FluentValidation, pipeline behaviors), Infrastructure (EF Core, Auth, RMQ, Redis), Api (composition root, Minimal API endpoints). Vertical Slice structure: Command + Handler + Validator in same folder.
-→ [Details](children/architecture-layers.md)
+-> [Details](children/architecture-layers.md)
 
 ---
 
 ### Audit Trail
 Two-layer change tracking. Layer 1: IAuditableEntity (CreatedBy, ModifiedBy) on every entity. Layer 2: AuditLog table — automatic change history via ChangeTracker (entity, field, old value, new value, who, when). No extra code in handlers — interceptor handles everything.
-→ [Details](children/audit-trail.md)
+-> [Details](children/audit-trail.md)
 
 ---
 
 ### Caching Strategy
 Cache-Aside pattern as a Mediator pipeline behavior. Query implements `ICacheable` → CachingBehavior checks Redis → handler runs only on cache miss. TTL read from dynamic settings. Cache invalidation via `ICacheInvalidator` on commands — deklarative, handler stays clean.
-→ [Details](children/caching-strategy.md)
+-> [Details](children/caching-strategy.md)
 
 ---
 
 ### Concurrency Handling
 Optimistic locking via `RowVersion` property + `IsConcurrencyToken()`. EF Core adds `WHERE RowVersion = @original` automatically. Handler needs no extra code. `DbUpdateConcurrencyException` → 409 Conflict. Client sends RowVersion in update requests, gets new version back.
-→ [Details](children/concurrency-handling.md)
+-> [Details](children/concurrency-handling.md)
 
 ---
 
 ### Dynamic Settings
 Two-layer configuration: static (appsettings = defaults) + dynamic (DB → Redis = override). Redis-only, no dictionary cache, no RMQ, no periodic refresh. Set: API endpoint → write DB + Redis → instant propagation. Get: read Redis → fallback DB → fallback appsettings. Other hosts access via API endpoints.
-→ [Details](children/dynamic-settings.md)
+-> [Details](children/dynamic-settings.md)
 
 ---
 
 ### Error Handling
 Exception hierarchy: `NotFoundException`→404, `ValidationException`→422, `ForbiddenException`→403, unhandled→500. No try-catch in handlers — throw the appropriate exception, global `IExceptionHandler` maps to HTTP status + ProblemDetails. Development shows details, production shows generic message.
-→ [Details](children/error-handling.md)
+-> [Details](children/error-handling.md)
 
 ---
 
 ### File Storage
 MinIO (S3-compatible) in dev, AWS S3 in production. Entity-based path default: `{entity}/{id}/{purpose}-{guid}.{ext}`. Handler can override with custom path. `IStorageService` in Application, `S3StorageService` in Infrastructure. Integrates with soft delete — hard delete phase removes entire entity directory.
-→ [Details](children/file-storage.md)
+-> [Details](children/file-storage.md)
 
 ---
 
 ### Idempotency
 Client sends `X-Idempotency-Key` header (UUID v4). `IIdempotent` interface on commands → IdempotencyBehavior checks Redis SETNX. Already processed → return cached response, handler doesn't run. Race condition protection via "processing" flag. Key is optional — null means behavior is skipped.
-→ [Details](children/idempotency.md)
+-> [Details](children/idempotency.md)
 
 ---
 
 ### Logging Strategy — Virtual Debug
 You can't set breakpoints in production — logs are your debugger. Every handler tells its story through logs. Two logs per step: (1) what I'm about to do + with what data, (2) what I did + result. No performance concern — pipeline is non-blocking (Channel.TryWrite = nanoseconds). Log generously; don't be afraid.
-→ [Details](children/logging-strategy.md)
+-> [Details](children/logging-strategy.md)
 
 ---
 
 ### Multi-Tenancy
 User + Profile + Tenant model. Optional — disabled by default. User = identity (auth), Profile = context (which tenant, which role), Tenant = isolation boundary (name varies: Dealer, Seller, Organization). Three auth flows: standard login, tenant-scoped embed/auto-login, tenant-scoped domain. Global query filter + interceptor for automatic data isolation.
-→ [Details](children/multi-tenancy.md)
+-> [Details](children/multi-tenancy.md)
 
 ---
 
 ### Naming Conventions
 Files: `{Action}Command.cs`, `{Action}Handler.cs`, `{Action}Validator.cs`, `{Feature}Endpoints.cs`, `{Entity}Configuration.cs`. Namespaces: `{Project}.Application.Features.{Feature}.Commands.{Action}`. Endpoints: route in kebab-case, method PascalCase+Async, WithName PascalCase.
-→ [Details](children/naming-conventions.md)
+-> [Details](children/naming-conventions.md)
 
 ---
 
 ### Notification Pattern
 Two methods — choose based on decision table. HTTP (instant): most cases, single user/group/all, 5-10ms. RMQ (async): batch notifications, message must not be lost, handler shouldn't slow down. `INotificationService` for HTTP, `INotificationPublisher` for RMQ. Check the decision table for every handler that needs notifications.
-→ [Details](children/notification-pattern.md)
+-> [Details](children/notification-pattern.md)
 
 ---
 
 ### User-Facing Strings (API ↔ UI i18n contract)
 Backend is English-only; UI apps (Flutter, React) localize. User-visible text crosses the boundary as `messageKey + placeholders + fallback` envelopes — inside `ProblemDetails.extensions` for errors, inside notification payloads for socket events, and as `templateKey + locale` for emails/push (which MailSender and the push dispatcher render from per-locale templates). Enum values render via `{entity}_{field}_{value}` convention on the UI side. This is the canonical reference — every other agent's i18n guidance defers here.
-→ [Details](children/user-facing-strings.md)
+-> [Details](children/user-facing-strings.md)
 
 ---
 
 ### Pagination
 Cursor-based infinite scroll. No page numbers. Encoded cursor: Base64(`{sortValue}|{id}`) — supports sorting by any field. `IncludeCount` optional (default off — `COUNT(*)` is expensive). Fetch `PageSize + 1` to determine `HasMore`. Filtering is NOT generic — each feature writes its own Where clauses in the handler.
-→ [Details](children/pagination.md)
+-> [Details](children/pagination.md)
 
 ---
 
 ### RMQ Consumer Topology
 Every consumer (MailSender, LogIngest, etc.) MUST declare its own RMQ topology at startup — exchange, queue, binding. Consumer may start before API — cannot assume topology exists. Declare with the SAME arguments (including DLX if any), otherwise RabbitMQ throws `PRECONDITION_FAILED`. Idempotent — declaring twice is safe.
-→ [Details](children/rmq-topology.md)
+-> [Details](children/rmq-topology.md)
 
 ---
 
 ### Soft Delete
 No hard deletes. `ISoftDeletable` interface (IsDeleted, DeletedAt, DeletedBy) + global query filter + SaveChanges interceptor that converts `Delete` to `Modified`. Handler calls `Remove()` normally — interceptor handles the rest. `IgnoreQueryFilters()` for admin/recovery access. Physical cleanup via separate Worker job.
-→ [Details](children/soft-delete.md)
+-> [Details](children/soft-delete.md)
 
 ---
 
 ### Seed Data
 SQL-file-based development seeding. Single `Seeds/seed.sql` file, append-only, idempotent INSERTs. Auto-executed on startup in Development. Reset-db endpoint for clean slate. Agent should ask "does this feature need seed data?" on every new feature — if yes, append to seed.sql.
-→ [Details](children/seed-data.md)
+-> [Details](children/seed-data.md)
 
 ---
 
 ### Known Issues & Lessons Learned
 Issues discovered during real project scaffolding. EF Core Relational package must be explicit (transitive dependency unreliable in .NET 9). MinIO init container exits after bucket creation (expected, not a bug). Read before every new project.
-→ [Details](children/known-issues.md)
+-> [Details](children/known-issues.md)
 
 ---
 
 ### Workflows
 Step-by-step guides for common operations: new feature (Domain→Application→Infrastructure→Api→Migration→Test), new query, migration (Docker only!), RMQ messaging, auth-required endpoint, internal endpoint (Worker/Socket), and the full handler logging checklist.
-→ [Details](children/workflows.md)
+-> [Details](children/workflows.md)

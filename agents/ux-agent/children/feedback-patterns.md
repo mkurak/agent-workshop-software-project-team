@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "System feedback for every user action. Loading patterns (skeleton vs spinner), success patterns (toast, redirect, inline), error patterns (field-level, toast, full-page), confirmation before destructive actions, progress indicators (determinate vs indeterminate), and optimistic UI strategy."
+---
 # Feedback Patterns
 
 ## Core Principle

@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "DLX configuration for failed messages. Retry with delay using DLX + TTL queue that routes back to the original queue. Max retry count tracking via `x-death` message headers. Poison message handling — move to parking lot queue after N retries. Code examples."
+---
 # Retry & Dead Letter Exchange
 
 Failed messages must never silently disappear. DLX (Dead Letter Exchange) is the safety net, and retry with delay gives transient failures a chance to recover.

@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Files: `{Action}Command.cs`, `{Action}Handler.cs`, `{Action}Validator.cs`, `{Feature}Endpoints.cs`, `{Entity}Configuration.cs`. Namespaces: `{Project}.Application.Features.{Feature}.Commands.{Action}`. Endpoints: route in kebab-case, method PascalCase+Async, WithName PascalCase."
+---
 # Naming Conventions
 
 ## File Naming

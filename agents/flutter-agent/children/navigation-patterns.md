@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Bottom navigation bar, drawer, tab bar, modal bottom sheet, dialog. When to use which pattern. Nested navigation (tabs with independent stacks). AppBar actions. Back button handling. Navigation state preservation."
+---
 # Navigation Patterns
 
 ## Overview

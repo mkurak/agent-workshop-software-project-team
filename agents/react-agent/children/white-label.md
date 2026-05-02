@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Tenant-based theming for SaaS. CSS custom properties (variables) for runtime color changes. Logo/brand swap per tenant. Tailwind + CSS variables integration. Theme loaded from API at startup."
+---
 # White Label: Tenant Theming
 
 ## Philosophy

@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "S3-compatible object storage for development. Bucket initialization. Console UI access. Environment variables for API integration. Production equivalent: AWS S3, GCP Cloud Storage."
+---
 # MinIO Setup
 
 S3-compatible object storage for development. Use MinIO locally, swap to AWS S3 / GCP Cloud Storage in production with zero code changes.

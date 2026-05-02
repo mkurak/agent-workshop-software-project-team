@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Four TTL categories: short (1-5 min: rate limits, OTP), medium (15-60 min: query cache, verification tokens), long (hours-days: sessions, refresh tokens), very long (days-weeks: feature flags, settings). Dynamic TTL from settings service. Sliding vs absolute expiry and when to use each."
+---
 # TTL Strategy
 
 Every Redis key MUST have a TTL. No immortal keys. This document defines the TTL categories, when to use each, and how TTLs are managed dynamically.

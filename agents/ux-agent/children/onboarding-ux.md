@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "First-time user experience design. Welcome screens, feature highlights (coach marks), empty states as onboarding, progressive feature reveal, skip-always-available principle, and setup wizard patterns for complex initial configuration."
+---
 # Onboarding UX
 
 ## Core Principle

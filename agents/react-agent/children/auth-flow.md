@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Login/register pages, token storage (httpOnly cookie or localStorage). Auto-login on page load. Axios interceptor for token refresh. Protected routes. Logout (clear tokens, redirect). Multi-profile selection for SaaS."
+---
 # Auth Flow
 
 Login, register, token management, protected routes, logout. Complete authentication lifecycle.

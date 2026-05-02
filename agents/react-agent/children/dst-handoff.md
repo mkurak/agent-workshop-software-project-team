@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Different bundle shape than Claude Design — JSON-based (prototype.json + ds.json + resolved-tokens.json + preview.html + README + integration-notes), zipped via the `/dst-handoff` skill. **Mandatory theme-sync step before component code:** compare `tailwind.config.ts` / `tokens.css` against `ds.json` and rewrite the theme first if they drift, otherwise \"trust project theme\" silently yields stale colors. Target variants: `react-admin` (Vite + shadcn + Zustand) and `react-public` (Next.js + next/image + SEO metadata). Same 5 translation rules apply. Worked example inside."
+---
 # DST Handoff (`/dst-handoff` bundle consumption)
 
 When the `/dst-handoff <prototype>` skill from `design-system-team` fires, it spawns you (react-agent) with a zipped bundle and an integration brief. This document describes the **bundle shape**, the **mandatory theme-sync step**, and the **5 translation rules** that turn that bundle into working React code.

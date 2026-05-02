@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Dark theme design principles — not inverted, redesigned. Surface hierarchy, text opacity, elevation via surface brightness. Brand color adjustment. Testing checklist for dark mode completeness."
+---
 # Dark Mode
 
 Dark mode is not "invert the colors." It is a carefully designed alternate theme with its own surface hierarchy, text treatments, and color adjustments. Dark mode is designed from day one, not bolted on later.

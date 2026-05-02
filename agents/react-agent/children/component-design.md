@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Reusable component philosophy. Small, focused components with typed props. Variant pattern (primary/secondary/outline). Composition with children and slots. App-prefix for shared components. Prop extension without duplication."
+---
 # Component Design
 
 Reusable component philosophy and implementation patterns. Every shared component is small, focused, and typed.

@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "React Suspense for loading. Error Boundary for crashes. Skeleton loading (shimmer). Retry on error. Empty state with illustration + message + action. Toast for transient errors. Full-page vs inline error."
+---
 # Error & Loading States
 
 ## Philosophy

@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Two patterns: Dev (SDK + dotnet watch, source mounted) and Prod (multi-stage, restore→build→publish→runtime, non-root user). Layer caching optimization: copy .csproj first, restore, then copy source."
+---
 # Dockerfile Patterns
 
 Two Dockerfile patterns exist: **Dev** (for local development with hot reload) and **Prod** (for production deployment with minimal image). Every .NET service has both.

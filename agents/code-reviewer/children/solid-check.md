@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Detect SOLID principle violations in code changes. Single responsibility (class doing too much), Open/closed (switch statements that should be polymorphism), Liskov (base class contract violations), Interface segregation (fat interfaces), Dependency inversion (concrete dependencies)."
+---
 # SOLID Principle Check
 
 ## Single Responsibility Principle (SRP)

@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Serilog → RabbitMQ → LogIngest → Elasticsearch → Kibana pipeline. Docker Compose configuration for the full logging stack. Index lifecycle, retention, Kibana setup. LogIngest uses console-only logging (prevents infinite loop)."
+---
 # Logging Infrastructure
 
 The full logging pipeline: Serilog -> RabbitMQ -> LogIngest -> Elasticsearch -> Kibana.

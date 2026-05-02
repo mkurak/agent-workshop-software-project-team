@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "maxmemory configuration and eviction policies (allkeys-lru recommended for cache workloads). Memory monitoring via INFO memory. Key size estimation rules. Avoiding large values (>1MB). SCAN instead of KEYS in production. Memory optimization patterns: compression, shorter keys for high-cardinality sets."
+---
 # Memory Management
 
 Redis stores everything in memory. Without careful management, Redis can consume all available RAM, get OOM-killed, or evict critical keys. This document covers configuration, monitoring, and optimization.

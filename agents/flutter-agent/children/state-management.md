@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Provider types: Provider, StateNotifierProvider, FutureProvider, StreamProvider. AsyncValue pattern for API data (loading/data/error). Provider scoping, family providers for parameterized queries. When to use which provider type."
+---
 # State Management (Riverpod)
 
 All async data flows through Riverpod. No raw `setState` for API data. `setState` is only acceptable for local UI state (animation toggles, form field visibility).

@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "GitHub Actions templates: build, test, push image, deploy. Multi-stage Docker build for production images. Environment-specific deployments (staging, production). Secrets management in CI."
+---
 # CI/CD Pipeline
 
 GitHub Actions workflows for build, test, image push, and deployment. All builds happen inside Docker -- CI mirrors the development experience.

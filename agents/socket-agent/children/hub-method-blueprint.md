@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "The primary production unit of this agent. Template + checklist + naming conventions for creating new hub methods. Read this FIRST when adding any new hub method. Covers the full lifecycle: define request → write method → define events → register → test."
+---
 # Hub Method Blueprint
 
 ## Overview

@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "IRabbitMqConnection singleton with lazy initialization. AutoRecovery enabled for resilience. Connection string from environment variables. Channel-per-consumer (never shared). Publisher confirms for reliable publishing. Heartbeat and prefetch configuration."
+---
 # Connection Management
 
 RabbitMQ connections are expensive to create and should be managed carefully. One connection per application, one channel per consumer/producer context.

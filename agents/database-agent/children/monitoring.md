@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "pg_stat_statements for slow query detection. Index usage statistics (pg_stat_user_indexes). Table bloat detection. Connection pool monitoring. VACUUM and auto-maintenance. Kibana dashboard integration for database-related logs."
+---
 # Monitoring
 
 ## pg_stat_statements — Slow Query Detection

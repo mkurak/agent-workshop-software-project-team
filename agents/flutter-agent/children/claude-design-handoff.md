@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "React+HTML bundle from Claude Design (via `/design-screen done`) gets translated to Flutter. Five rules: trust project theme over precomputed colors, map React state to FocusNode/AsyncValue/etc., substitute SVG icons with M3 equivalents, extract new ARB keys + gen-l10n, take geometry from bundle but behavior from project. Write engineer notes; document deltas honestly (4/5 fidelity is realistic)."
+---
 # Claude Design Handoff → Flutter
 
 When `/design-screen done` calls flutter-agent with an extracted Claude Design bundle, this file is the translation playbook. It captures every pattern the reference-project login pilot (2026-04-19) surfaced as friction, plus the workflow rules.

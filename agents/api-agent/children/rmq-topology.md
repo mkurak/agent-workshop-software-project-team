@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Every consumer (MailSender, LogIngest, etc.) MUST declare its own RMQ topology at startup — exchange, queue, binding. Consumer may start before API — cannot assume topology exists. Declare with the SAME arguments (including DLX if any), otherwise RabbitMQ throws `PRECONDITION_FAILED`. Idempotent — declaring twice is safe."
+---
 # RMQ Consumer Topology Rule
 
 Every consumer (MailSender, LogIngest, etc.) must **idempotently declare** its own RMQ topology at startup: exchange, queue, and binding. There is a chance the consumer starts before the API — it cannot assume the topology exists.

@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "When to use push vs in-app vs email notifications. Urgency-based channel selection. Notification center design (bell icon, badge count, mark as read). Do-not-disturb respect. Notification grouping and batching strategies."
+---
 # Notification UX
 
 ## Core Principle

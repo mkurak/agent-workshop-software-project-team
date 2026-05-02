@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Motion principles: meaningful, quick, consistent. Easing curves, duration scale (micro to long). Reduced motion support. Common animation patterns (fade, slide, scale, shimmer). Platform implementation."
+---
 # Animation & Motion
 
 Motion in the design system serves a purpose: it guides attention, provides feedback, and creates a sense of continuity. Motion is never decorative — every animation must earn its existence.

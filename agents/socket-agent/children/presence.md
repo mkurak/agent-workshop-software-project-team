@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Lightweight ephemeral signals: \"Mesut is typing...\", \"3 users viewing this page\". Not persisted to DB — fire-and-forget through Socket. Useful for chat, live support, collaborative features."
+---
 # Presence & Typing Indicators
 
 ## Core Principle

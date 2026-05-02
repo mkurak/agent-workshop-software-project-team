@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Verify error handling patterns: no try-catch in handlers, no swallowed exceptions, no generic catches, no missing validation, no error messages exposing internals. Error handling should be consistent with the project's exception hierarchy."
+---
 # Error Handling Review
 
 ## No Try-Catch in Handlers

@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Detect N+1 queries, unbounded queries, missing async/await, large allocations in loops, missing index hints, synchronous I/O, and unnecessary materializations. Performance issues are silent killers -- they work fine in dev and explode in production."
+---
 # Performance Check
 
 Performance issues are silent killers -- they work fine in development with 10 rows and explode in production with 10,000.

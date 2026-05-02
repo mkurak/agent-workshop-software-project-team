@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "How to present data effectively. Table vs list vs card grid decision criteria. Data density guidelines (admin = high, consumer = low). Sorting, filtering, and search UX. Pagination vs infinite scroll. Empty state design. Data visualization: when chart vs number vs table."
+---
 # Data Presentation
 
 ## Core Principle

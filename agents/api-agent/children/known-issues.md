@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Issues discovered during real project scaffolding. EF Core Relational package must be explicit (transitive dependency unreliable in .NET 9). MinIO init container exits after bucket creation (expected, not a bug). Read before every new project."
+---
 # Known Issues & Lessons Learned
 
 Issues discovered during real project scaffolding and development. These must be considered when creating new projects or features.

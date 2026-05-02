@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Browser WebSocket limitation — cannot send headers during upgrade. Token extracted from `?access_token={token}` via JwtBearerEvents.OnMessageReceived. Full validation same as API. Shared JWT secret between API and Socket."
+---
 # Auth: JWT from WebSocket Query String
 
 ## The Problem

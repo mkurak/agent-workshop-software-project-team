@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Preventing N+1 queries with Include and projection. AsNoTracking for read-only paths. Projection (Select) vs full entity load tradeoffs. Pagination performance. Batch operations. Query splitting for complex includes. When raw SQL is justified."
+---
 # Query Optimization
 
 ## N+1 Problem

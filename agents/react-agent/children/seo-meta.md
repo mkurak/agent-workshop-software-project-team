@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Two paths: CSR (Vite+React) for admin panels — minimal SEO, document.title only. SSR (Next.js) for public-facing — full SEO with generateMetadata, OpenGraph, sitemap, structured data. Covers both approaches."
+---
 # SEO & Meta Tags: CSR vs SSR
 
 ## Philosophy

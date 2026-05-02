@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "CancellationToken handling throughout the job lifecycle. Host.StopAsync signals cancellation → jobs finish current iteration → clean exit. No mid-operation kills. Drain pattern for long-running batch operations."
+---
 # Graceful Shutdown: CancellationToken Discipline
 
 ## The Problem

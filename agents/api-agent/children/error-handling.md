@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Exception hierarchy: `NotFoundException`→404, `ValidationException`→422, `ForbiddenException`→403, unhandled→500. No try-catch in handlers — throw the appropriate exception, global `IExceptionHandler` maps to HTTP status + ProblemDetails. Development shows details, production shows generic message."
+---
 # Error Handling Strategy
 
 ## Exception Hierarchy

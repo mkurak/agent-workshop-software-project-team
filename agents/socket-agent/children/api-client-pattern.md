@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Socket → API communication via typed HttpClient. IApiClient interface, ApiClient implementation. InternalTokenHandler (DelegatingHandler) auto-injects X-Internal-Token on every request. BaseUrl configured from environment."
+---
 # API Client Pattern: Socket-to-API HTTP Calls
 
 ## Why This Exists
