@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "The primary production unit of this agent. Template + checklist + naming conventions for creating new scheduled jobs. Read this FIRST when adding any new job. Covers: BackgroundService skeleton, cron parsing, API call, distributed lock, error handling, logging, idempotency."
+---
 # Job Blueprint: The Primary Production Unit
 
 ## Purpose

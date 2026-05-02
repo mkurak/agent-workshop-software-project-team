@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Mobile vs tablet layouts with breakpoints. ResponsiveLayout widget, responsiveValue helper. LayoutBuilder and MediaQuery usage. Constraint-based sizing. Grid layouts for tablet, list layouts for mobile. Safe area handling."
+---
 # Responsive Design (Mobile + Tablet)
 
 Every screen must work on both mobile phones and tablets. We use a breakpoint system with a `ResponsiveLayout` widget and helper utilities. No screen is mobile-only.

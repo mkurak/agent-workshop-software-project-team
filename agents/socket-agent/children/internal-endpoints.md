@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "API-to-Socket broadcast channel. POST `/api/internal/broadcast` with X-Internal-Token header. Supports three target types: single user, group, all connected clients. InternalSecretFilter validates the shared secret."
+---
 # Internal Endpoints: API-to-Socket Broadcast
 
 ## Purpose

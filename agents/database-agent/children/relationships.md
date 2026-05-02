@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "One-to-one, one-to-many, many-to-many configuration patterns. Navigation properties. Cascade delete behavior selection guide (Cascade, Restrict, SetNull, NoAction). Owned types for value objects. Table splitting for wide entities."
+---
 # Relationships
 
 ## One-to-Many

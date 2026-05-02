@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "The primary production unit of this agent. Template + checklist for creating new pages and components. Covers: file structure, TypeScript typing, props interface, responsive design, loading/error states, i18n, testing."
+---
 # Component Blueprint (Primary Production Unit)
 
 This is the React Agent's primary blueprint. Every new page and component follows this template and checklist.

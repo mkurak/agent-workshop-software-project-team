@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "CachedNetworkImage for remote images. Placeholder and error widgets. Image picker (camera + gallery). Image compression before upload. Asset images vs network images. Avatar widget pattern. Image carousel/gallery."
+---
 # Image Handling
 
 ## Philosophy

@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Redis-based distributed lock to prevent concurrent execution of the same job across multiple pods. SETNX with TTL. Lock acquired → run job → release. Lock not acquired → skip this cycle. Handles lock expiry, dead locks, and crash recovery."
+---
 # Distributed Locking: One Job, One Pod
 
 ## Problem

@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Utility-first approach. Responsive breakpoints (sm/md/lg/xl). Dark mode with dark: variant. Design tokens in tailwind.config.ts. Component variants with clsx/cva. Consistent spacing, typography, colors. Never hardcode colors."
+---
 # Styling (Tailwind CSS)
 
 Utility-first. No custom CSS. Design tokens in config. Variants with cva.

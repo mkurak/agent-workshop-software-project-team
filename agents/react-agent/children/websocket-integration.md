@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "SignalR client (@microsoft/signalr). Connection setup with JWT token. Event listeners. Auto-reconnection handling. React hook for SignalR (useSignalR). Connection state management."
+---
 # WebSocket Integration: SignalR Client
 
 ## Philosophy

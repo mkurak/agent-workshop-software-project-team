@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Sidebar + header + content layout. Collapsible sidebar. Breadcrumb navigation. Responsive: sidebar → drawer on mobile. Sticky header. Content max-width constraint. Grid-based dashboard layout."
+---
 # Layout Patterns
 
 ## Philosophy

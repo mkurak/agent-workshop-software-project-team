@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Primary blueprint for designing new tables and entities. Contains the IEntityTypeConfiguration template, complete checklist (PK, indexes, FK cascade, string lengths, required/optional, unique constraints, audit fields), and code examples for every configuration scenario."
+---
 # Schema Design Blueprint
 
 This is the primary blueprint for designing new tables and entities. Every new entity follows this template and checklist.

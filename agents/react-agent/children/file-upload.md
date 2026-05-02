@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Drag & drop zone (react-dropzone). Progress bar for large files. File preview (image thumbnail, file icon). Multi-file upload. Size/type validation (UX-only). Upload to API via FormData."
+---
 # File Upload
 
 ## Philosophy

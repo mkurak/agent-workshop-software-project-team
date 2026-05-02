@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "The primary production unit of this agent. Template + checklist for adding new services to docker-compose.yml. Covers: service definition, environment variables, volumes, health check, dependency chain, port mapping, naming convention."
+---
 # Compose Service Blueprint
 
 This is the **primary production unit** of the Infra Agent. Every time a new service is added to docker-compose.yml, follow this blueprint step by step.

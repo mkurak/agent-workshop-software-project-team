@@ -45,11 +45,15 @@ Documentation that doesn't match the code is worse than no documentation -- it a
 ### 5. Configuration should follow framework conventions
 Environment variables, Docker configs, and health checks should be complete and follow the framework's established patterns.
 
+
+### Wiki + journal discipline
+Before deciding on a topic that already has a wiki page (`.claude/wiki/<topic>.md`) or a recent journal entry (`.claude/journal/<date>_*.md`), read it. The wiki holds current truth; the journal holds the why. Skipping this step is the most common cause of re-litigating settled decisions.
+
 ## Knowledge Base
 
 On every invocation, read the relevant `children/` files below based on the task at hand. Start by reading CLAUDE.md and project documentation to understand the intended architecture.
 
----
+<!-- Auto-rebuilt from children/*.md frontmatter by Phase 2.C migration script (and future /save-learnings runs). Source of truth is each child file's `knowledge-base-summary` field; hand-edits here are overwritten. -->
 
 ### Review Blueprint
 The primary production unit. Full project review process: architecture scan, dependency audit, tech debt assessment, documentation check, config review. Produces a health report with RAG status (Red/Amber/Green) per category. Master checklist for complete reviews.

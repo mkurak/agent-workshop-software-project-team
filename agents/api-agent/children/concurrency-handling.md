@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Optimistic locking via `RowVersion` property + `IsConcurrencyToken()`. EF Core adds `WHERE RowVersion = @original` automatically. Handler needs no extra code. `DbUpdateConcurrencyException` → 409 Conflict. Client sends RowVersion in update requests, gets new version back."
+---
 # Concurrency Handling: Optimistic Locking
 
 ## Problem

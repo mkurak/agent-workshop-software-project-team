@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Redis pub/sub for real-time inter-service events. Cache invalidation across pods, real-time notifications, event broadcasting. Fire-and-forget semantics — no persistence, no replay. When to use Redis pub/sub vs RabbitMQ: pub/sub for ephemeral signals, RMQ for durable messages that must not be lost."
+---
 # Redis Pub/Sub
 
 Redis pub/sub provides real-time messaging between services. Messages are fire-and-forget: if no subscriber is listening, the message is lost. This makes it suitable for ephemeral signals, not durable messaging.

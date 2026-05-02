@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Modal, drawer (side panel), sheet, toast notifications (sonner/react-hot-toast), confirmation dialog. When to use which. Accessible: focus trap, keyboard navigation, ESC to close. Headless UI or Radix primitives."
+---
 # Modal & Dialog Patterns
 
 ## Philosophy

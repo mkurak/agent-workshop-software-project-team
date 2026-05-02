@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "No hard deletes. `ISoftDeletable` interface (IsDeleted, DeletedAt, DeletedBy) + global query filter + SaveChanges interceptor that converts `Delete` to `Modified`. Handler calls `Remove()` normally — interceptor handles the rest. `IgnoreQueryFilters()` for admin/recovery access. Physical cleanup via separate Worker job."
+---
 # Soft Delete Strategy
 
 ## Rule

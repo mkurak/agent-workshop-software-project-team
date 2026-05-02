@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "mkcert for trusted self-signed certificates. Reverse proxy (nginx/traefik) for HTTPS termination. Required for: OAuth callbacks, secure cookies, PWA testing. Optional — most projects work without it."
+---
 # SSL/TLS for Local Development
 
 HTTPS on localhost using mkcert and a reverse proxy (Traefik or nginx). Required when OAuth providers, secure cookies, or PWA service workers need HTTPS.

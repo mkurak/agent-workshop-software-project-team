@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: ".env + .env.example pattern. Variable naming convention (SCREAMING_SNAKE_CASE). Secret management (gitignore .env, commit .env.example). Environment-specific overrides. Docker Compose variable interpolation."
+---
 # Environment Management
 
 All runtime configuration lives in environment variables. No hardcoded connection strings, no config files committed with real secrets. Two files govern everything: `.env` (real values, gitignored) and `.env.example` (template, committed).

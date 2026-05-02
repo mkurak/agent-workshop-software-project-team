@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Form widget, TextFormField, validation (UX-only). FormState management. Error display patterns (inline, snackbar, dialog). Async form submission with loading state. Multi-step forms. Form auto-save."
+---
 # Form Handling
 
 ## Philosophy

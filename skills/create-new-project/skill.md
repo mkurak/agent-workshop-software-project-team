@@ -415,3 +415,7 @@ If the directory was already a git repo (e.g. user pre-cloned an empty remote), 
 - Flutter/React screens (added via Flutter/React Agent as features are built)
 
 The skill creates the **skeleton** — the team of agents fills it with life.
+
+## Accumulated Learnings
+
+(Auto-rebuilt by /save-learnings from `learnings/*.md` frontmatter. Do not edit by hand. Initially empty — entries appear as the skill encounters reusable edge cases.)

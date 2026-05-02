@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Route definition, GoRoute, ShellRoute for nested navigation. Auth guard (redirect if not logged in). Deep linking support. Route naming convention. Passing parameters. Bottom navigation with nested routes."
+---
 # Routing (go_router)
 
 All navigation uses `go_router`. No `Navigator.push` anywhere. Routes are defined centrally, navigation is declarative, and auth guards protect authenticated routes.

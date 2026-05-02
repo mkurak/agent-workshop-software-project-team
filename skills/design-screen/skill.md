@@ -185,3 +185,7 @@ target: flutter | react-admin | react-public
 - Decide platform target on user's behalf when ambiguous. (AskUserQuestion handles it.)
 - Skip the AskUserQuestion gathering even when the description seems complete. (One question per slot is acceptable; better to over-capture than under-capture in intent.md.)
 - Auto-trigger CI / lint / `flutter gen-l10n` after agent implementation. (Implementation agent's job per its own conventions.)
+
+## Accumulated Learnings
+
+(Auto-rebuilt by /save-learnings from `learnings/*.md` frontmatter. Do not edit by hand. Initially empty — entries appear as the skill encounters reusable edge cases.)

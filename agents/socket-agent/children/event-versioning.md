@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "App updated, event payload changed. Old client doesn't understand new format. Backward-compatible event design, optional fields, version negotiation. Don't break existing clients when adding new fields."
+---
 # Event Versioning: Backward-Compatible Event Evolution
 
 ## The Problem

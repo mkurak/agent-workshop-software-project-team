@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Tenant/room-based groups for targeted broadcasting. OnConnectedAsync → join tenant group. OnDisconnectedAsync → leave. Groups enable \"broadcast to all users of Dealer X\" without hitting every connected client."
+---
 # Group Management: Tenant/Room-Based Groups
 
 ## Purpose

@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Four volume types: shadow volumes (bin/obj isolation), NuGet cache (per-service package cache), persistent data (postgres, redis, elasticsearch), source mounts (live code editing). Naming convention and cleanup."
+---
 # Volume Strategy
 
 Four distinct volume types serve different purposes. Understanding when to use each prevents data loss, artifact corruption, and performance issues.

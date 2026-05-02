@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Multi-stage build: SDK restore+publish → runtime image. Security: non-root user, no shell, minimal base image. Health endpoint exposed. Environment-configurable. Image size optimization."
+---
 # Production Dockerfile
 
 Multi-stage Docker build for production .NET 9 services. Small, secure, fast.

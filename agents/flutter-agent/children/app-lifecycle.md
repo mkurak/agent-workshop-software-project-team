@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Foreground/background state changes via WidgetsBindingObserver. Background → token might expire → check and refresh on resume. Socket reconnection on resume. Data staleness check. Battery/memory considerations for background work. App termination cleanup."
+---
 # App Lifecycle
 
 ## Overview

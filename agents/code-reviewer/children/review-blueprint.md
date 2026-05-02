@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "The primary production unit. Step-by-step review process: read coding-standards, scan changes, check each category, produce report. Defines the review report format with severity levels (critical/warning/suggestion) and the master checklist per category."
+---
 # Review Blueprint
 
 This is the primary production unit of the Code Reviewer agent. Every code review follows this process.

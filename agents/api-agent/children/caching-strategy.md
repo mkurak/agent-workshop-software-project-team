@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Cache-Aside pattern as a Mediator pipeline behavior. Query implements `ICacheable` → CachingBehavior checks Redis → handler runs only on cache miss. TTL read from dynamic settings. Cache invalidation via `ICacheInvalidator` on commands — deklarative, handler stays clean."
+---
 # Caching Strategy: Pipeline Behavior + Redis
 
 ## Philosophy

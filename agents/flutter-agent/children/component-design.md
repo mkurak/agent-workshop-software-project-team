@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Reusable widget philosophy. Small, focused widgets with props. Prop extension pattern: required vs optional parameters. Composition over inheritance. Common components: AppButton, AppCard, AppInput, AppImage. Consistent API across components."
+---
 # Component Design
 
 ## Philosophy

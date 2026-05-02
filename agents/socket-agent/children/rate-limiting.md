@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Malicious client can call hub methods thousands of times per second. Throttling on hub method invocations. Per-user, per-method limits. Exceeding → disconnect or ignore."
+---
 # Rate Limiting
 
 ## The Problem

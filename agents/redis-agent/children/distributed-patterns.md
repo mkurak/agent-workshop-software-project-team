@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Production-ready patterns: distributed lock (SETNX + TTL + unique token), sliding window rate limiting (INCR + EXPIRE), idempotency store (SETNX for request dedup), session storage (Hash with sliding TTL), circuit breaker state. Code examples for each pattern with StackExchange.Redis."
+---
 # Distributed Patterns
 
 Production-ready patterns for distributed systems using Redis. Each pattern includes the problem it solves, the implementation, and edge cases.

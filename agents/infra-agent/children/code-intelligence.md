@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Knowledge graph of entire codebase via MCP. 66 languages, zero dependencies, sub-ms queries. Solves context blindness in large projects — agent knows who calls whom, who implements what. Always install on projects with 50+ files. Auto-indexed, `.mcp.json` configured."
+---
 # Code Intelligence: codebase-memory-mcp Integration
 
 ## Purpose

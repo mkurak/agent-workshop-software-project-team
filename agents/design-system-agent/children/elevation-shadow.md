@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Elevation levels 0-5 with shadow tokens. When to use which level. Material 3 elevation mapping. Dark mode shadows (outline approach). Code examples for both platforms."
+---
 # Elevation & Shadow
 
 Elevation creates visual hierarchy by simulating depth. Higher elevation = more prominent = more attention. The system defines 6 levels (0-5) with consistent shadow tokens.

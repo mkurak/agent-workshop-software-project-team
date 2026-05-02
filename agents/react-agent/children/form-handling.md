@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "React Hook Form + Zod schema validation. Field components with error display. Multi-step forms. Async submission with loading state. Server-side error mapping. Form auto-save with debounce."
+---
 # Form Handling
 
 React Hook Form for form state. Zod for validation. Typed end-to-end.

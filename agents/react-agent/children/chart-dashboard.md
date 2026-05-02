@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Recharts for data visualization. KPI cards with trend indicators. Dashboard grid layout. Real-time chart updates via WebSocket. Common chart types: line, bar, pie, area. Responsive chart sizing."
+---
 # Chart & Dashboard: Data Visualization
 
 ## Philosophy

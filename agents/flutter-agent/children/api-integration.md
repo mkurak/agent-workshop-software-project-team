@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Dio HTTP client with interceptors: auth token injection, token refresh on 401, error transformation. Repository pattern: abstract interface + implementation. API response models with fromJson/toJson. Retry logic. Timeout handling."
+---
 # API Integration (Dio)
 
 Flutter is a bridge. All data comes from the API, all mutations go to the API. Dio is the HTTP client. Interceptors handle auth tokens and error transformation. The repository pattern abstracts the HTTP layer from the presentation layer.

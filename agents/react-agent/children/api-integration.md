@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Axios client with interceptors: auth token injection, 401 → refresh token → retry. Typed API response models with Zod validation. React Query hooks for data fetching. Error handling and transformation."
+---
 # API Integration
 
 Axios for HTTP. React Query for data fetching. Zod for runtime validation. Typed end-to-end.

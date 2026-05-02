@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Ctrl+S (save), Ctrl+K (command palette), Ctrl+Z (undo). Hotkey registration and management. Clipboard API (copy to clipboard). Key combination display in UI. Accessible: doesn't conflict with screen readers."
+---
 # Keyboard Shortcuts: Hotkeys & Command Palette
 
 ## Philosophy

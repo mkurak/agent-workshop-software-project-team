@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Vitest for unit tests. React Testing Library for component tests. MSW (Mock Service Worker) for API mocking. User-event for interaction simulation. What to test: user behavior, not implementation."
+---
 # Testing
 
 ## Philosophy

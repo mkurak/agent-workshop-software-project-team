@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Universal links (iOS) and app links (Android) setup. Handling incoming URLs. Email verification links, password reset links, shared content links. go_router integration for URL-to-route mapping. Platform-specific configuration (apple-app-site-association, assetlinks.json)."
+---
 # Deep Linking
 
 ## Overview

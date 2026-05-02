@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Backend is English-only; UI apps (Flutter, React) localize. User-visible text crosses the boundary as `messageKey + placeholders + fallback` envelopes — inside `ProblemDetails.extensions` for errors, inside notification payloads for socket events, and as `templateKey + locale` for emails/push (which MailSender and the push dispatcher render from per-locale templates). Enum values render via `{entity}_{field}_{value}` convention on the UI side. This is the canonical reference — every other agent's i18n guidance defers here."
+---
 # User-Facing Strings — The API-to-UI i18n Contract
 
 This is the **canonical reference** for how user-facing text crosses the backend/frontend boundary. Every other agent (flutter-agent, react-agent, worker-agent, socket-agent) implements the side of this contract that concerns them. When this file conflicts with anything written elsewhere, this file wins.

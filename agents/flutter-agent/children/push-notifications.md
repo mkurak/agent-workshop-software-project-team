@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Firebase Cloud Messaging (FCM) for Android, APNs for iOS. Token registration with API. Notification handling: foreground, background, terminated. Local notifications for scheduled alerts. Permission request flow. Deep linking from notification tap."
+---
 # Push Notifications
 
 ## Philosophy

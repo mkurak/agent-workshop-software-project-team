@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "The primary production unit of this agent. Template + checklist + naming conventions for creating new RMQ consumers. Read this FIRST when adding any new consumer. Covers: BackgroundService skeleton, connect, declare topology, consume, process, ack/nack, DLX, idempotency, error handling, health tracking."
+---
 # Consumer Blueprint (Primary Production Unit)
 
 This is the RMQ Agent's primary blueprint. Every new RabbitMQ consumer follows this template and checklist.

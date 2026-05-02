@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Job execution tracking: last run time, last success, last failure, consecutive failure count. Redis-based health state. Health endpoint for orchestration tools. Stale job detection: \"this job hasn't run in 2x its expected interval → alert.\""
+---
 # Health Monitoring: Job Execution Tracking
 
 ## Purpose

@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Unique constraints (single and composite). Check constraints for data integrity. Default values. Not null enforcement. Global query filter for soft delete. Concurrency token (RowVersion/xmin). Code examples for each pattern."
+---
 # Constraint Patterns
 
 ## Unique Constraints

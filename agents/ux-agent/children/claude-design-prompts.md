@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "How to author the prompt that seeds Claude Design (via `/design-screen`). Six elements in 5–8 sentences: identity, platform, states, actions, references (token file path), constraints (what NOT to invent). Pilot evidence: well-formed prompt yielded 1 iteration + 4/5 fidelity. Skip implementation primitives (TextFormField, hex colors), skip emotional storytelling — Claude Design reads tokens for register, not adjectives. Quick template at the end of the file."
+---
 # Authoring Prompts for Claude Design
 
 When the project uses `/design-screen` (per the team's Claude Design workflow), ux-agent's flow documentation becomes the seed for Claude Design's prompt. The reference-project login pilot (2026-04-19) proved that **a 5–8 sentence prompt with the right inclusions yields 4/5 fidelity in 1 iteration** — and shorter or vaguer prompts force 2–3 iterations to recover.

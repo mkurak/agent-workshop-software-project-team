@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "JSON serialization with System.Text.Json. Message envelope format: `{ type, version, data, timestamp, correlationId }`. Versioning strategy: additive changes only, new message type for breaking changes. Content-type and encoding headers."
+---
 # Message Serialization
 
 Consistent message format ensures producers and consumers speak the same language, and messages remain compatible as the system evolves.

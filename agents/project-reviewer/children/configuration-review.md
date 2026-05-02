@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Check .env.example completeness, hardcoded config values, health checks, Docker Compose correctness, environment-specific configs, and secret exposure."
+---
 # Configuration Review
 
 ## .env.example Completeness

@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Step-by-step guides for common operations: new feature (Domain→Application→Infrastructure→Api→Migration→Test), new query, migration (Docker only!), RMQ messaging, auth-required endpoint, internal endpoint (Worker/Socket), and the full handler logging checklist."
+---
 # Workflows
 
 ## Adding a New Feature

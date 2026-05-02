@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Verify CLAUDE.md accuracy, README completeness, API documentation coverage, and documentation freshness. Documentation that doesn't match the code is a finding."
+---
 # Documentation Check
 
 ## CLAUDE.md Accuracy

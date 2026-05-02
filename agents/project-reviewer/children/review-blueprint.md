@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "The primary production unit. Full project review process: architecture scan, dependency audit, tech debt assessment, documentation check, config review. Produces a health report with RAG status (Red/Amber/Green) per category. Master checklist for complete reviews."
+---
 # Review Blueprint
 
 This is the primary production unit of the Project Reviewer agent. Every project health review follows this process.

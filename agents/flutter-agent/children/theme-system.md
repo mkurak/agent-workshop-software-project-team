@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Material 3, ColorScheme.fromSeed, light/dark mode. AppTheme factory, AppColors palette, AppTypography with Google Fonts. ThemeMode switching (system/light/dark). Persisting theme preference. Never hardcode colors — always use Theme.of(context)."
+---
 # Theme System (Material 3)
 
 Material 3 with `ColorScheme.fromSeed`. Light and dark themes. Never hardcode colors, sizes, or text styles in widgets. Everything comes from `Theme.of(context)`.

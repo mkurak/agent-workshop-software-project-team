@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "When and how to add indexes. Composite indexes, partial indexes (PostgreSQL WHERE clause), covering indexes. B-tree vs GIN vs GiST selection. Mandatory index on every foreign key. EXPLAIN ANALYZE for verification. Monitoring slow queries via pg_stat_statements."
+---
 # Index Strategy
 
 ## Core Principle

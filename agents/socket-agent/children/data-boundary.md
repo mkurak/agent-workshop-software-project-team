@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "What goes through WebSocket vs REST. Rule: Socket carries notifications and lightweight state signals. File uploads, large data, CRUD operations → always REST. Socket says \"file is ready\", client fetches via REST."
+---
 # Data Boundary: WebSocket vs REST
 
 ## The Fundamental Rule

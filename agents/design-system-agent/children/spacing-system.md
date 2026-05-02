@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "4px grid with all standard values. When to use which size. Internal padding vs external margin. Platform-specific adjustments. Token naming and code examples for Flutter and Tailwind."
+---
 # Spacing System
 
 All spacing in the design system follows a 4px base grid. No arbitrary values — every margin, padding, and gap uses a token from this scale.

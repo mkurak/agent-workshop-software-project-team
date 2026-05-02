@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Hub method throws exception → what does the client see? Structured error format for SignalR — the Socket equivalent of API's ProblemDetails. Consistent, parseable, client-friendly error responses."
+---
 # Error Handling on Hub Methods
 
 ## The Problem

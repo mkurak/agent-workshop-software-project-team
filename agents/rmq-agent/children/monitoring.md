@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "RabbitMQ Management UI (:15672) for queue inspection. Queue depth monitoring — messages piling up means consumer is too slow. Consumer utilization, unacked messages, DLX queue depth. Alerting thresholds. Kibana dashboard integration for consumer logs."
+---
 # Monitoring
 
 Effective monitoring detects problems before they become incidents. A message queue without monitoring is a time bomb.

@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Evaluate database query scalability, cache effectiveness, stateless service compliance, connection pooling, rate limiting coverage, and resource limits. Will this project handle growth?"
+---
 # Scalability Assessment
 
 ## Database Query Scalability

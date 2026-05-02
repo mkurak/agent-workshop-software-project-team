@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Evaluate endpoint design for RESTful conventions, response format consistency, missing authorization, missing rate limiting, missing idempotency on POST, and inconsistent error responses. The API is the public contract."
+---
 # API Review
 
 ## Endpoint Design (RESTful Conventions)

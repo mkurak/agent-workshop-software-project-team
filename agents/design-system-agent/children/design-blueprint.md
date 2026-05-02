@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "The primary production unit of this agent. Step-by-step workflow for setting up a design system in a new project. From brand colors to Flutter theme + Tailwind config. Includes full checklist to verify nothing is missed."
+---
 # Design Blueprint
 
 The primary production unit of the Design System Agent. This blueprint defines the step-by-step workflow for setting up a complete design system in any new project.

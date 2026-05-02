@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Same user connected from phone + desktop + multiple browser tabs. \"Order confirmed\" → all devices receive it, not just one. User-level broadcasting via userId, not connectionId. Connection tracking supports multiple connections per user."
+---
 # Multi-Tab and Multi-Device Support
 
 ## The Problem

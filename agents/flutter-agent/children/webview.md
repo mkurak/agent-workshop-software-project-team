@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "In-app browser for 3D Secure payments, OAuth flows, legal pages, external content. WebView widget configuration. JavaScript bridge for communication. Callback URL interception (payment result, auth code). When to use in-app WebView vs external browser. Security considerations."
+---
 # WebView
 
 ## Overview

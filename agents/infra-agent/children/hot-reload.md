@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Every service supports hot reload in development. .NET: dotnet watch run. React/Vite: HMR. Flutter: hot reload (native, not Docker). File watcher configuration. Volume mount requirements for hot reload to work."
+---
 # Hot Reload
 
 Every service in the stack supports live code reloading during development. Edit code on the host, the container picks up the change automatically. No manual rebuild, no restart.

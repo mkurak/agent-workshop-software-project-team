@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Error as opportunity, not dead end. Error message anatomy (what happened + why + what to do). Network errors, form errors, 404, permission denied — each with specific recovery guidance. Retry patterns (automatic vs manual). Offline mode messaging."
+---
 # Error UX
 
 ## Core Principle

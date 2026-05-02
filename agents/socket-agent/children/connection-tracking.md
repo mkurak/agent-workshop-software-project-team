@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Redis-based online user tracking. Who's connected right now? `connected:{userId}` → set of connectionIds. Updated on connect/disconnect. Enables \"is user online?\" queries and online user counts."
+---
 # Connection Tracking: Redis-Based Online Status
 
 ## Purpose

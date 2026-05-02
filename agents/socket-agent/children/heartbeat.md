@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Is the client truly connected or did the connection silently drop? SignalR has built-in keep-alive but custom heartbeat logic may be needed for \"user went idle after 30s of no signal → mark offline\". Ties into connection tracking."
+---
 # Heartbeat & Connection Health Monitoring
 
 ## Two Layers of "Alive"

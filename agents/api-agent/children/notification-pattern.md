@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Two methods — choose based on decision table. HTTP (instant): most cases, single user/group/all, 5-10ms. RMQ (async): batch notifications, message must not be lost, handler shouldn't slow down. `INotificationService` for HTTP, `INotificationPublisher` for RMQ. Check the decision table for every handler that needs notifications."
+---
 # Notification Pattern: API → Socket Broadcast
 
 ## Two Methods EXIST — Choose the Right One Based on the Situation

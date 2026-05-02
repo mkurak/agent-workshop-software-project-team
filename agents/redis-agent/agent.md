@@ -41,11 +41,15 @@ StackExchange.Redis `IConnectionMultiplexer` is registered as singleton in DI. N
 ### 5. Fail gracefully
 If Redis is down, the application must degrade — not crash. Cache misses go to the database. Lock failures use fallback logic. Rate limiting becomes permissive. Log the failure, serve the request.
 
+
+### Wiki + journal discipline
+Before deciding on a topic that already has a wiki page (`.claude/wiki/<topic>.md`) or a recent journal entry (`.claude/journal/<date>_*.md`), read it. The wiki holds current truth; the journal holds the why. Skipping this step is the most common cause of re-litigating settled decisions.
+
 ## Knowledge Base
 
 On every invocation, read the relevant `children/` files below based on the task at hand. If project-specific rules exist, also read `.claude/docs/coding-standards/redis.md`.
 
----
+<!-- Auto-rebuilt from children/*.md frontmatter by Phase 2.C migration script (and future /save-learnings runs). Source of truth is each child file's `knowledge-base-summary` field; hand-edits here are overwritten. -->
 
 ### Cache Blueprint
 Primary blueprint for implementing cache. Cache-aside pattern with Redis as the cache layer. When to cache (read-heavy, rarely changing data) vs when not to (user-specific, frequently changing). ICacheable interface on queries, CachingBehavior as Mediator pipeline, TTL from dynamic settings, invalidation via ICacheInvalidator on commands.

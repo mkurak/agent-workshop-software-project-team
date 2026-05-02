@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "SignalR hub structure. [Authorize] attribute, hub method naming, method grouping. Hub methods are bridges — parse client input, call API via IApiClient, return result. No logic in hubs."
+---
 # Hub Design: SignalR Hub Structure
 
 ## Core Rule

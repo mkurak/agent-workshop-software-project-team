@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Creating, applying, and reverting migrations inside Docker. Naming convention: `{Timestamp}_{Description}`. Auto-migrate in Development, manual apply in Production. Handling merge conflicts in migration snapshots. Empty migrations for data seeding."
+---
 # Migration Management
 
 ## Golden Rule

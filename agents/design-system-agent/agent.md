@@ -51,72 +51,76 @@ All spacing is a multiple of 4px: 4, 8, 12, 16, 20, 24, 32, 40, 48, 64, 80, 96. 
 ### 6. Less is more
 Limited color palette. Limited type scale. Limited shadow levels. Constraint breeds consistency. If the system has 47 shades of gray, it has no system. Pick 10 and stick to them.
 
+
+### Wiki + journal discipline
+Before deciding on a topic that already has a wiki page (`.claude/wiki/<topic>.md`) or a recent journal entry (`.claude/journal/<date>_*.md`), read it. The wiki holds current truth; the journal holds the why. Skipping this step is the most common cause of re-litigating settled decisions.
+
 ## Knowledge Base
 
 On every invocation, read the relevant `children/` files below based on the task at hand. If project-specific rules exist, also read `.claude/docs/coding-standards/design-system.md`.
 
----
+<!-- Auto-rebuilt from children/*.md frontmatter by Phase 2.C migration script (and future /save-learnings runs). Source of truth is each child file's `knowledge-base-summary` field; hand-edits here are overwritten. -->
 
 ### Design Blueprint ⭐
 The primary production unit of this agent. Step-by-step workflow for setting up a design system in a new project. From brand colors to Flutter theme + Tailwind config. Includes full checklist to verify nothing is missed.
-→ [Details](children/design-blueprint.md)
+-> [Details](children/design-blueprint.md)
 
 ---
 
 ### Color System
 Complete color architecture: brand, neutral scale (50-950), semantic colors. Color roles (surface, on-surface, container). Material 3 mapping. Dark mode color design. Contrast ratio requirements. Code examples for Flutter ColorScheme and Tailwind config.
-→ [Details](children/color-system.md)
+-> [Details](children/color-system.md)
 
 ---
 
 ### Typography
 Type scale from display to caption. Font selection criteria, line heights, letter spacing. Responsive typography for tablet. Google Fonts integration. Code examples for Flutter TextTheme and Tailwind typography config.
-→ [Details](children/typography.md)
+-> [Details](children/typography.md)
 
 ---
 
 ### Spacing System
 4px grid with all standard values. When to use which size. Internal padding vs external margin. Platform-specific adjustments. Token naming and code examples for Flutter and Tailwind.
-→ [Details](children/spacing-system.md)
+-> [Details](children/spacing-system.md)
 
 ---
 
 ### Icon Strategy
 Icon set selection and consistency rules. Size scale (16, 20, 24, 32). Color inheritance. Custom icon guidelines (SVG, stroke width). Flutter and React usage patterns.
-→ [Details](children/icon-strategy.md)
+-> [Details](children/icon-strategy.md)
 
 ---
 
 ### Elevation & Shadow
 Elevation levels 0-5 with shadow tokens. When to use which level. Material 3 elevation mapping. Dark mode shadows (outline approach). Code examples for both platforms.
-→ [Details](children/elevation-shadow.md)
+-> [Details](children/elevation-shadow.md)
 
 ---
 
 ### Component Tokens
 Border radius scale, button/input/card sizing tokens. Consistent cross-platform values. Token naming convention. Code examples mapping tokens to Flutter ThemeData and Tailwind config.
-→ [Details](children/component-tokens.md)
+-> [Details](children/component-tokens.md)
 
 ---
 
 ### Accessibility
 WCAG 2.1 AA requirements applied to design tokens. Contrast ratios, touch targets, focus indicators, font minimums, screen reader considerations, reduced motion, color-blind safe design.
-→ [Details](children/accessibility.md)
+-> [Details](children/accessibility.md)
 
 ---
 
 ### Dark Mode
 Dark theme design principles — not inverted, redesigned. Surface hierarchy, text opacity, elevation via surface brightness. Brand color adjustment. Testing checklist for dark mode completeness.
-→ [Details](children/dark-mode.md)
+-> [Details](children/dark-mode.md)
 
 ---
 
 ### Animation & Motion
 Motion principles: meaningful, quick, consistent. Easing curves, duration scale (micro to long). Reduced motion support. Common animation patterns (fade, slide, scale, shimmer). Platform implementation.
-→ [Details](children/animation-motion.md)
+-> [Details](children/animation-motion.md)
 
 ---
 
 ### Tokens for Claude Design
 How to write `theme.dart` / `tailwind.config.ts` so Claude Design (via `/design-screen`) reads tokens reliably. MVP set is sufficient — palette via `ColorScheme.fromSeed`, typography ramp, 4px grid in comments, key component themes, dark mode. Single canonical entry-point file per platform; top-of-file comments document intent; no magic numbers; non-obvious computations get explanatory comments. Pilot evidence: well-written `theme.dart` led to zero hex literals in resulting Dart and self-documenting bundle output.
-→ [Details](children/tokens-for-claude-design.md)
+-> [Details](children/tokens-for-claude-design.md)

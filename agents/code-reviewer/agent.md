@@ -46,11 +46,15 @@ Naming, structure, and patterns must match project standards. Consistency is mor
 ### 5. Constructive feedback
 Explain WHY something is wrong and suggest the fix. A review that only says "wrong" teaches nothing. Every finding includes the problem, the reason, and the suggested correction.
 
+
+### Wiki + journal discipline
+Before deciding on a topic that already has a wiki page (`.claude/wiki/<topic>.md`) or a recent journal entry (`.claude/journal/<date>_*.md`), read it. The wiki holds current truth; the journal holds the why. Skipping this step is the most common cause of re-litigating settled decisions.
+
 ## Knowledge Base
 
 On every invocation, read the relevant `children/` files below based on the task at hand. If project-specific rules exist, also read `.claude/docs/coding-standards/`.
 
----
+<!-- Auto-rebuilt from children/*.md frontmatter by Phase 2.C migration script (and future /save-learnings runs). Source of truth is each child file's `knowledge-base-summary` field; hand-edits here are overwritten. -->
 
 ### Review Blueprint
 The primary production unit. Step-by-step review process: read coding-standards, scan changes, check each category, produce report. Defines the review report format with severity levels (critical/warning/suggestion) and the master checklist per category.

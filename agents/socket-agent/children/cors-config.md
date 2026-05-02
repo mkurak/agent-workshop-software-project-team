@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Which origins can establish WebSocket connections? Dev: localhost:5173. Production: real domain. Misconfigured CORS = WebSocket upgrade fails silently. Environment-based configuration."
+---
 # CORS Configuration
 
 ## Why CORS Matters for WebSocket

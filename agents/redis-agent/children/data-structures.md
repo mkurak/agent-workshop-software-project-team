@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "When to use which Redis data type. String for simple cache and atomic counters. Hash for object fields without full serialization. Set for unique collections and membership checks. Sorted Set for leaderboards and time-based data. List for queues and recent-items. Code examples with StackExchange.Redis for each type."
+---
 # Redis Data Structures
 
 Redis is not just a key-value store. Choosing the right data structure for each use case is critical for performance and memory efficiency. This guide covers when to use each type with StackExchange.Redis code examples.

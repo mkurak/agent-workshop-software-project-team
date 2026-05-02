@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Bundle from Claude Design (via `/design-screen done`) is React-native — adaptation, not paradigm translation. Five rules: swap raw web primitives for `@/components/ui/*`, swap useState for project state library (Zustand / React Query), honor project router (Link/href), wire i18next + en/tr namespaces, translate inline styles to Tailwind tokens. Lighter friction than Flutter; same self-contained brief discipline."
+---
 # Claude Design Handoff → React (admin / public)
 
 When `/design-screen done` calls react-agent with an extracted Claude Design bundle, this file is the integration playbook. Lighter than flutter-agent's equivalent because the bundle's native idiom IS React — we're adapting, not translating across paradigms.

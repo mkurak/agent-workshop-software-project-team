@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Widget testing with WidgetTester. Provider mocking with ProviderScope overrides. Integration testing. Golden tests for visual regression. Test naming conventions. What to test: user interactions, state changes, navigation. What NOT to test: implementation details."
+---
 # Testing
 
 ## Philosophy

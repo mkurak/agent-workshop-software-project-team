@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Border radius scale, button/input/card sizing tokens. Consistent cross-platform values. Token naming convention. Code examples mapping tokens to Flutter ThemeData and Tailwind config."
+---
 # Component Tokens
 
 Standardized measurements for UI components. These tokens ensure buttons, inputs, cards, and modals look consistent across every screen and every platform.

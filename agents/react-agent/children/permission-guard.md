@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Role-based UI rendering. Show/hide components based on user role. Route-level guard (admin-only pages). Component-level guard (<CanAccess role=\"admin\">). Permission checking from JWT claims."
+---
 # Permission Guard: Role-Based Access Control
 
 ## Philosophy

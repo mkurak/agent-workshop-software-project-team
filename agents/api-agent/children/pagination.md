@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Cursor-based infinite scroll. No page numbers. Encoded cursor: Base64(`{sortValue}|{id}`) — supports sorting by any field. `IncludeCount` optional (default off — `COUNT(*)` is expensive). Fetch `PageSize + 1` to determine `HasMore`. Filtering is NOT generic — each feature writes its own Where clauses in the handler."
+---
 # Pagination Pattern: Cursor-Based Infinite Scroll
 
 ## Philosophy

@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "UX for everyone. Keyboard navigation (Tab/Enter/Space), logical focus order, skip links, meaningful alt text, color-not-only indicators, scalable font sizes, minimum touch targets (44x44), and visible labels for every input."
+---
 # Accessibility UX
 
 ## Core Principle

@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "React Router with layout routes. Auth guard (redirect if not logged in). Lazy loading with React.lazy + Suspense. Nested layouts (sidebar + header + content). Route naming conventions."
+---
 # Routing
 
 React Router v6 with createBrowserRouter. Layout routes, auth guards, lazy loading.

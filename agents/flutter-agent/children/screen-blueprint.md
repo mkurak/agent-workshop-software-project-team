@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "The primary production unit of this agent. Template + checklist for creating new screens. Covers: file structure, Riverpod consumer widget, responsive layout, loading/error/empty states, navigation registration, i18n strings."
+---
 # Screen Blueprint (Primary Production Unit)
 
 This is the primary production unit of the Flutter Agent. Every new screen follows this blueprint exactly.

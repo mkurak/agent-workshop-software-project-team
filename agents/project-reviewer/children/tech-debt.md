@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Scan for TODO/FIXME/HACK comments, code duplication, complex methods, missing tests, hardcoded values, and deprecated API usage. Categorize by severity and effort. Every debt item should be tracked in the backlog."
+---
 # Technical Debt Assessment
 
 ## TODO/FIXME/HACK Comment Scan

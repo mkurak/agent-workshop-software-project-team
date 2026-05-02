@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Worker → API communication via typed HttpClient. IApiClient interface, ApiClient implementation. InternalTokenHandler (DelegatingHandler) auto-injects X-Internal-Token on every request. Same pattern as Socket Agent but from Worker context."
+---
 # API Client Pattern: Worker to API Communication
 
 ## Core Principle

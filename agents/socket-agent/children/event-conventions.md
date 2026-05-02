@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Naming: kebab-case events (`order-confirmed`, `user-typing`). Payload contracts: what data each event carries. Client-server agreement. Documented per event."
+---
 # Event Conventions
 
 ## Why Conventions Matter

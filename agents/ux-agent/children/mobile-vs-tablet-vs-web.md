@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Same feature, different UX per platform. Mobile (single column, bottom nav, swipe), tablet (master-detail, split view), web (sidebar, hover, keyboard shortcuts). Responsive vs adaptive distinction. Touch vs mouse interaction differences."
+---
 # Mobile vs Tablet vs Web
 
 ## Core Principle

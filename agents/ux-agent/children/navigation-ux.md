@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "When to use which navigation pattern: bottom nav, sidebar, tab bar, drawer, modal, breadcrumb. Decision matrix across mobile, tablet, and web. Maximum item counts, platform conventions, and common anti-patterns to avoid."
+---
 # Navigation UX
 
 ## Core Principle

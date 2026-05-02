@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "User + Profile + Tenant model. Optional — disabled by default. User = identity (auth), Profile = context (which tenant, which role), Tenant = isolation boundary (name varies: Dealer, Seller, Organization). Three auth flows: standard login, tenant-scoped embed/auto-login, tenant-scoped domain. Global query filter + interceptor for automatic data isolation."
+---
 # Multi-Tenancy: User + Profile + Tenant Model
 
 ## Philosophy

@@ -1,3 +1,6 @@
+---
+knowledge-base-summary: "Standard AsyncValue pattern: loading → data → error. Loading skeleton (shimmer effect). Error widget with retry button. Empty state widget with illustration + message. Consistent across all screens. Reusable LoadingView, ErrorView, EmptyView widgets."
+---
 # Error & Loading States
 
 ## Philosophy
