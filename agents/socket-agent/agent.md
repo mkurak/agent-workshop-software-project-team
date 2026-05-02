@@ -126,7 +126,7 @@ Same user connected from phone + desktop + multiple browser tabs. "Order confirm
 ---
 
 ### Presence & Typing Indicators
-Lightweight ephemeral signals: "Mesut is typing...", "3 users viewing this page". Not persisted to DB — fire-and-forget through Socket. Useful for chat, live support, collaborative features.
+Lightweight ephemeral signals: "Alice is typing...", "3 users viewing this page". Not persisted to DB — fire-and-forget through Socket. Useful for chat, live support, collaborative features.
 -> [Details](children/presence.md)
 
 ---

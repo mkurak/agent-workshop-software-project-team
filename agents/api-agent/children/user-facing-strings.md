@@ -38,7 +38,7 @@ Not ambiguous English sentences as keys (gettext-style). Not dotted hierarchies 
 "task_distance": "{distance, number, ::precision-integer} km"
 ```
 
-Placeholders are passed as a flat object: `{ count: 5, name: "Mesut", distance: 3.5 }`.
+Placeholders are passed as a flat object: `{ count: 5, name: "Alice", distance: 3.5 }`.
 
 ## Envelope 1: ProblemDetails Extensions (errors)
 

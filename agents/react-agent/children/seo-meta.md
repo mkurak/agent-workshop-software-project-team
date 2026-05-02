@@ -26,7 +26,7 @@ Both CSR and SSR paths pull from npm packages with active CVE histories. Always 
 }
 ```
 
-> **Security note — minimum 15.5.15.** Versions before 15.5.15 carry **2 CRITICAL CVEs** — (1) RCE in React flight protocol, (2) Authorization Bypass in Middleware — plus 4 High and 8 Medium. All fixed in 15.5.15. Reference: walkingforme PR #4 (2026-04-26). Any new SSR project starts at 15.5.15 or later; floating range `^15.5.15` lets dependabot deliver future patches.
+> **Security note — minimum 15.5.15.** Versions before 15.5.15 carry **2 CRITICAL CVEs** — (1) RCE in React flight protocol, (2) Authorization Bypass in Middleware — plus 4 High and 8 Medium. All fixed in 15.5.15. Discovered while scaffolding a downstream Next.js project; the bug is not project-specific. Any new SSR project starts at 15.5.15 or later; floating range `^15.5.15` lets dependabot deliver future patches.
 
 **CSR path — Vite (≥ 7.x latest patch) + esbuild (≥ 0.25.x latest):**
 
