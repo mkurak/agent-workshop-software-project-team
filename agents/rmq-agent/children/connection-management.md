@@ -165,7 +165,7 @@ The MailSender consumer host (`Microsoft.NET.Sdk.Worker`) sends transactional em
 <PackageReference Include="StackExchange.Redis" Version="2.8.16" />
 ```
 
-> **Security note — minimum 4.16.0 (medium CVE).** MailKit < 4.16.0 has a STARTTLS Response Injection vulnerability that enables SASL mechanism downgrade. Any new MailSender host MUST start at 4.16.0 or later. Reference: walkingforme PR #3 (2026-04-26). For the centralized pin and any future bumps, see `software-project-team/dependency-versions.md`.
+> **Security note — minimum 4.16.0 (medium CVE).** MailKit < 4.16.0 has a STARTTLS Response Injection vulnerability that enables SASL mechanism downgrade. Any new MailSender host MUST start at 4.16.0 or later. Discovered while scaffolding a downstream MailSender host; the bug is not project-specific. For the centralized pin and any future bumps, see `software-project-team/dependency-versions.md`.
 
 ### Connection String Format
 ```

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "name": "software-project-team",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "13 specialized agents for production-grade full-stack software projects: .NET 9 API + Flutter + React + Postgres + RabbitMQ + Redis + Elasticsearch + MinIO.",
   "author": {
     "name": "AgentTeamLand",
@@ -85,7 +85,7 @@
     },
     {
       "name": "design-screen",
-      "description": "/design-screen start \"<desc>\" / done <handoff-url> \u2014 orchestrates Claude Design loop. start: gathers requirements, writes intent.md, gives prompt. done: fetches handoff, briefs flutter/react agent."
+      "description": "/design-screen start/done \u2014 orchestrates Claude Design loop. start: gathers requirements, writes intent.md. done: fetches handoff, briefs flutter/react agent."
     }
   ],
   "rules": [],

@@ -27,7 +27,7 @@ WebSocket is for real-time, fire-and-forget signals that are:
 |------------------------|-------------------------------------------------------------|
 | **Notifications**      | "You have a new friend request", "Task goal achieved"       |
 | **Status changes**     | "Order confirmed", "Payment processed", "Task started"      |
-| **Typing indicators**  | "Mesut is typing..."                                        |
+| **Typing indicators**  | "Alice is typing..."                                        |
 | **Presence signals**   | "User came online", "User went idle"                        |
 | **Real-time counters** | "Step count: 4521", "3 users viewing this page"             |
 | **Sync triggers**      | "Your profile was updated on another device"                |

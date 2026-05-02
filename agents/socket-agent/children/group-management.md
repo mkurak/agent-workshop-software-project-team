@@ -213,7 +213,7 @@ User "mesut" connected from Tab 1:
   - role:admin               (auto-joined based on claims)
 ```
 
-A broadcast to `tenant:acme-corp` reaches all of Mesut's connections. A broadcast to `room:support-chat-42` reaches only the connections that joined that room.
+A broadcast to `tenant:acme-corp` reaches all of the user's connections. A broadcast to `room:support-chat-42` reaches only the connections that joined that room.
 
 ## Role-Based Groups
 

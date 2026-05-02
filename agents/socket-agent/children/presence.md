@@ -1,5 +1,5 @@
 ---
-knowledge-base-summary: "Lightweight ephemeral signals: \"Mesut is typing...\", \"3 users viewing this page\". Not persisted to DB — fire-and-forget through Socket. Useful for chat, live support, collaborative features."
+knowledge-base-summary: "Lightweight ephemeral signals: \"Alice is typing...\", \"3 users viewing this page\". Not persisted to DB — fire-and-forget through Socket. Useful for chat, live support, collaborative features."
 ---
 # Presence & Typing Indicators
 
@@ -11,7 +11,7 @@ Presence signals are **ephemeral** -- they are NEVER persisted to a database. Th
 
 | Signal | Purpose | Scope | Lifetime |
 |--------|---------|-------|----------|
-| Typing indicator | "Mesut is typing..." | Per conversation/room | 3 seconds (auto-expire) |
+| Typing indicator | "Alice is typing..." | Per conversation/room | 3 seconds (auto-expire) |
 | Viewer count | "3 users viewing this page" | Per page/resource | Until disconnect |
 
 ---
@@ -239,7 +239,7 @@ await db.KeyDeleteAsync($"connection-resources:{connectionId}");
 
 | Use Case | Signal Type | Group Key |
 |----------|-------------|-----------|
-| Chat: "Mesut is typing..." | Typing | `conversation:{conversationId}` |
+| Chat: "Alice is typing..." | Typing | `conversation:{conversationId}` |
 | Live support: "Agent is typing..." | Typing | `ticket:{ticketId}` |
 | Product page: "12 people viewing this" | Viewer count | `viewers:product:{productId}` |
 | Live auction: "45 watching" | Viewer count | `viewers:auction:{auctionId}` |
